@@ -1,5 +1,4 @@
 ﻿using MAEngine;
-using MAEngine.Extention;
 using UnityEngine;
 using Zenject;
 
@@ -16,18 +15,18 @@ namespace GameCoreModule
         {
             _poolsContainer = poolsContainer;
             _gameEventBus = gameEventBus;
-            _poolsContainer.Initialize();
-            
         }
 
         public void Initialisation()
         {
+            _poolsContainer.Initialize();
             _gameEventBus.OnSpawnObjectFromPool += SpawnObject;
             _gameEventBus.OnSpawnRotatedObjectFromPool += SpawnObject;
         }
 
         public void Cleanup()
         {
+            _poolsContainer.CleanUp();
             _gameEventBus.OnSpawnObjectFromPool -= SpawnObject;
             _gameEventBus.OnSpawnRotatedObjectFromPool -= SpawnObject;
         }

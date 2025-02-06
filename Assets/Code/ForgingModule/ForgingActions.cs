@@ -1,7 +1,9 @@
 ﻿using GameCoreModule;
 using MAEngine;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using Zenject;
 
 public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
@@ -19,18 +21,24 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private ForgingUIView _uiView;
     private PrefabsContainer _prefabs;
     private ForgingEventBus _eventBus;
+    private GameEventBus _gameEventBus;
 
     private int _currentZoneIndex;
     private float _currentProgress;
     private int _currentScore;
 
+    private WorkZoneUIView _currentView;
+    private int _currentAddingScore;
+
 
     [Inject]
-    public void Construct(ForgingUIView uiView, PrefabsContainer prefabs, ForgingEventBus eventBus)
+    public void Construct(ForgingUIView uiView, PrefabsContainer prefabs,
+        ForgingEventBus eventBus, GameEventBus gameEventBus)
     {
         _uiView = uiView;
         _prefabs = prefabs;
         _eventBus = eventBus;
+        _gameEventBus = gameEventBus;
     }
 
 
@@ -41,6 +49,7 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         _uiView.Zone1view.ZoneButton.onClick.AddListener(() => Zone1Tiggered());
         _uiView.Zone2view.ZoneButton.onClick.AddListener(() => Zone2Tiggered());
         _uiView.Zone3view.ZoneButton.onClick.AddListener(() => Zone3Tiggered());
+        _gameEventBus.OnCreatePool(PrefabID.UIForgingSCoreText);
         UpdateUI();
     }
 
@@ -119,17 +128,27 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         {
             view = _uiView.Zone3view;
         }
-        GameObject textObject = GameObject.Instantiate(
-            _prefabs.PrefabsDict[PrefabID.UIForgingSCoreText], view.ScoreRoot);
-        ScoreTextView textView = textObject.GetComponent<ScoreTextView>();
-        textView.InitializeView(view, LIFETIME);
-        textView.Text.text = score.ToString();
-        view.AddTextToList(textView);
+        _currentView = view;
+        _currentAddingScore = score;
+        _gameEventBus.OnObjectSpawnedFromPool += InitializeTextObject;
+        _gameEventBus.OnSpawnObjectFromPool?.Invoke(PrefabID.UIForgingSCoreText, Vector3.zero);
+
 
         UpdateUI();
     }
 
+    private void InitializeTextObject(GameObject textObject, IPool pool)
+    {
+        textObject.transform.SetParent(_currentView.ScoreRoot);
+        ScoreTextView textView = textObject.GetComponent<ScoreTextView>();
+        textView.InitializeView(_currentView, LIFETIME);
+        textView.Text.text = _currentAddingScore.ToString();
+        _currentView.AddTextToList(textView);
+        _gameEventBus.OnObjectSpawnedFromPool -= InitializeTextObject;
+        _currentView = null;
+        _currentAddingScore = 0;
 
+    }
 
     private void UpdateUI()
     {
