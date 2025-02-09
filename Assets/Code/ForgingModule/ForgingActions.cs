@@ -1,9 +1,7 @@
 ﻿using GameCoreModule;
 using MAEngine;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using Zenject;
 
 public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
@@ -11,11 +9,11 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private const float FIRST_STEP = 0.3f;
     private const float SECOND_STEP = 0.6f;
     private const float LIFETIME = 0.8f;
-    private const int GOOD_SCORE = 10;
-    private const int BAD_SCORE = 2;
+    private const int GOOD_SCORE = 20;
+    private const int BAD_SCORE = 10;
     private const float SCORE_MULTIPLER = 1.5f;
-    private const float GOOD_PROGRESS = 0.01f;
-    private const float BAD_PROGRESS = 0.005f;
+    private const float GOOD_PROGRESS = 0.05f;
+    private const float BAD_PROGRESS = 0.02f;
     private const float PROGRESS_MULTIPLER = 1;
     
     private ForgingUIView _uiView;
@@ -189,6 +187,7 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private void EndProcess()
     {
         _eventBus.OnForgingFinished?.Invoke(_currentScore);
+        _uiView.gameObject.SetActive(false);
     }
 
 }

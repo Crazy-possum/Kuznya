@@ -6,6 +6,7 @@ public class CoreGameInstaller : MonoInstaller
 {
     [SerializeField] private PrefabsContainer _prefabsContainer;
     [SerializeField] private SceneViewsLinks _sceneViewsLinks;
+    [SerializeField] private CanvasList _canvasList;
 
     public override void InstallBindings()
     {
@@ -19,6 +20,7 @@ public class CoreGameInstaller : MonoInstaller
     {
         Container.Bind<GameEventBus>().AsSingle();
         Container.Bind<ForgingEventBus>().AsSingle();
+        Container.Bind<ResultsEventBus>().AsSingle();
     }
 
     private void InstallContainers()
@@ -26,11 +28,13 @@ public class CoreGameInstaller : MonoInstaller
         Container.Bind<SceneViewsContainer>().AsSingle();
         Container.Bind<PrefabsContainer>().FromInstance(_prefabsContainer).AsSingle();
         Container.Bind<SceneViewsLinks>().FromInstance(_sceneViewsLinks).AsSingle();
+        Container.Bind<CanvasList>().FromInstance(_canvasList).AsSingle();
     }
 
     private void InstallActions()
     {
         Container.Bind<GameStateActions>().AsSingle();
+        Container.Bind<GameControlActions>().AsSingle();
     }
 
     private void InstallOperators()

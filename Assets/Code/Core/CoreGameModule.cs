@@ -1,4 +1,5 @@
 using MAEngine;
+using System;
 
 namespace GameCoreModule
 {
@@ -10,13 +11,13 @@ namespace GameCoreModule
             InitializeGameState();
             InitializePoolsOperator();
             InitializeSpawnOperator();
+            InitializeGameControl();
         }
 
         private void InitializeFields()
         {
             _actions = new Actions();
         }
-
 
         private void InitializeGameState()
         {
@@ -37,6 +38,13 @@ namespace GameCoreModule
             SpawnOperator spawnOperator =
                 _di.Resolve<SpawnOperator>();
             _actions.Add(spawnOperator);
+        }
+
+        private void InitializeGameControl()
+        {
+            GameControlActions gameControl = 
+                _di.Resolve<GameControlActions>();
+            _actions.Add(gameControl);
         }
 
     }

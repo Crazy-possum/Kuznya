@@ -1,4 +1,5 @@
 using MAEngine;
+using System;
 
 public class ForgingModule : BasicModule
 {
@@ -11,6 +12,7 @@ public class ForgingModule : BasicModule
     {
         InitializeFields();
         InitializeForgingActions();
+        InitializeResultsActions();
     }
 
     private void InitializeFields()
@@ -20,7 +22,15 @@ public class ForgingModule : BasicModule
 
     private void InitializeForgingActions()
     {
-        ForgingActions forgingActions = _di.Resolve<ForgingActions>();
+        ForgingActions forgingActions =
+            _di.Resolve<ForgingActions>();
         _actions.Add(forgingActions);
+    }
+
+    private void InitializeResultsActions()
+    {
+        ResultsActions resultsActions =
+            _di.Resolve<ResultsActions>();
+        _actions.Add(resultsActions);
     }
 }
