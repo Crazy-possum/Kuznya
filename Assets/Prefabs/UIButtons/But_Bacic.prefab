@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 8937157132758330716}
   - component: {fileID: 3815854207773626284}
   m_Layer: 5
-  m_Name: But_Screan
+  m_Name: But_Bacic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
