@@ -21,6 +21,8 @@ public class CoreGameInstaller : MonoInstaller
         Container.Bind<GameEventBus>().AsSingle();
         Container.Bind<ForgingEventBus>().AsSingle();
         Container.Bind<ResultsEventBus>().AsSingle();
+        Container.Bind<ProgressionEvents>().AsSingle();
+        Container.Bind<OrdersEventBus>().AsSingle();
     }
 
     private void InstallContainers()

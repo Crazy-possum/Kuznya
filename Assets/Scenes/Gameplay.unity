@@ -1290,10 +1290,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4762195954417408171, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
-      propertyPath: _uiView
-      value: 
-      objectReference: {fileID: 2117833727}
-    - target: {fileID: 4762195954417408171, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
       propertyPath: _forgingView
       value: 
       objectReference: {fileID: 2117833727}
@@ -1301,37 +1297,19 @@ PrefabInstance:
       propertyPath: _resultsView
       value: 
       objectReference: {fileID: 4850037726517421359}
-    - target: {fileID: 6496626111333660557, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
-      propertyPath: _canvasList
+    - target: {fileID: 8111679376960137017, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
+      propertyPath: _forgingCanvas
       value: 
-      objectReference: {fileID: 5353645000258394759}
+      objectReference: {fileID: 4459424139680015408}
+    - target: {fileID: 8111679376960137017, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
+      propertyPath: _resultsCanvas
+      value: 
+      objectReference: {fileID: 580214474937752937}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1366226608763107118, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5353645000258394759}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
---- !u!1 &5353645000258394758 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1366226608763107118, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
-  m_PrefabInstance: {fileID: 5353645000258394757}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5353645000258394759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5353645000258394758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c21ce89a153ee544971ad42732012e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _forgingCanvas: {fileID: 4459424139680015408}
-  _resultsCanvas: {fileID: 580214474937752937}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65f9662ee4a473242876334f2a2e68e3, type: 3}
-  m_Name: ClientsPoolConfig
+  m_Script: {fileID: 11500000, guid: c7a258b61e1349546b7237b514938ac6, type: 3}
+  m_Name: EnchanterConfig
   m_EditorClassIdentifier: 
-  clients:
-  - {fileID: 11400000, guid: 9cdb1deba793ccd4b882035ef181d3ec, type: 2}
-  - {fileID: 11400000, guid: 5869cea033c28134787d5a12d05218e9, type: 2}
+  _name: Enchanter
+  _materialName: 3
+  _clientSprite: {fileID: 21300000, guid: 08265e96ef15eb4418f4e1a65865362b, type: 3}
+  _orders: {fileID: 0}
