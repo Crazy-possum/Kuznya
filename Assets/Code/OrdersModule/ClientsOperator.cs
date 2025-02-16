@@ -2,16 +2,18 @@
 using MAEngine;
 using MAEngine.Extention;
 using Progression;
+using System;
 using System.Collections.Generic;
 using Zenject;
 
 namespace Orders
 {
-    public class ClientsOperator : IAction, IInitialisation, ICleanUp, IFixedExecute, IPreInitialisation
+    public class ClientsOperator : IAction, IInitialisation, ICleanUp,
+        IFixedExecute
     {
         private ClientsPoolConfig _clientsPoolConfig;
         private ProgressionData _progressionData;
-        private ProgressionEvents _progressionEvents;
+        private OrdersEventBus _ordersEventBus;
 
         private OrdersMetaData _ordersMetaData;
         private System.Random _random;
@@ -20,58 +22,40 @@ namespace Orders
         private int _minTimeBetweenClients = 5;
         private int _maxTimeBetweenClients = 10;
         private int _currentTimeBetweenClients;
-        private ClientConfig _activeClient;
         private bool _isClientActive;
 
 
         [Inject]
-        public void Construct(ClientsPoolConfig clientsPoolConfig,
-            ProgressionEvents progressionEvents)
+        public void Construct(ClientsPoolConfig clientsPoolConfig, 
+            ProgressionData progressionData,
+            OrdersEventBus ordersEventBus)
         {
             _clientsPoolConfig = clientsPoolConfig;
-            _progressionEvents = progressionEvents;
-        }
-
-        public void PreInitialisation()
-        {
-            _progressionEvents.OnProgressionDataLoaded += SetProgressionData;
-            _random = new System.Random();
-            UpdateTimer();
-
-        }
-
-        private void SetProgressionData(ProgressionData data)
-        {
-            _progressionData = data;
+            _progressionData = progressionData;
+            _ordersEventBus = ordersEventBus;
         }
 
         public void Initialisation()
         {
+            _ordersEventBus.OnClientDeactivated += DeactivateClient;
+            _random = new System.Random();
             _ordersMetaData = _progressionData.OrdersMeta;
+
+            UpdateTimer();
+            if (_ordersMetaData.ActiveClient != null)
+            {
+                _isClientActive = true;
+            }
             if (_ordersMetaData.GetClientsCount() == 0)
             {
                 AddNewClient();
             }
             SetActiveClient();
-
-        }
-
-        private void SetActiveClient()
-        {
-            if (!_isClientActive)
-            {
-                _activeClient = _ordersMetaData.GetFirstClient();
-                if (_activeClient != null)
-                {
-                    _isClientActive = true;
-                }
-            }
-            
         }
 
         public void Cleanup()
         {
-            _progressionEvents.OnProgressionDataLoaded -= SetProgressionData;
+            _ordersEventBus.OnClientDeactivated -= DeactivateClient;
         }
 
         public void FixedExecute(float fixedDeltaTime)
@@ -89,6 +73,26 @@ namespace Orders
                 }
                 UpdateTimer();
             }
+        }
+
+        private void SetActiveClient()
+        {
+            if (!_isClientActive)
+            {
+                _ordersMetaData.ActiveClient = _ordersMetaData.GetFirstClient();
+                if (_ordersMetaData.ActiveClient != null)
+                {
+                    _isClientActive = true;
+                    _ordersEventBus.OnClientRemoved?.Invoke();
+                    _ordersEventBus.OnClientActivated?.Invoke();
+                }
+            }
+        }
+
+        private void DeactivateClient()
+        {
+            _ordersMetaData.ActiveClient = null;
+            _isClientActive = false;
         }
 
         private void AddNewClient()
@@ -109,7 +113,8 @@ namespace Orders
                     int attempts = 0;
                     clientIndex = _random.Next(0, clients.Count);
                     while (
-                        !_ordersMetaData.CheckClientIsFree(clients[clientIndex], _activeClient)
+                        !_ordersMetaData.CheckClientIsFree(clients[clientIndex],
+                        _ordersMetaData.ActiveClient)
                         && attempts < 10)
                     {
                         attempts++;
@@ -117,7 +122,9 @@ namespace Orders
                     }
                     if (attempts < 10)
                     {
+
                         _ordersMetaData.AddClient(clients[clientIndex]);
+                        _ordersEventBus.OnClientAdded?.Invoke();
                         //Debug.Log($"{clients[clientIndex]}");
                     }
                     else

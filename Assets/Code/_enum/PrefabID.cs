@@ -1,5 +1,6 @@
 public enum PrefabID
 {
     NONE = 0,
-    UIForgingSCoreText = 1
+    UIForgingScoreText = 1,
+    ClientIcon = 2
 }

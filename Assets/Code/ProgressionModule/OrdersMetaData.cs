@@ -7,8 +7,10 @@ namespace Progression
     {
         private List<ClientConfig> _activeClients;
         private List<ActiveOrder> _activeOrders;
+        private ClientConfig _activeClient;
 
         public List<ActiveOrder> ActiveOrders { get => _activeOrders; set => _activeOrders = value; }
+        public ClientConfig ActiveClient { get => _activeClient; set => _activeClient = value; }
 
         public void Initialize()
         {

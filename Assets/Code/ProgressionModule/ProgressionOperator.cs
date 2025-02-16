@@ -1,7 +1,5 @@
 ﻿using GameCoreModule;
 using MAEngine;
-using Orders;
-using System;
 using UnityEngine;
 using Zenject;
 
@@ -37,22 +35,20 @@ namespace Progression
 
         private void UpdateProgressData(ProgressionData data)
         {
-            Debug.Log(_data.OrdersMeta.GetClientsCount());
             _data = data;
-            Debug.Log(_data.OrdersMeta.GetClientsCount());
         }
 
         private void LoadData()
         {
-            _data = _container.LoadProgress();
-            //Debug.Log($"Data loaded : {_data.PlayerMetaData.CurrentMaximumMaterial}");
+            _data.PlayerMetaData = _container.PlayerMetaData;
+            _data.OrdersMeta = _container.OrdersMeta;
             if (_data.OrdersMeta == null)
             {
                 OrdersMetaData ordersMetaData = new OrdersMetaData();
                 ordersMetaData.Initialize();
                 _data.OrdersMeta = ordersMetaData;
             }
-            _progressionEvents.OnProgressionDataLoaded?.Invoke(_data);
+            //_progressionEvents.OnProgressionDataLoaded?.Invoke(_data);
         }
     }
 }

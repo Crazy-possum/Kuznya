@@ -10,8 +10,10 @@ namespace Orders
             InitializeFields();
             InitializeClientsOperator();
             InitializeOrdersOperator();
+            InitializeDialogueActions();
             
         }
+
 
         private void InitializeFields()
         {
@@ -30,6 +32,13 @@ namespace Orders
             OrdersOperator ordersOperator =
                 _di.Resolve<OrdersOperator>();
             _actions.Add(ordersOperator);
+        }
+
+        private void InitializeDialogueActions()
+        {
+            DialogueActions dialogueActions =
+                _di.Resolve<DialogueActions>();
+            _actions.Add(dialogueActions);
         }
 
     }

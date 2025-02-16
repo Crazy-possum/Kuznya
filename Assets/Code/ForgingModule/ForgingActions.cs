@@ -47,7 +47,7 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         _uiView.Zone1view.ZoneButton.onClick.AddListener(() => Zone1Tiggered());
         _uiView.Zone2view.ZoneButton.onClick.AddListener(() => Zone2Tiggered());
         _uiView.Zone3view.ZoneButton.onClick.AddListener(() => Zone3Tiggered());
-        _gameEventBus.OnCreatePool(PrefabID.UIForgingSCoreText);
+        _gameEventBus.OnCreatePool(PrefabID.UIForgingScoreText);
         UpdateUI();
     }
 
@@ -129,7 +129,7 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         _currentView = view;
         _currentAddingScore = score;
         _gameEventBus.OnObjectSpawnedFromPool += InitializeTextObject;
-        _gameEventBus.OnSpawnObjectFromPool?.Invoke(PrefabID.UIForgingSCoreText, Vector3.zero);
+        _gameEventBus.OnSpawnObjectFromPool?.Invoke(PrefabID.UIForgingScoreText, Vector3.zero);
 
 
         UpdateUI();
