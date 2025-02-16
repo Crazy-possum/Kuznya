@@ -124,7 +124,10 @@ namespace Orders
                     {
 
                         _ordersMetaData.AddClient(clients[clientIndex]);
-                        _ordersEventBus.OnClientAdded?.Invoke();
+                        if (_isClientActive)
+                        {
+                            _ordersEventBus.OnClientAdded?.Invoke();
+                        }
                         //Debug.Log($"{clients[clientIndex]}");
                     }
                     else

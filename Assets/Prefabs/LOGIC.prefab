@@ -135,6 +135,64 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _views: []
+--- !u!1 &3319843519941973985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7214064441799655857}
+  - component: {fileID: 7291807653027384885}
+  - component: {fileID: 5310458550469782052}
+  m_Layer: 0
+  m_Name: GUIModule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7214064441799655857
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3319843519941973985}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6220452103543172344}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7291807653027384885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3319843519941973985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b26a414a343a554795431402bdcaf2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5310458550469782052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3319843519941973985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5fca4ce8ea1e014bbff5894db557883, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guiView: {fileID: 0}
 --- !u!1 &3753749270997253337
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,6 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _clientsPoolConfig: {fileID: 11400000, guid: 3e43bce4b9afc494bbab2ee2302d0eb4, type: 2}
+  _dialogueView: {fileID: 0}
 --- !u!1 &4842635209859085035
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,6 +345,7 @@ Transform:
   - {fileID: 561083149736483337}
   - {fileID: 6790627534596408494}
   - {fileID: 6039172355533780090}
+  - {fileID: 7214064441799655857}
   m_Father: {fileID: 2838106980354976665}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2617490069440768127
@@ -306,6 +366,7 @@ MonoBehaviour:
   - {fileID: 3873344359494973135}
   - {fileID: 4762195954417408171}
   - {fileID: 1125963181286853862}
+  - {fileID: 5310458550469782052}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -340,6 +401,7 @@ MonoBehaviour:
   - {fileID: 372731516821023602}
   - {fileID: 8245577362498517115}
   - {fileID: 2816897771114400598}
+  - {fileID: 7291807653027384885}
 --- !u!1 &7738032687564762232
 GameObject:
   m_ObjectHideFlags: 0
