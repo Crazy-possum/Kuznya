@@ -20,6 +20,7 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private PrefabsContainer _prefabs;
     private ForgingEventBus _eventBus;
     private GameEventBus _gameEventBus;
+    private StateEventsBus _stateEventsBus;
 
     private int _currentZoneIndex;
     private float _currentProgress;
@@ -31,12 +32,13 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
 
     [Inject]
     public void Construct(ForgingUIView uiView, PrefabsContainer prefabs,
-        ForgingEventBus eventBus, GameEventBus gameEventBus)
+        ForgingEventBus eventBus, GameEventBus gameEventBus, StateEventsBus stateEventsBus)
     {
         _uiView = uiView;
         _prefabs = prefabs;
         _eventBus = eventBus;
         _gameEventBus = gameEventBus;
+        _stateEventsBus = stateEventsBus;
     }
 
 
@@ -187,6 +189,7 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private void EndProcess()
     {
         _eventBus.OnForgingFinished?.Invoke(_currentScore);
+        _stateEventsBus.OnResultsStateActivate?.Invoke();
         _uiView.gameObject.SetActive(false);
     }
 

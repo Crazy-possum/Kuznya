@@ -11,6 +11,7 @@ namespace MainGUI
         {
             Container.Bind<GUIView>().
                 FromInstance(_guiView).AsSingle();
+            Container.Bind<GUIButtonsOperator>().AsSingle();
         }
     }
 }

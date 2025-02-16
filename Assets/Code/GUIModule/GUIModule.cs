@@ -1,4 +1,5 @@
 ﻿using MAEngine;
+using System;
 
 namespace MainGUI
 {
@@ -7,12 +8,19 @@ namespace MainGUI
         public override void Initialise()
         {
             InitializeFields();
+            InitializeGUIButtonsOperator();
         }
-
 
         private void InitializeFields()
         {
             _actions = new Actions();
+        }
+
+        private void InitializeGUIButtonsOperator()
+        {
+            GUIButtonsOperator gUIButtonsOperator =
+                _di.Resolve<GUIButtonsOperator>();
+            _actions.Add(gUIButtonsOperator);
         }
     }
 }

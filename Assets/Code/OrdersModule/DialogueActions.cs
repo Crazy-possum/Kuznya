@@ -1,5 +1,6 @@
 ﻿using GameCoreModule;
 using MAEngine;
+using MAEngine.Extention;
 using MainGUI;
 using Progression;
 using System;
@@ -9,7 +10,7 @@ using Zenject;
 
 namespace Orders
 {
-    public class DialogueActions : IInitialisation, ICleanUp
+    public class DialogueActions : IInitialisation, ICleanUp, IFixedExecute
     {
         private DialogueView _dialogueView;
         private ProgressionData _progressionData;
@@ -21,6 +22,9 @@ namespace Orders
         private ActiveOrder _currentActiveOrder;
         private System.Random _random;
         private List<GameObject> _clientIconObjects;
+        private float _generationDelay;
+        private int _generationLength;
+        private Timer _timer;
 
         [Inject]
         public void Construct(DialogueView dialogueView, ProgressionData progressionData,
@@ -38,6 +42,9 @@ namespace Orders
             _ordersMetaData = _progressionData.OrdersMeta;
             _random = new System.Random();
             _clientIconObjects = new List<GameObject>();
+            _generationLength = 20;
+            _generationDelay = 1f;
+            _timer = new Timer(_generationDelay);
             _ordersEvents.OnClientAdded += AddClientIconToQueue;
             _ordersEvents.OnClientRemoved += RemoveClientIconFromQueue;
             _ordersEvents.OnClientActivated += SetClientDialogue;
@@ -53,6 +60,20 @@ namespace Orders
             else
             {
                 _dialogueView.DialoguePanel.SetActive(false);
+            }
+            GenerateText();
+        }
+
+        public void Cleanup()
+        {
+            _ordersEvents.OnClientActivated -= SetClientDialogue;
+        }
+
+        public void FixedExecute(float fixedDeltaTime)
+        {
+            if (_timer.Wait())
+            {
+                GenerateText();
             }
         }
 
@@ -79,14 +100,11 @@ namespace Orders
             _clientIconObjects.Add(clientIconObject);
         }
 
-        public void Cleanup()
-        {
-            _ordersEvents.OnClientActivated -= SetClientDialogue;
-        }
 
         private void DialogueStartActions(ClientConfig client)
         {
             _dialogueView.ClientImage.gameObject.SetActive(true);
+            _dialogueView.DialogueIcon.gameObject.SetActive(true);
             _dialogueView.ClientImage.sprite = client.ClientSprite;
             _dialogueView.TitleText.text = client.Name;
             SetCurrentOrder(client.Orders);
@@ -110,6 +128,7 @@ namespace Orders
         private void StartDialogue()
         {
             _dialogueView.DialoguePanel.SetActive(true);
+            _dialogueView.DialogueIcon.gameObject.SetActive(false);
             _guiView.NavigationPanel.SetActive(false);
         }
 
@@ -146,6 +165,27 @@ namespace Orders
             _dialogueView.DescriptionText.text = _currentActiveOrder.Description.Description;
             _dialogueView.NextButton.interactable = false;
             _dialogueView.PrevButton.interactable = true;
+        }
+
+        private void GenerateText()
+        {
+            string[] symb = new string[]
+            {
+            "a", "b", "c", "d", "e",
+            "f", "g", "x", "y", "z",
+            " ", "h", "i", "ά", "#",
+            "@", "$", "&", "%", "^",
+            "β", "∂", "Ē", "€", "ū"
+            };
+
+            string generated = "";
+            int charIndex = 0;
+            for (int i = 0; i < _generationLength; i++)
+            {
+                charIndex = _random.Next(0, symb.Length);
+                generated += symb[charIndex];
+            }
+            _dialogueView.DialogueIconText.text = generated;
         }
     }
 }

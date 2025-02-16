@@ -110,6 +110,7 @@ MonoBehaviour:
   _prefabsContainer: {fileID: 11400000, guid: 24608636e2e4d2b459f3a62e5c923037, type: 2}
   _sceneViewsLinks: {fileID: 6751493422877816539}
   _canvasList: {fileID: 8111679376960137017}
+  _gameConfig: {fileID: 11400000, guid: fe98f5d69354bb14b9228b7df6940f86, type: 2}
 --- !u!114 &5627879035573737632
 MonoBehaviour:
   m_ObjectHideFlags: 0

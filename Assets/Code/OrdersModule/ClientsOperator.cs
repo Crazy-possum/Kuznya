@@ -14,13 +14,11 @@ namespace Orders
         private ClientsPoolConfig _clientsPoolConfig;
         private ProgressionData _progressionData;
         private OrdersEventBus _ordersEventBus;
+        private GameConfig _gameConfig;
 
         private OrdersMetaData _ordersMetaData;
         private System.Random _random;
         private Timer _timer;
-        private int _maxClients = 5;
-        private int _minTimeBetweenClients = 5;
-        private int _maxTimeBetweenClients = 10;
         private int _currentTimeBetweenClients;
         private bool _isClientActive;
 
@@ -28,11 +26,12 @@ namespace Orders
         [Inject]
         public void Construct(ClientsPoolConfig clientsPoolConfig, 
             ProgressionData progressionData,
-            OrdersEventBus ordersEventBus)
+            OrdersEventBus ordersEventBus, GameConfig gameConfig)
         {
             _clientsPoolConfig = clientsPoolConfig;
             _progressionData = progressionData;
             _ordersEventBus = ordersEventBus;
+            _gameConfig = gameConfig;
         }
 
         public void Initialisation()
@@ -67,7 +66,7 @@ namespace Orders
             }
             if (_timer.Wait())
             {
-                if (_ordersMetaData.GetClientsCount() < _maxClients)
+                if (_ordersMetaData.GetClientsCount() < _gameConfig.MaxClients)
                 {
                     AddNewClient();
                 }
@@ -140,8 +139,8 @@ namespace Orders
 
         private void UpdateTimer()
         {
-            _currentTimeBetweenClients = _random.Next(_minTimeBetweenClients,
-                _maxTimeBetweenClients);
+            _currentTimeBetweenClients = _random.Next(_gameConfig.MinTimeBetweenClients,
+                _gameConfig.MaxTimeBetweenClients);
             _timer = new Timer(_currentTimeBetweenClients);
         }
 
