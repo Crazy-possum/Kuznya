@@ -12,11 +12,15 @@ namespace Orders
 {
     public class DialogueActions : IInitialisation, ICleanUp, IFixedExecute
     {
+        private const string ACCEPT_TEXT = "Принять";
+        private const string NOT_ENOUTH_TEXT = "Нет места";
+
         private DialogueView _dialogueView;
         private ProgressionData _progressionData;
         private OrdersEventBus _ordersEvents;
         private GameEventBus _gameEventBus;
         private GUIView _guiView;
+        private GameConfig _gameConfig;
 
         private OrdersMetaData _ordersMetaData;
         private ActiveOrder _currentActiveOrder;
@@ -28,13 +32,15 @@ namespace Orders
 
         [Inject]
         public void Construct(DialogueView dialogueView, ProgressionData progressionData,
-            OrdersEventBus ordersEvents, GameEventBus gameEventBus, GUIView guiView)
+            OrdersEventBus ordersEvents, GameEventBus gameEventBus, GUIView guiView,
+            GameConfig gameConfig)
         {
             _dialogueView = dialogueView;
             _progressionData = progressionData;
             _ordersEvents = ordersEvents;
             _gameEventBus = gameEventBus;
             _guiView = guiView;
+            _gameConfig = gameConfig;
         }
 
         public void Initialisation()
@@ -48,6 +54,7 @@ namespace Orders
             _ordersEvents.OnClientAdded += AddClientIconToQueue;
             _ordersEvents.OnClientRemoved += RemoveClientIconFromQueue;
             _ordersEvents.OnClientActivated += SetClientDialogue;
+            _ordersEvents.OnOrderRemoved += CheckOrdersCount;
             _dialogueView.AcceptButton.onClick.AddListener(() => AcceptOrder());
             _dialogueView.RejectButton.onClick.AddListener(() => RejectOrder());
             _dialogueView.DialogueStartButton.onClick.AddListener(() => StartDialogue());
@@ -67,6 +74,14 @@ namespace Orders
         public void Cleanup()
         {
             _ordersEvents.OnClientActivated -= SetClientDialogue;
+            _ordersEvents.OnClientRemoved -= RemoveClientIconFromQueue;
+            _ordersEvents.OnClientActivated -= SetClientDialogue;
+            _ordersEvents.OnOrderRemoved -= CheckOrdersCount;
+            _dialogueView.AcceptButton.onClick.RemoveListener(() => AcceptOrder());
+            _dialogueView.RejectButton.onClick.RemoveListener(() => RejectOrder());
+            _dialogueView.DialogueStartButton.onClick.RemoveListener(() => StartDialogue());
+            _dialogueView.NextButton.onClick.RemoveListener(() => ShowDescriptionText());
+            _dialogueView.PrevButton.onClick.RemoveListener(() => ShowDefaultText());
         }
 
         public void FixedExecute(float fixedDeltaTime)
@@ -103,11 +118,28 @@ namespace Orders
 
         private void DialogueStartActions(ClientConfig client)
         {
+
             _dialogueView.ClientImage.gameObject.SetActive(true);
             _dialogueView.DialogueIcon.gameObject.SetActive(true);
             _dialogueView.ClientImage.sprite = client.ClientSprite;
             _dialogueView.TitleText.text = client.Name;
+
             SetCurrentOrder(client.Orders);
+            CheckOrdersCount();
+        }
+
+        private void CheckOrdersCount()
+        {
+            if (_ordersMetaData.ActiveOrders.Count >= _gameConfig.MaxOrders)
+            {
+                _dialogueView.AcceptButton.interactable = false;
+                _dialogueView.AcceptButtonText.text = NOT_ENOUTH_TEXT;
+            }
+            else
+            {
+                _dialogueView.AcceptButton.interactable = true;
+                _dialogueView.AcceptButtonText.text = ACCEPT_TEXT;
+            }
         }
 
         private void SetCurrentOrder(OrdersPoolConfig orders)
