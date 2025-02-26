@@ -1,5 +1,6 @@
 using Progression;
 using System.ComponentModel;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,8 @@ namespace MainGUI
         [SerializeField] private Button _materialsButton;
         [SerializeField] private RectTransform _clientsQueueTransform;
         [SerializeField] private GameObject _navigationPanel;
+        [SerializeField] private TMP_Text _currentMoneyText;
+        [SerializeField] private UpgradeConfirmView _upgradeConfirmView;
 
         public Button DialogueButton { get => _dialogueButton; }
         public Button OrdersButton { get => _ordersButton; }
@@ -20,6 +23,9 @@ namespace MainGUI
         public Button MaterialsButton { get => _materialsButton; }
         public RectTransform ClientsQueueTransform { get => _clientsQueueTransform; }
         public GameObject NavigationPanel { get => _navigationPanel; }
+        public TMP_Text CurrentMoneyText { get => _currentMoneyText; }
+        public UpgradeConfirmView UpgradeConfirmView { get => _upgradeConfirmView; }
+        
     }
 }
 

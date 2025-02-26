@@ -52,8 +52,7 @@ namespace Economy
         
         private void UpgradeButtonClicked(UpgradeView view)
         {
-            Debug.Log($"Upgrade {view.UpgradeConfig.Name} clicked");
-            view.AddLevel();
+            //Debug.Log($"Upgrade {view.UpgradeConfig.Name} clicked");
             _economyEventBus.OnTryBuyUpgrade?.Invoke(view.UpgradeConfig.Name, view);
         }
     }

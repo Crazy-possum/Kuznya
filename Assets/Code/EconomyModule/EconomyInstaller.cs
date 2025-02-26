@@ -13,6 +13,7 @@ namespace Economy
             Container.Bind<ShopView>().FromInstance(_shopView).AsSingle();
             Container.Bind<UpgradesPool>().FromInstance(_upgradesPool).AsSingle();
             Container.Bind<UpgradesUIActions>().AsSingle();
+            Container.Bind<EconomyOperator>().AsSingle();
         }
     }
 }

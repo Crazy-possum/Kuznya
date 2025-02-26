@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using MAEngine;
 
 namespace Economy
@@ -10,9 +8,9 @@ namespace Economy
         {
             InitializeFields();
             InitializeShopUIActions();
+            InitializeEconomyOperator();
         }
-
-
+        
         private void InitializeFields()
         {
             _actions = new Actions();
@@ -24,11 +22,13 @@ namespace Economy
                 _di.Resolve<UpgradesUIActions>();
             _actions.Add(upgradesUIActions);
         }
-    }
-
-    public class EconomyOperator
-    {
         
+        private void InitializeEconomyOperator()
+        {
+            EconomyOperator economyOperator =
+                _di.Resolve<EconomyOperator>();
+            _actions.Add(economyOperator);
+        }
     }
 }
 

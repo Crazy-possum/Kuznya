@@ -10,6 +10,7 @@ namespace MainGUI
             InitializeFields();
             InitializeGUIButtonsOperator();
             InitializeShopScaler();
+            InitializeGUIMainOperator();
         }
 
         private void InitializeFields()
@@ -29,6 +30,13 @@ namespace MainGUI
             UIScalingAction uiScalingAction =
                 _di.Resolve<UIScalingAction>();
             _actions.Add(uiScalingAction);
+        }
+        
+        private void InitializeGUIMainOperator()
+        {
+            GUIMainOperator guiMainOperator =
+                _di.Resolve<GUIMainOperator>();
+            _actions.Add(guiMainOperator);
         }
     }
 }

@@ -16,6 +16,7 @@ namespace MainGUI
                 FromInstance(_scalableView).AsSingle();
             Container.Bind<GUINavigationButtonsOperator>().AsSingle();
             Container.Bind<UIScalingAction>().AsSingle();
+            Container.Bind<GUIMainOperator>().AsSingle();
         }
     }
 }

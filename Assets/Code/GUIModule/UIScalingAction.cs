@@ -1,3 +1,4 @@
+using GameCoreModule;
 using MAEngine;
 using MAEngine.Extention;
 using UnityEngine;
@@ -6,8 +7,9 @@ using Zenject;
 
 namespace MainGUI
 {
-    public class UIScalingAction : IAction, IInitialisation, IFixedExecute, IExecute
+    public class UIScalingAction : IAction, IInitialisation, IFixedExecute, IExecute, ICleanUp
     {
+        private EconomyEventBus _economyEventBus;
         private CanvasScaler _canvasScaler;
         private RectTransform _viewportTransform;
         private RectTransform _mainPanelTransform;
@@ -21,10 +23,12 @@ namespace MainGUI
         private bool _isDragging = false;
         private Vector2 _lastMousePosition;
         private Vector2 _targetPosition;
+        private bool _isControlable;
         
         [Inject]
-        public void Construct(ScalableView scalableView)
+        public void Construct(EconomyEventBus economyEventBus, ScalableView scalableView)
         {
+            _economyEventBus = economyEventBus;
             _canvasScaler = scalableView.CanvasScaler;
             _viewportTransform = scalableView.ViewportTransform;
             _mainPanelTransform = scalableView.MainPanelTransform;
@@ -37,13 +41,16 @@ namespace MainGUI
         
         public void Initialisation()
         {
+            _isControlable = true;
             _currentScale = _canvasScaler.referenceResolution;
             _targetPosition = _mainPanelTransform.anchoredPosition;
+            _economyEventBus.OnTryBuyUpgrade += TryBuyUpgrade;
+            _economyEventBus.OnBuyUpgradeCanceled += CancelBuyUpgrade;
         }
-        
+
         public void Execute(float deltaTime)
         {
-            if (_canvasScaler.gameObject.activeInHierarchy)
+            if (_canvasScaler.gameObject.activeInHierarchy && _isControlable)
             {
                 _mouseWheelDelta += Input.mouseScrollDelta.y;
                 if (Input.GetMouseButtonDown(0) & !_isDragging)
@@ -74,6 +81,12 @@ namespace MainGUI
                 ChangeUIScale();
                 _mouseWheelDelta = 0;
             }
+        }
+        
+        public void Cleanup()
+        {
+            _economyEventBus.OnTryBuyUpgrade -= TryBuyUpgrade;
+            _economyEventBus.OnBuyUpgradeCanceled -= CancelBuyUpgrade;
         }
 
         private void ChangeUIScale()
@@ -134,6 +147,16 @@ namespace MainGUI
                 _targetPosition, 
                 Time.deltaTime * _panelMoveSpeed
             );
+        }
+        
+        private void TryBuyUpgrade(UpgradeName arg1, UpgradeView arg2)
+        {
+            _isControlable = false;
+        }
+        
+        private void CancelBuyUpgrade()
+        {
+            _isControlable = true;
         }
     }
 }

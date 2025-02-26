@@ -13,9 +13,12 @@ public class UpgradeView : MonoBehaviour
     [SerializeField] private List<LevelIndicatorView> _levelIndicators;
     private UpgradeConfig _upgradeConfig;
     private int _currentLevel;
+    private int _currentValue;
 
     public Button UpgradeButton => _upgradeButton;
+    public TMP_Text CurrentValueText => _currentValueText;
     public UpgradeConfig UpgradeConfig => _upgradeConfig;
+    public int CurrentValue => _currentValue;
 
     public void UpdateUI(UpgradeConfig upgradeConfig, int level)
     {
@@ -32,6 +35,7 @@ public class UpgradeView : MonoBehaviour
         if (level < maxLevel)
         {
             _currentValueText.text = $"{_upgradeConfig.LevelsCostList[level]}";
+            _currentValue = _upgradeConfig.LevelsCostList[level];
         }
         else
         {
