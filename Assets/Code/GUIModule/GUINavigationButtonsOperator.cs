@@ -10,13 +10,16 @@ namespace MainGUI
     {
         private GUIView _view;
         private StateEventsBus _events;
+        private ResultsEventBus _resultsEvents;
         private List<Button> _guiButtons;
+        
 
         [Inject]
-        public void Construct(GUIView view, StateEventsBus events)
+        public void Construct(GUIView view, StateEventsBus events, ResultsEventBus resultsEvents)
         {
             _view = view;
             _events = events;
+            _resultsEvents = resultsEvents;
         }
 
         public void Initialisation()
@@ -25,6 +28,8 @@ namespace MainGUI
             _view.OrdersButton.onClick.AddListener(() => ShowOrders());
             _view.ShopButton.onClick.AddListener(() => ShowShop());
             _view.MaterialsButton.onClick.AddListener(() => ShowMaterials());
+            _events.OnForgingStateActivate += HideNavigationButtons;
+            _resultsEvents.OnResultsFinished += ShowNavigationButtons;
             InitializeButtonsList();
             ShowDialogue();
         }
@@ -82,6 +87,17 @@ namespace MainGUI
                     button.interactable = true;
                 }
             }
+        }
+        
+        private void ShowNavigationButtons(int money)
+        {
+            ShowDialogue();
+            _view.NavigationPanel.gameObject.SetActive(true);
+        }
+        
+        private void HideNavigationButtons()
+        {
+            _view.NavigationPanel.gameObject.SetActive(false);
         }
 
     }

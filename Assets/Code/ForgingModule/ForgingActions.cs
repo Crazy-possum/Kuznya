@@ -1,6 +1,7 @@
 ﻿using GameCoreModule;
 using MAEngine;
 using System.Collections.Generic;
+using Orders;
 using UnityEngine;
 using Zenject;
 
@@ -21,6 +22,7 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private ForgingEventBus _eventBus;
     private GameEventBus _gameEventBus;
     private StateEventsBus _stateEventsBus;
+    private OrdersEventBus _ordersEventBus;
 
     private int _currentZoneIndex;
     private float _currentProgress;
@@ -32,20 +34,22 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
 
     [Inject]
     public void Construct(ForgingUIView uiView, PrefabsContainer prefabs,
-        ForgingEventBus eventBus, GameEventBus gameEventBus, StateEventsBus stateEventsBus)
+        ForgingEventBus eventBus, GameEventBus gameEventBus, StateEventsBus stateEventsBus,
+        OrdersEventBus ordersEventBus)
     {
         _uiView = uiView;
         _prefabs = prefabs;
         _eventBus = eventBus;
         _gameEventBus = gameEventBus;
         _stateEventsBus = stateEventsBus;
+        _ordersEventBus = ordersEventBus;
     }
 
 
     public void Initialisation()
     {
-        _currentProgress = 0;
-        _currentZoneIndex = 0;
+        ClearProgress();
+        _ordersEventBus.OnOrderStarted += StartOrder;
         _uiView.Zone1view.ZoneButton.onClick.AddListener(() => Zone1Tiggered());
         _uiView.Zone2view.ZoneButton.onClick.AddListener(() => Zone2Tiggered());
         _uiView.Zone3view.ZoneButton.onClick.AddListener(() => Zone3Tiggered());
@@ -55,6 +59,7 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
 
     public void Cleanup()
     {
+        _ordersEventBus.OnOrderStarted -= StartOrder;
         _uiView.Zone1view.ZoneButton.onClick.RemoveAllListeners();
         _uiView.Zone2view.ZoneButton.onClick.RemoveAllListeners();
         _uiView.Zone3view.ZoneButton.onClick.RemoveAllListeners();
@@ -65,7 +70,12 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         CheckScoreTextsLifetime();
         CheckProgress();
     }
-
+    
+    private void StartOrder(ActiveOrder order)
+    {
+        _stateEventsBus.OnForgingStateActivate?.Invoke();
+    }
+    
     private void CheckProgress()
     {
         if (_currentProgress > FIRST_STEP &&
@@ -189,8 +199,16 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private void EndProcess()
     {
         _eventBus.OnForgingFinished?.Invoke(_currentScore);
+        ClearProgress();
         _stateEventsBus.OnResultsStateActivate?.Invoke();
         _uiView.gameObject.SetActive(false);
+    }
+    
+    private void ClearProgress()
+    {
+        _currentProgress = 0;
+        _currentZoneIndex = 0;
+        _currentScore = 0;
     }
 
 }

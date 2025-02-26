@@ -29,15 +29,13 @@ public class ResultsActions : IAction, IInitialisation, ICleanUp, IFixedExecute
     public void Initialisation()
     {
         _eventBus.OnForgingFinished += StartCountingResult;
-        _resultsView.EndButton.onClick.AddListener(() => StopCounting());
-        _resultEvents.OnResultsFinished += ShowDebugResult;
+        _resultsView.EndButton.onClick.AddListener(() => EndButtonPressed());
     }
 
     public void Cleanup()
     {
         _eventBus.OnForgingFinished -= StartCountingResult;
-        _resultsView.EndButton.onClick.RemoveListener(() => StopCounting());
-        _resultEvents.OnResultsFinished -= ShowDebugResult;
+        _resultsView.EndButton.onClick.RemoveListener(() => EndButtonPressed());
     }
 
     public void FixedExecute(float fixedDeltaTime)
@@ -96,20 +94,26 @@ public class ResultsActions : IAction, IInitialisation, ICleanUp, IFixedExecute
         _gold = _finalGold;
         _dynamicScore = 0;
         UpdateUI();
+    }
+
+    private void EndButtonPressed()
+    {
+        StopCounting();
+        EndProcess();
+    }
+
+    private void EndProcess()
+    {
         _resultEvents.OnResultsFinished?.Invoke(_gold);
         _resultsView.EndButton.onClick.RemoveListener(() => StopCounting());
     }
+
 
     private void UpdateUI()
     {
         _resultsView.StaticScoreText.text = _score.ToString();
         _resultsView.DynamicScoreText.text = _dynamicScore.ToString();
         _resultsView.GoldText.text = _gold.ToString();
-    }
-
-    private void ShowDebugResult(int gold)
-    {
-        Debug.Log($"GOLD added : {gold}");
     }
 
 }
