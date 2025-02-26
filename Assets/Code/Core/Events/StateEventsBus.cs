@@ -1,0 +1,21 @@
+﻿using System;
+
+namespace GameCoreModule
+{
+    public class StateEventsBus
+    {
+        private Action _onDialogueStateActivate;
+        private Action _onOrdersStateActivate;
+        private Action _onShopStateActivate;
+        private Action _onMaterialsStateActivate;
+        private Action _onForgingStateActivate;
+        private Action _onResultsStateActivate;
+
+        public Action OnDialogueStateActivate { get => _onDialogueStateActivate; set => _onDialogueStateActivate = value; }
+        public Action OnOrdersStateActivate { get => _onOrdersStateActivate; set => _onOrdersStateActivate = value; }
+        public Action OnShopStateActivate { get => _onShopStateActivate; set => _onShopStateActivate = value; }
+        public Action OnMaterialsStateActivate { get => _onMaterialsStateActivate; set => _onMaterialsStateActivate = value; }
+        public Action OnForgingStateActivate { get => _onForgingStateActivate; set => _onForgingStateActivate = value; }
+        public Action OnResultsStateActivate { get => _onResultsStateActivate; set => _onResultsStateActivate = value; }
+    }
+}
