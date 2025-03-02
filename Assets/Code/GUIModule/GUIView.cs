@@ -1,5 +1,3 @@
-using Progression;
-using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

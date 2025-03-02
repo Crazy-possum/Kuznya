@@ -8,6 +8,8 @@ namespace Orders
     [Serializable]
     public class ActiveOrder
     {
+        private string _clientName;
+        private Sprite _clientIcon;
         private string _name;
         private OrderText _description;
         private Sprite _orderIcon;
@@ -16,6 +18,8 @@ namespace Orders
         private Timer _orderTimer;
         private bool _isCompleted;
 
+        public string ClientName { get => _clientName; }
+        public Sprite ClientIcon { get => _clientIcon; }
         public string Name { get => _name; }
         public OrderText Description { get => _description; }
         public Sprite OrderIcon { get => _orderIcon; }
@@ -37,8 +41,10 @@ namespace Orders
             _isCompleted = isCompleted;
         }
 
-        public ActiveOrder(OrderConfig orderConfig, int DecriptionID)
+        public ActiveOrder(ClientConfig client, OrderConfig orderConfig, int DecriptionID)
         {
+            _clientName = client.Name;
+            _clientIcon = client.ClientSprite;
             _name = orderConfig.Name;
             _description = orderConfig.Descriptions[DecriptionID];
             _orderIcon = orderConfig.OrderIcon;

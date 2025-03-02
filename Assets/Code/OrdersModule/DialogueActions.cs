@@ -124,7 +124,7 @@ namespace Orders
             _dialogueView.ClientImage.sprite = client.ClientSprite;
             _dialogueView.TitleText.text = client.Name;
 
-            SetCurrentOrder(client.Orders);
+            SetCurrentOrder(client);
             CheckOrdersCount();
         }
 
@@ -142,12 +142,13 @@ namespace Orders
             }
         }
 
-        private void SetCurrentOrder(OrdersPoolConfig orders)
+        private void SetCurrentOrder(ClientConfig client)
         {
+            OrdersPoolConfig orders = client.Orders;
             int orderIndex = _random.Next(0, orders.GetOrdersPoolCount());
             OrderConfig orderConfig = orders.GetConfig(orderIndex);
             int descriptionID = _random.Next(0, orderConfig.Descriptions.Count);
-            _currentActiveOrder = new ActiveOrder(orderConfig, descriptionID);
+            _currentActiveOrder = new ActiveOrder(client, orderConfig, descriptionID);
             ShowDefaultText();
         }
 
