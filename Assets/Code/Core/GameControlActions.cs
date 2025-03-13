@@ -1,5 +1,4 @@
 ﻿using MAEngine;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -27,6 +26,7 @@ namespace GameCoreModule
             _stateEventsBus.OnMaterialsStateActivate += ShowMaterialsScreen;
             _stateEventsBus.OnForgingStateActivate += ShowForgingScreen;
             _stateEventsBus.OnResultsStateActivate += ShowResultsScreen;
+            _stateEventsBus.OnTradeStateActivate += ShowTradeScreen;
             InitializeScreensList();
         }
 
@@ -38,6 +38,7 @@ namespace GameCoreModule
             _stateEventsBus.OnMaterialsStateActivate -= ShowMaterialsScreen;
             _stateEventsBus.OnForgingStateActivate -= ShowForgingScreen;
             _stateEventsBus.OnResultsStateActivate -= ShowResultsScreen;
+            _stateEventsBus.OnTradeStateActivate -= ShowTradeScreen;
         }
 
         private void InitializeScreensList()
@@ -49,7 +50,8 @@ namespace GameCoreModule
                 _canvasList.ShopCanvas,
                 _canvasList.MaterialsCanvas,
                 _canvasList.ForgingCanvas,
-                _canvasList.ResultsCanvas
+                _canvasList.ResultsCanvas,
+                _canvasList.TradeCanvas
             };
 
         }
@@ -82,6 +84,12 @@ namespace GameCoreModule
         private void ShowResultsScreen()
         {
             ShowCurrentScreen(_canvasList.ResultsCanvas);
+        }
+        
+        
+        private void ShowTradeScreen()
+        {
+            ShowCurrentScreen(_canvasList.TradeCanvas);
         }
 
         private void ShowCurrentScreen(GameObject targetScreenObject)

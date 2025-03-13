@@ -1561,6 +1561,8 @@ MonoBehaviour:
   _orderMaterial1View: {fileID: 1405148055450148127}
   _orderMaterial2View: {fileID: 0}
   _orderMaterial3View: {fileID: 0}
+  _inProcessSprite: {fileID: 21300000, guid: 018f9950e7f5a064a8a1e16880b574ca, type: 3}
+  _comletedSprite: {fileID: 21300000, guid: 95d5ea98e5b850a42afe197fbaf7558e, type: 3}
 --- !u!1 &6586466575186013265
 GameObject:
   m_ObjectHideFlags: 0

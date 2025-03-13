@@ -15,20 +15,23 @@ namespace Orders
         private ProgressionData _progressionData;
         private OrdersView _ordersView;
         private OrdersEventBus _ordersEventBus;
+        private ResultsEventBus _resultsEventBus;
 
         private OrdersMetaData _ordersMetaData;
         private List<OrderPanelView> _emptyOrderPanels;
         private Dictionary<OrderPanelView, ActiveOrder> _activeOrders;
         private Dictionary<OrderPanelView, Timer> _ordersToRemove;
+        private OrderPanelView _currentActiveOrder;
 
         [Inject]
-        public void Construct(ClientsPoolConfig clientsPoolConfig,
-            ProgressionData progressionData,
-            OrdersView ordersView, OrdersEventBus ordersEventBus)
+        public void Construct(ProgressionData progressionData,
+            OrdersView ordersView, OrdersEventBus ordersEventBus,
+            ResultsEventBus resultsEventBus)
         {
             _progressionData = progressionData;
             _ordersView = ordersView;
             _ordersEventBus = ordersEventBus;
+            _resultsEventBus = resultsEventBus;
         }
 
 
@@ -40,6 +43,7 @@ namespace Orders
             _activeOrders = new Dictionary<OrderPanelView, ActiveOrder>();
             InitializeOrderPanels();
             AddInitialOrders();
+            _resultsEventBus.OnResultsFinished += ActiveOrderFinished;
         }
 
         private void AddInitialOrders()
@@ -58,6 +62,7 @@ namespace Orders
             _ordersEventBus.OnOrderAdded -= AddOrder;
             _ordersView.ConfirmButton.onClick.RemoveAllListeners();
             _ordersView.DenyButton.onClick.RemoveAllListeners();
+            _resultsEventBus.OnResultsFinished -= ActiveOrderFinished;
             CleanOrderPanels();
         }
 
@@ -129,8 +134,9 @@ namespace Orders
         private void InitializeOrderPanel(OrderPanelView orderPanelView)
         {
             orderPanelView.OrderButton.onClick.AddListener(
-                () => ShowConfirmPanel(orderPanelView));
+                () => ConfirmOrSubmitOrder(orderPanelView));
             _emptyOrderPanels.Add(orderPanelView);
+            orderPanelView.SetOrderPanelState(false);
         }
 
         private void CleanOrderPanels()
@@ -149,7 +155,7 @@ namespace Orders
         private void CleanOrderPanel(OrderPanelView orderPanelView)
         {
             orderPanelView.OrderButton.onClick.RemoveListener(
-                () => ShowConfirmPanel(orderPanelView));
+                () => ConfirmOrSubmitOrder(orderPanelView));
         }
 
         private void AddOrder()
@@ -175,7 +181,7 @@ namespace Orders
             }
             _activeOrders.Add(orderPanelView, activeOrder);
             SetupOrderView(orderPanelView, activeOrder);
-            orderPanelView.ActiveOrderPanel.SetActive(true);
+            orderPanelView.SetOrderPanelState(true);
         }
 
         private void RemoveOrder(OrderPanelView orderPanelView, float time)
@@ -185,7 +191,7 @@ namespace Orders
 
         private void RemoveOrder(OrderPanelView orderPanelView)
         {
-            orderPanelView.ActiveOrderPanel.SetActive(false);
+            orderPanelView.SetOrderPanelState(false);
             ActiveOrder activeOrder = _activeOrders[orderPanelView];
             _ordersMetaData.ActiveOrders.Remove(activeOrder);
             _activeOrders.Remove(orderPanelView);
@@ -204,6 +210,7 @@ namespace Orders
             orderPanelView.OrderMaterial1View.MaterialCount.text =
                 $"{activeOrder.Materials[0].Count} шт.";
             orderPanelView.OrderTimeSlider.value = 1f;
+            orderPanelView.ActiveOrder = activeOrder;
         }
 
         private void UpdateOrderSlider(OrderPanelView orderPanelView, ActiveOrder activeOrder)
@@ -211,6 +218,18 @@ namespace Orders
             orderPanelView.OrderTimeSlider.value =
                 activeOrder.OrderTimer.GetRemainingTime() /
                 activeOrder.OrderTime;
+        }
+
+        private void ConfirmOrSubmitOrder(OrderPanelView orderPanelView)
+        {
+            if (orderPanelView.ActiveOrder.IsCompleted)
+            {
+                SubmitOrder(orderPanelView);
+            }
+            else
+            {
+                ShowConfirmPanel(orderPanelView);
+            }
         }
 
         private void ShowConfirmPanel(OrderPanelView orderPanelView)
@@ -232,13 +251,33 @@ namespace Orders
         private void AcceptOrder(OrderPanelView orderPanelView)
         {
             _ordersEventBus.OnOrderStarted?.Invoke(_activeOrders[orderPanelView]);
-            RemoveOrder(orderPanelView);
+            _currentActiveOrder = orderPanelView;
             HideConfirmPanel();
         }
 
         private void DenyOrder()
         {
             HideConfirmPanel();
+        }
+        
+        private void SubmitOrder(OrderPanelView orderPanelView)
+        {
+            _ordersEventBus.OnOrderFinished?.Invoke(orderPanelView.ActiveOrder);
+            RemoveOrder(orderPanelView);
+        }
+        
+        
+        private void ActiveOrderFinished(int score)
+        {
+            if (_currentActiveOrder != null)
+            {
+                if (score != 0)
+                {
+                    _currentActiveOrder.ActiveOrder.Reward = score;
+                    _currentActiveOrder.SetCompletionState(true);
+                }
+                _currentActiveOrder = null;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Orders;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,10 @@ public class OrderPanelView : MonoBehaviour
     [SerializeField] private OrderMaterialView _orderMaterial2View;
     [SerializeField] private OrderMaterialView _orderMaterial3View;
 
+    [SerializeField] private Sprite _inProcessSprite;
+    [SerializeField] private Sprite _comletedSprite;
+    private ActiveOrder _activeOrder;
+
     public GameObject ActiveOrderPanel { get => _activeOrderPanel; }
     public Button OrderButton { get => _orderButton; }
     public Slider OrderTimeSlider { get => _orderTimeSlider; }
@@ -26,4 +31,29 @@ public class OrderPanelView : MonoBehaviour
     public OrderMaterialView OrderMaterial1View { get => _orderMaterial1View; }
     public OrderMaterialView OrderMaterial2View { get => _orderMaterial2View; }
     public OrderMaterialView OrderMaterial3View { get => _orderMaterial3View; }
+    public ActiveOrder ActiveOrder { get => _activeOrder; set => _activeOrder = value; }
+    
+    public void SetOrderPanelState(bool isActive)
+    {
+        _activeOrderPanel.SetActive(isActive);
+
+        SetCompletionState(false);
+    }
+
+    public void SetCompletionState(bool isCompleted)
+    {
+        if (_activeOrder != null)
+        {
+            _activeOrder.IsCompleted = isCompleted;
+        }
+        
+        if (isCompleted)
+        {
+            _completedIndicator.sprite = _comletedSprite;
+        }
+        else
+        {
+            _completedIndicator.sprite = _inProcessSprite;
+        }
+    }
 }

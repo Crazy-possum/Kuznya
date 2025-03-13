@@ -10,6 +10,7 @@ namespace GameCoreModule
         [SerializeField] private GameObject _materialsCanvas;
         [SerializeField] private GameObject _forgingCanvas;
         [SerializeField] private GameObject _resultsCanvas;
+        [SerializeField] private GameObject _tradeCanvas;
 
         public GameObject DialogueCanvas { get => _dialogueCanvas; }
         public GameObject OrdersCanvas { get => _ordersCanvas; }
@@ -17,6 +18,7 @@ namespace GameCoreModule
         public GameObject MaterialsCanvas { get => _materialsCanvas; }
         public GameObject ForgingCanvas { get => _forgingCanvas; }
         public GameObject ResultsCanvas { get => _resultsCanvas; }
+        public GameObject TradeCanvas { get => _tradeCanvas; }
 
     }
 }

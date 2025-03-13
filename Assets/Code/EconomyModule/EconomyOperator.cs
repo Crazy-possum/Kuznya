@@ -1,5 +1,6 @@
 using GameCoreModule;
 using MAEngine;
+using Orders;
 using Progression;
 using UnityEngine;
 using Zenject;
@@ -8,30 +9,40 @@ namespace Economy
 {
     public class EconomyOperator : IAction, IInitialisation, ICleanUp
     {
-        private ResultsEventBus _resultsEventBus;
         private EconomyEventBus _economyEventBus;
         private ProgressionData _progressionData;
+        private OrdersEventBus _ordersEventBus;
+        private StateEventsBus _stateEventsBus;
         private ShopView _shopView;
         
         private PlayerMetaData _playerMetaData;
         
         [Inject]
-        public void Construct(ResultsEventBus resultsEventBus, EconomyEventBus economyEventBus,
-            ProgressionData progressionData, ShopView shopView)
+        public void Construct(EconomyEventBus economyEventBus,
+            OrdersEventBus ordersEventBus, ProgressionData progressionData,
+            StateEventsBus stateEventsBus, ShopView shopView)
         {
-            _resultsEventBus = resultsEventBus;
             _economyEventBus = economyEventBus;
+            _ordersEventBus = ordersEventBus;
             _progressionData = progressionData;
+            _stateEventsBus = stateEventsBus;
             _shopView = shopView;
         }
         
         public void Initialisation()
         {
             _playerMetaData = _progressionData.PlayerMetaData;
-            _resultsEventBus.OnResultsFinished += AddMoney;
+            _ordersEventBus.OnOrderFinished += StartTrade;
+            _economyEventBus.OnAddMoney += AddMoney;
             _economyEventBus.OnUpgradeBought += RemoveMoney;
             _economyEventBus.OnMoneyUpdated += UpdateButtonsState;
             _economyEventBus.OnMoneyUpdated?.Invoke(_playerMetaData.CurrentMoney);
+        }
+
+        private void StartTrade(ActiveOrder order)
+        {
+            _economyEventBus.OnOrderSubmited?.Invoke(order);
+            _stateEventsBus.OnTradeStateActivate?.Invoke();
         }
 
         private void UpdateButtonsState(int currentMoney)
@@ -51,8 +62,10 @@ namespace Economy
 
         public void Cleanup()
         {
-            _resultsEventBus.OnResultsFinished -= AddMoney;
+            _ordersEventBus.OnOrderFinished -= StartTrade;
+            _economyEventBus.OnAddMoney -= AddMoney;
             _economyEventBus.OnUpgradeBought -= RemoveMoney;
+            _economyEventBus.OnMoneyUpdated -= UpdateButtonsState;
         }
         
         private void AddMoney(int money)

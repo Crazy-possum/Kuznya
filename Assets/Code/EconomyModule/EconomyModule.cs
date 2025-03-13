@@ -9,8 +9,9 @@ namespace Economy
             InitializeFields();
             InitializeShopUIActions();
             InitializeEconomyOperator();
+            InitializeTradeController();
         }
-        
+
         private void InitializeFields()
         {
             _actions = new Actions();
@@ -28,6 +29,13 @@ namespace Economy
             EconomyOperator economyOperator =
                 _di.Resolve<EconomyOperator>();
             _actions.Add(economyOperator);
+        }
+        
+        private void InitializeTradeController()
+        {
+            TradeController tradeController =
+                _di.Resolve<TradeController>();
+            _actions.Add(tradeController);
         }
     }
 }

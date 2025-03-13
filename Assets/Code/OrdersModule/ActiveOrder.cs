@@ -17,6 +17,7 @@ namespace Orders
         private float _orderTime;
         private Timer _orderTimer;
         private bool _isCompleted;
+        private int _reward;
 
         public string ClientName { get => _clientName; }
         public Sprite ClientIcon { get => _clientIcon; }
@@ -27,6 +28,7 @@ namespace Orders
         public float OrderTime { get => _orderTime; }
         public Timer OrderTimer { get => _orderTimer; set => _orderTimer = value; }
         public bool IsCompleted { get => _isCompleted; set => _isCompleted = value; }
+        public int Reward { get => _reward; set => _reward = value; }
         
 
         public ActiveOrder(string name, OrderText description,
