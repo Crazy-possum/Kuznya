@@ -10,10 +10,10 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private const float FIRST_STEP = 0.3f;
     private const float SECOND_STEP = 0.6f;
     private const float LIFETIME = 0.8f;
-    private const int GOOD_SCORE = 20;
-    private const int BAD_SCORE = 10;
-    private const float SCORE_MULTIPLER = 1.5f;
-    private const float GOOD_PROGRESS = 0.05f;
+    private const int GOOD_SCORE = 2;
+    private const int BAD_SCORE = 1;
+    private const float SCORE_MULTIPLER = 1f;
+    private const float GOOD_PROGRESS = 0.02f;
     private const float BAD_PROGRESS = 0.02f;
     private const float PROGRESS_MULTIPLER = 1;
     
@@ -27,6 +27,7 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private int _currentZoneIndex;
     private float _currentProgress;
     private int _currentScore;
+    private int _currentBasicCost;
 
     private WorkZoneUIView _currentView;
     private int _currentAddingScore;
@@ -73,6 +74,7 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     
     private void StartOrder(ActiveOrder order)
     {
+        _currentBasicCost = order.BasicCost;
         _stateEventsBus.OnForgingStateActivate?.Invoke();
     }
     
@@ -109,15 +111,15 @@ public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         int score = 0;
         if (_currentZoneIndex == zoneIndex)
         {
-            _currentScore += (int)(GOOD_SCORE * SCORE_MULTIPLER);
+            score = (int)(GOOD_SCORE * SCORE_MULTIPLER * _currentBasicCost);
+            _currentScore += score;
             _currentProgress += GOOD_PROGRESS * PROGRESS_MULTIPLER;
-            score = (int)(GOOD_SCORE * SCORE_MULTIPLER);
         }
         else
         {
-            _currentScore += (int)(BAD_SCORE * SCORE_MULTIPLER);
+            score = (int)(BAD_SCORE * SCORE_MULTIPLER * _currentBasicCost);
+            _currentScore += score;
             _currentProgress += BAD_PROGRESS * PROGRESS_MULTIPLER;
-            score = (int)(BAD_SCORE * SCORE_MULTIPLER);
         }
         if (_currentProgress >= 1)
         {

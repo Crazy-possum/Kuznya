@@ -31,3 +31,4 @@ MonoBehaviour:
   - _config: {fileID: 11400000, guid: 63c3e0ffa57721f40a478ab7de26b140, type: 2}
     _count: 4
   _orderTime: 100
+  _basicCost: 10
