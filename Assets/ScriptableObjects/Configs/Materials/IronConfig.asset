@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d70df436d3212d14e8f992a8fbc1d4fd, type: 3}
   m_Name: IronConfig
   m_EditorClassIdentifier: 
-  _materialName: 3
+  _materialName: 4
   _name: "\u0416\u0435\u043B\u0435\u0437\u043E"
   _sprite: {fileID: 0}

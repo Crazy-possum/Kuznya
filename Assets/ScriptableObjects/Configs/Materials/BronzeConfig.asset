@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d70df436d3212d14e8f992a8fbc1d4fd, type: 3}
   m_Name: BronzeConfig
   m_EditorClassIdentifier: 
-  _materialName: 2
+  _materialName: 3
   _name: "\u0411\u0440\u043E\u043D\u0437\u0430"
   _sprite: {fileID: 0}
