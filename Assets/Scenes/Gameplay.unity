@@ -1360,6 +1360,10 @@ PrefabInstance:
       propertyPath: _tradeView
       value: 
       objectReference: {fileID: 5496050183197574243}
+    - target: {fileID: 742425828992373063, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
+      propertyPath: _materialsUIView
+      value: 
+      objectReference: {fileID: 6943403724229885433}
     - target: {fileID: 1125963181286853862, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
       propertyPath: _ordersView
       value: 
@@ -1800,6 +1804,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 646383073893754326, guid: 5e6286319ff124142b5c1e245a089ae3, type: 3}
   m_PrefabInstance: {fileID: 6943403724229885427}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6943403724229885433 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8471801058791935678, guid: 5e6286319ff124142b5c1e245a089ae3, type: 3}
+  m_PrefabInstance: {fileID: 6943403724229885427}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6943403724229885428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecc8b5abd19b46dd8439981f1d6e6ab5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7064119000731112249 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5537913398008232222, guid: d5c43d003a4b92b4eaa9fdec7ad5024d, type: 3}

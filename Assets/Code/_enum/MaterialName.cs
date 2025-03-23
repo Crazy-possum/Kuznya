@@ -1,7 +1,10 @@
 ﻿public enum MaterialName
 {
     NONE = 0,
-    Copper = 1,
-    Bronze = 2,
-    Iron = 3
+    Tin = 1,
+    Copper = 2,
+    Bronze = 3,
+    Iron = 4,
+    Steel = 5,
+    Silver = 6
 }

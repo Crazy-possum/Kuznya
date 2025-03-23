@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5859992256931775106}
   - component: {fileID: 8646462525722897676}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: ConfirmText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -337,6 +337,7 @@ MonoBehaviour:
   _order7PanelView: {fileID: 2331458786872935580}
   _order8PanelView: {fileID: 2755055179532075152}
   _confirmPanel: {fileID: 2711279673009590375}
+  _confirmPanelText: {fileID: 8646462525722897676}
   _confirmButton: {fileID: 2588919622983029099}
   _denyButton: {fileID: 3957166307851021894}
 --- !u!1 &2074482293634642200

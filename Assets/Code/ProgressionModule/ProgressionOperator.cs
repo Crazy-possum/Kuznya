@@ -1,6 +1,5 @@
 ﻿using GameCoreModule;
 using MAEngine;
-using UnityEngine;
 using Zenject;
 
 namespace Progression
@@ -10,10 +9,9 @@ namespace Progression
         private ProgressionData _data;
         private ProgressionContainer _container;
         private ProgressionEvents _progressionEvents;
-
         [Inject]
         public void Construct(ProgressionData data, ProgressionContainer container,
-            ProgressionEvents progressionEvents)
+            ProgressionEvents progressionEvents, StorageMaterialsConfig storageMaterialsConfig)
         {
             _data = data;
             _container = container;
@@ -36,11 +34,23 @@ namespace Progression
         private void UpdateProgressData(ProgressionData data)
         {
             _data = data;
+            SaveData();
         }
 
         private void LoadData()
         {
             _data.PlayerMetaData = _container.PlayerMetaData;
+            if (_data.PlayerMetaData == null)
+            {
+                PlayerMetaData playerMetaData = new PlayerMetaData();
+                playerMetaData.Initialize();
+                _data.PlayerMetaData = playerMetaData;
+            }
+            else
+            {
+                _data.PlayerMetaData.Initialize();
+            }
+
             _data.OrdersMeta = _container.OrdersMeta;
             if (_data.OrdersMeta == null)
             {
@@ -49,6 +59,11 @@ namespace Progression
                 _data.OrdersMeta = ordersMetaData;
             }
             //_progressionEvents.OnProgressionDataLoaded?.Invoke(_data);
+        }
+
+        private void SaveData()
+        {
+            
         }
     }
 }

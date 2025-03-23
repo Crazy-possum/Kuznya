@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a54fccc34d471dbf498f7c974eb725, type: 3}
+  m_Name: StorageMaterialsConfig
+  m_EditorClassIdentifier: 
+  _storableMaterials:
+  - {fileID: 11400000, guid: 2faa91d9852111548b3cf6b5c31dd6d5, type: 2}
+  - {fileID: 11400000, guid: 63c3e0ffa57721f40a478ab7de26b140, type: 2}
+  - {fileID: 11400000, guid: 4acee6433904afa4bb5da0c254b0ab5b, type: 2}
+  - {fileID: 11400000, guid: 229a2a07e509ae64e8d59af4d7fe8533, type: 2}
+  - {fileID: 11400000, guid: d70278e8084308542a0e6a41fcb0a034, type: 2}
+  - {fileID: 11400000, guid: 9286652237eab11438397e677d3e3fa0, type: 2}
+  _storageCapacity: 0a0000003200000064000000
+  _materialAddingDeltaTime: 010000000400000003000000

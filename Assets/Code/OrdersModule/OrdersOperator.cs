@@ -16,8 +16,10 @@ namespace Orders
         private OrdersView _ordersView;
         private OrdersEventBus _ordersEventBus;
         private ResultsEventBus _resultsEventBus;
+        private EconomyEventBus _economyEventBus;
 
         private OrdersMetaData _ordersMetaData;
+        private PlayerMetaData _playerMetaData;
         private List<OrderPanelView> _emptyOrderPanels;
         private Dictionary<OrderPanelView, ActiveOrder> _activeOrders;
         private Dictionary<OrderPanelView, Timer> _ordersToRemove;
@@ -26,24 +28,27 @@ namespace Orders
         [Inject]
         public void Construct(ProgressionData progressionData,
             OrdersView ordersView, OrdersEventBus ordersEventBus,
-            ResultsEventBus resultsEventBus)
+            ResultsEventBus resultsEventBus, EconomyEventBus economyEventBus)
         {
             _progressionData = progressionData;
             _ordersView = ordersView;
             _ordersEventBus = ordersEventBus;
             _resultsEventBus = resultsEventBus;
+            _economyEventBus = economyEventBus;
         }
 
 
         public void Initialisation()
         {
             _ordersMetaData = _progressionData.OrdersMeta;
+            _playerMetaData = _progressionData.PlayerMetaData;
             _ordersEventBus.OnOrderAdded += AddOrder;
             _ordersToRemove = new Dictionary<OrderPanelView, Timer>();
             _activeOrders = new Dictionary<OrderPanelView, ActiveOrder>();
             InitializeOrderPanels();
             AddInitialOrders();
             _resultsEventBus.OnResultsFinished += ActiveOrderFinished;
+
         }
 
         private void AddInitialOrders()
@@ -231,9 +236,43 @@ namespace Orders
                 ShowConfirmPanel(orderPanelView);
             }
         }
+        
+        private bool SetConfirmButtonState(OrderPanelView orderPanelView)
+        {
+            bool haveEnoughtMaterials = true;
+            foreach (ForgingMaterial material in orderPanelView.ActiveOrder.Materials)
+            {
+                if (_playerMetaData.Materials.ContainsKey(material.Config.MaterialName))
+                {
+                    if (_playerMetaData.Materials[material.Config.MaterialName] <= material.Count)
+                    {
+                        haveEnoughtMaterials = false;
+                    }
+                }
+            }
+
+            if (haveEnoughtMaterials)
+            {
+                _ordersView.ConfirmButton.interactable = true;
+            }
+            else
+            {
+                _ordersView.ConfirmButton.interactable = false;
+            }
+            
+            return haveEnoughtMaterials;
+        }
 
         private void ShowConfirmPanel(OrderPanelView orderPanelView)
         {
+            if (SetConfirmButtonState(orderPanelView))
+            {
+                _ordersView.ConfirmPanelText.text = "Начать ковку?";
+            }
+            else
+            {
+                _ordersView.ConfirmPanelText.text = "Недостаточно материала";
+            }
             _ordersView.ConfirmPanel.SetActive(true);
             _ordersView.ConfirmButton.onClick.AddListener(
                 () => AcceptOrder(orderPanelView));
@@ -252,6 +291,10 @@ namespace Orders
         {
             _ordersEventBus.OnOrderStarted?.Invoke(_activeOrders[orderPanelView]);
             _currentActiveOrder = orderPanelView;
+            foreach (ForgingMaterial material in _currentActiveOrder.ActiveOrder.Materials)
+            {
+                _economyEventBus.OnMaterialRemoved?.Invoke(material.Config.MaterialName, material.Count);
+            }
             HideConfirmPanel();
         }
 

@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90902e6052a23274a98e0ea51a37aa85, type: 3}
-  m_Name: ProgressionContainer
+  m_Script: {fileID: 11500000, guid: d70df436d3212d14e8f992a8fbc1d4fd, type: 3}
+  m_Name: SilverConfig
   m_EditorClassIdentifier: 
-  _playerMetaData:
-    _currentMaximumMaterial: 2
-    _currentMoney: 100
-    _currentMaxMaterialStorage: 100
-    _materialAddingDeltaTime: 2
+  _materialName: 6
+  _name: "\u0421\u0435\u0440\u0435\u0431\u0440\u043E"
+  _sprite: {fileID: 0}

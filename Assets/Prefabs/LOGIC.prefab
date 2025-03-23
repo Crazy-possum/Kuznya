@@ -65,6 +65,7 @@ MonoBehaviour:
   _materialsCanvas: {fileID: 0}
   _forgingCanvas: {fileID: 0}
   _resultsCanvas: {fileID: 0}
+  _tradeCanvas: {fileID: 0}
 --- !u!1 &1918668716813362419
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,4 +530,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shopView: {fileID: 0}
+  _tradeView: {fileID: 0}
   _upgradesPool: {fileID: 11400000, guid: bf63f51ddfe2cab4e81b4dc5bbd6e353, type: 2}
+  _storageMaterialsConfig: {fileID: 11400000, guid: d8c141c8ce94ccb47b847b993fc74bcf, type: 2}
