@@ -10,8 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e577a03c648cca54d90abb3015000bfb, type: 3}
-  m_Name: OrdersPool1Config
+  m_Name: Craftman_OrdersPoolConfig
   m_EditorClassIdentifier: 
-  _orders:
-  - {fileID: 11400000, guid: d9be3288a58ea7e4e94c1de6543ca528, type: 2}
-  - {fileID: 11400000, guid: 96a9a3009b89185458cd87fa9306db0c, type: 2}
+  _orders: []
