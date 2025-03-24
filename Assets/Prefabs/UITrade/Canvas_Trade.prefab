@@ -545,7 +545,7 @@ GameObject:
   - component: {fileID: 6025039923546051610}
   - component: {fileID: 8452438226008102804}
   m_Layer: 5
-  m_Name: TitleText
+  m_Name: ClientNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2022,6 +2022,7 @@ MonoBehaviour:
   _multipler: {fileID: 2691598489978793169}
   _rewardText: {fileID: 1540660008634076194}
   _clientImage: {fileID: 1355324690914685124}
+  _clientName: {fileID: 8452438226008102804}
 --- !u!1 &7601707328564682113
 GameObject:
   m_ObjectHideFlags: 0

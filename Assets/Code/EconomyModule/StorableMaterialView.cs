@@ -9,6 +9,7 @@ namespace Economy
         [SerializeField] private TMP_Text _countText;
         [SerializeField] private Image _materialImage;
         [SerializeField] private Button _materialButton;
+        [SerializeField] private GameObject _highlightObject;
         
         public TMP_Text CountText { get => _countText; }
         public Image MaterialImage { get => _materialImage; }
@@ -20,6 +21,11 @@ namespace Economy
         {
             string materialCountText = $"{materialCount} шт.";
             _countText.text = materialCountText;
+        }
+
+        public void SetHighlight(bool isHighlighted)
+        {
+            _highlightObject.gameObject.SetActive(isHighlighted);
         }
     }
 }

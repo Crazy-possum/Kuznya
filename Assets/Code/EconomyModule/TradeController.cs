@@ -49,6 +49,8 @@ namespace Economy
         
         public void FixedExecute(float fixedDeltaTime)
         {
+            //TODO:
+            // Fix this mechanic
             if (_isTrading)
             {
                 if (_currentTradeValue >= 55 && _currentTradeValue <= 60)
@@ -58,17 +60,17 @@ namespace Economy
                 }
                 else if (_currentTradeValue >= 61 && _currentTradeValue <= 70)
                 {
-                    _currentMultipler += 0.02f;
+                    _currentMultipler -= 0.02f;
                     _tradeStateId = 1;
                 }
                 else if(_currentTradeValue <= 54 && _currentTradeValue >= 45)
                 {
-                    _currentMultipler += 0.02f;
+                    _currentMultipler -= 0.02f;
                     _tradeStateId = 1;
                 }
                 else
                 {
-                    _currentMultipler -= 0.02f;
+                    _currentMultipler -= 0.04f;
                     _tradeStateId = 0;
                 }
 
@@ -94,7 +96,10 @@ namespace Economy
         
         private void AddTradingScore()
         {
-            _currentTradeValue += 5;
+            if (_currentTradeValue <= _tradeView.TradeSlider.maxValue)
+            {
+                _currentTradeValue += 5;
+            }
         }
         
         private void SubmitOrder()
@@ -118,6 +123,7 @@ namespace Economy
             SetTradedState(false);
             _currentMultipler = 1;
             _tradeView.ClientImage.sprite = order.ClientIcon;
+            _tradeView.ClientName.text = order.ClientName;
             UpdateUI();
         }
 

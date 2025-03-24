@@ -102,7 +102,8 @@ namespace Economy
             foreach (MaterialConfig materialConfig in _storageConfig.StorableMaterials)
             {
                 int materialCount = _playerMetaData.Materials[materialConfig.MaterialName];
-                _materialsUIView.UpdateMaterialCount(materialConfig.MaterialName, materialCount);
+                _materialsUIView.UpdateMaterialInfo(materialConfig.MaterialName, materialCount,
+                    _currentlyCollectabeMaterial.MaterialName);
             }
         }
 
