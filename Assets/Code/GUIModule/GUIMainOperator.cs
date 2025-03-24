@@ -1,6 +1,7 @@
 using GameCoreModule;
 using MAEngine;
 using Progression;
+using UnityEngine;
 using Zenject;
 
 namespace MainGUI
@@ -23,6 +24,7 @@ namespace MainGUI
         
         public void Initialisation()
         {
+            Screen.SetResolution(1920, 1080, true);
             _playerMetaData = _progressionData.PlayerMetaData;
             _economyEventBus.OnMoneyUpdated += UpdateMoneyUI;
             _economyEventBus.OnTryBuyUpgrade += TryBuyUpgrade;

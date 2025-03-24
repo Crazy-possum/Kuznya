@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerMetaData:
     _currentMaximumMaterial: 1
-    _currentMoney: 5388
+    _currentMoney: 19728
     _currentMaxMaterialStorage: 100
     _materialAddingDeltaTime: 2

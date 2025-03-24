@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using GameCoreModule;
 using MAEngine;
 using MAEngine.Extention;
-using UnityEditor.UI;
 using UnityEngine;
 
 namespace Economy
