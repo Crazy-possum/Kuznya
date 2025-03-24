@@ -23,6 +23,7 @@ namespace Orders
         private GameConfig _gameConfig;
 
         private OrdersMetaData _ordersMetaData;
+        private PlayerMetaData _playerMetaData;
         private ActiveOrder _currentActiveOrder;
         private System.Random _random;
         private List<GameObject> _clientIconObjects;
@@ -46,6 +47,7 @@ namespace Orders
         public void Initialisation()
         {
             _ordersMetaData = _progressionData.OrdersMeta;
+            _playerMetaData = _progressionData.PlayerMetaData;
             _random = new System.Random();
             _clientIconObjects = new List<GameObject>();
             _generationLength = 20;
@@ -145,8 +147,16 @@ namespace Orders
         private void SetCurrentOrder(ClientConfig client)
         {
             OrdersPoolConfig orders = client.Orders;
-            int orderIndex = _random.Next(0, orders.GetOrdersPoolCount());
-            OrderConfig orderConfig = orders.GetConfig(orderIndex);
+            List<OrderConfig> selectedOrders = new List<OrderConfig>();
+            foreach (OrderConfig selectedOrderConfig in orders.GetOrders())
+            {
+                if (selectedOrderConfig.Materials[0].Config.MaterialName <= _playerMetaData.CurrentMaximumMaterial)
+                {
+                    selectedOrders.Add(selectedOrderConfig);
+                }
+            }
+            int orderIndex = _random.Next(0, selectedOrders.Count);
+            OrderConfig orderConfig = selectedOrders[orderIndex];
             int descriptionID = _random.Next(0, orderConfig.Descriptions.Count);
             _currentActiveOrder = new ActiveOrder(client, orderConfig, descriptionID);
             ShowDefaultText();

@@ -5,6 +5,11 @@ using UnityEngine;
 public class OrdersPoolConfig : ScriptableObject
 {
     [SerializeField] private List<OrderConfig> _orders;
+    
+    public List<OrderConfig> GetOrders()
+    {
+        return _orders;
+    }
 
     public int GetOrdersPoolCount()
     {

@@ -75,5 +75,10 @@ namespace Economy
                 storableMaterialView.UpdateMaterialCount(materialCount);
             }
         }
+
+        public void SetMaterialButtonUnlocked(MaterialName materialName, bool isUnlocked)
+        {
+            _storableMaterials[materialName].MaterialButton.interactable = isUnlocked;
+        }
     }
 }

@@ -18,7 +18,8 @@ namespace Economy
 
         public void UpdateMaterialCount(int materialCount)
         {
-            _countText.text = materialCount.ToString();
+            string materialCountText = $"{materialCount} шт.";
+            _countText.text = materialCountText;
         }
     }
 }
