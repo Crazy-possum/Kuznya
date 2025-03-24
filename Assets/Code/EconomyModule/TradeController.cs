@@ -117,6 +117,7 @@ namespace Economy
             _currentOrder = order;
             SetTradedState(false);
             _currentMultipler = 1;
+            _tradeView.ClientImage.sprite = order.ClientIcon;
             UpdateUI();
         }
 

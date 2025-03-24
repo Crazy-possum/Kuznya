@@ -15,6 +15,7 @@ namespace Economy
         [SerializeField] private TMP_Text _timer;
         [SerializeField] private TMP_Text _multipler;
         [SerializeField] private TMP_Text _rewardText;
+        [SerializeField] private Image _clientImage;
 
         public GameObject DialoguePanel => _dialoguePanel;
         public GameObject TradePanel => _tradePanel;
@@ -25,6 +26,7 @@ namespace Economy
         public TMP_Text Timer => _timer;
         public TMP_Text Multipler => _multipler;
         public TMP_Text RewardText => _rewardText;
+        public Image ClientImage => _clientImage;
         
         public void ShowTradePanel()
         {

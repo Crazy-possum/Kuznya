@@ -208,6 +208,7 @@ namespace Orders
         {
             orderPanelView.OrderName.text = activeOrder.Name;
             orderPanelView.OrderDesc.text = activeOrder.Description.Description;
+            orderPanelView.OrderIcon.sprite = activeOrder.OrderIcon;
             orderPanelView.OrderMaterial1View.MaterialName.text =
                 activeOrder.Materials[0].Config.Name;
             orderPanelView.OrderMaterial1View.MaterialImage.sprite =

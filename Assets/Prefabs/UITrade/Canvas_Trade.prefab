@@ -2021,6 +2021,7 @@ MonoBehaviour:
   _timer: {fileID: 7949753312294968423}
   _multipler: {fileID: 2691598489978793169}
   _rewardText: {fileID: 1540660008634076194}
+  _clientImage: {fileID: 1355324690914685124}
 --- !u!1 &7601707328564682113
 GameObject:
   m_ObjectHideFlags: 0
