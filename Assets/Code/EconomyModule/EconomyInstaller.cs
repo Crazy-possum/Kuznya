@@ -27,6 +27,7 @@ namespace Economy
             Container.Bind<EconomyOperator>().AsSingle();
             Container.Bind<TradeController>().AsSingle();
             Container.Bind<MaterialsOperator>().AsSingle();
+            Container.Bind<UpgradeOperator>().AsSingle();
         }
     }
 }

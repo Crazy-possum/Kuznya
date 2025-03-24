@@ -11,6 +11,7 @@ namespace Economy
             InitializeEconomyOperator();
             InitializeTradeController();
             InitializeMaterialsOperator();
+            InitializeUpgradeOperator();
         }
 
         private void InitializeFields()
@@ -44,6 +45,13 @@ namespace Economy
             MaterialsOperator materialsOperator =
                 _di.Resolve<MaterialsOperator>();
             _actions.Add(materialsOperator);
+        }
+        
+        private void InitializeUpgradeOperator()
+        {
+            UpgradeOperator upgradeOperator =
+                _di.Resolve<UpgradeOperator>();
+            _actions.Add(upgradeOperator);
         }
     }
 }

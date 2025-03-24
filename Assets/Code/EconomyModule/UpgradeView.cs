@@ -18,6 +18,7 @@ public class UpgradeView : MonoBehaviour
     public Button UpgradeButton => _upgradeButton;
     public TMP_Text CurrentValueText => _currentValueText;
     public UpgradeConfig UpgradeConfig => _upgradeConfig;
+    public int CurrentLevel => _currentLevel;
     public int CurrentValue => _currentValue;
 
     public void UpdateUI(UpgradeConfig upgradeConfig, int level)

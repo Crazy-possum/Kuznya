@@ -1,5 +1,6 @@
 ﻿using GameCoreModule;
 using MAEngine;
+using UnityEngine;
 using Zenject;
 
 namespace Progression
@@ -63,7 +64,7 @@ namespace Progression
 
         private void SaveData()
         {
-            
+            _container.SaveData(_data);
         }
     }
 }
