@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e577a03c648cca54d90abb3015000bfb, type: 3}
-  m_Name: OrdersPool1Config
+  m_Name: Poor_OrdersPoolConfig
   m_EditorClassIdentifier: 
   _orders:
-  - {fileID: 11400000, guid: d9be3288a58ea7e4e94c1de6543ca528, type: 2}
-  - {fileID: 11400000, guid: 96a9a3009b89185458cd87fa9306db0c, type: 2}
+  - {fileID: 11400000, guid: 2333d0a2d0b86e641b2627b6399c14ae, type: 2}
+  - {fileID: 11400000, guid: eb16a7e903b45724c9844e2bf4ac413a, type: 2}
+  - {fileID: 11400000, guid: 7e3be8ef138edcd4e90c9cb69c37eb78, type: 2}

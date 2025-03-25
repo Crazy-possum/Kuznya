@@ -56,7 +56,7 @@ namespace Economy
             {
                 if (_materialAddingTimer.Wait())
                 {
-                    AddMaterial(_currentlyCollectabeMaterial.MaterialName);
+                    AddMaterial(_currentlyCollectabeMaterial);
                 }
             }
             UpdateUI();
@@ -97,23 +97,35 @@ namespace Economy
 
         private void UpdateUI()
         {
+            SetUnlockedMaterials();
+            
             foreach (MaterialConfig materialConfig in _storageConfig.StorableMaterials)
             {
                 int materialCount = _playerMetaData.Materials[materialConfig.MaterialName];
-                _materialsUIView.UpdateMaterialCount(materialConfig.MaterialName, materialCount);
+                _materialsUIView.UpdateMaterialInfo(materialConfig.MaterialName, materialCount,
+                    _currentlyCollectabeMaterial.MaterialName);
             }
         }
-        
+
+        private void SetUnlockedMaterials()
+        {
+            foreach (MaterialConfig materialConfig in _storageConfig.StorableMaterials)
+            {
+                bool isUnlocked = materialConfig.MaterialName <= _playerMetaData.CurrentMaximumMaterial;
+                _materialsUIView.SetMaterialButtonUnlocked(materialConfig.MaterialName, isUnlocked);
+            }
+        }
+
         private void ChangeCollectableMaterial(MaterialConfig materialConfig)
         {
             _currentlyCollectabeMaterial = materialConfig;
         }
 
-        private void AddMaterial(MaterialName currentlyCollectabeMaterial)
+        private void AddMaterial(MaterialConfig currentlyCollectabeMaterial)
         {
-            if (_playerMetaData.Materials.ContainsKey(currentlyCollectabeMaterial))
+            if (_playerMetaData.Materials.ContainsKey(currentlyCollectabeMaterial.MaterialName))
             {
-                _playerMetaData.Materials[currentlyCollectabeMaterial]++;
+                _playerMetaData.Materials[currentlyCollectabeMaterial.MaterialName]++;
                 _gameEventBus.OnObjectSpawnedFromPool += InitializeTextObject;
                 _gameEventBus.OnSpawnObjectFromPool?.Invoke(PrefabID.UIAddingMaterialText, Vector3.zero);
             }
@@ -130,7 +142,8 @@ namespace Economy
             textObject.transform.SetParent(_materialsUIView.CountRoot);
             CountTextView textView = textObject.GetComponent<CountTextView>();
             textView.InitializeView(_materialsUIView);
-            textView.Text.text = 1.ToString();
+            string materialAddingText = $"+{1} {_currentlyCollectabeMaterial.Name}";
+            textView.Text.text = materialAddingText;
             _materialsUIView.AddTextToList(textView);
             _gameEventBus.OnObjectSpawnedFromPool -= InitializeTextObject;
         }

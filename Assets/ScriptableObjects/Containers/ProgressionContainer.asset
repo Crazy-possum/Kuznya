@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ProgressionContainer
   m_EditorClassIdentifier: 
   _playerMetaData:
-    _currentMaximumMaterial: 2
-    _currentMoney: 100
+    _currentMaximumMaterial: 1
+    _currentMoney: 19728
     _currentMaxMaterialStorage: 100
     _materialAddingDeltaTime: 2

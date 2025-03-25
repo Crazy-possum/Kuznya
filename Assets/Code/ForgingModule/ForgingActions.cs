@@ -5,13 +5,13 @@ using Orders;
 using UnityEngine;
 using Zenject;
 
-public class ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
+public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
 {
     private const float FIRST_STEP = 0.3f;
     private const float SECOND_STEP = 0.6f;
     private const float LIFETIME = 0.8f;
-    private const int GOOD_SCORE = 2;
-    private const int BAD_SCORE = 1;
+    private const int GOOD_SCORE = 15;
+    private const int BAD_SCORE = 6;
     private const float SCORE_MULTIPLER = 1f;
     private const float GOOD_PROGRESS = 0.02f;
     private const float BAD_PROGRESS = 0.02f;

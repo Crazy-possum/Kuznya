@@ -8,8 +8,8 @@ public class ProgressionContainer : ScriptableObject
     [SerializeField] private PlayerMetaData _playerMetaData;
     private OrdersMetaData _ordersMeta;
 
-    public PlayerMetaData PlayerMetaData { get => _playerMetaData; }
-    public OrdersMetaData OrdersMeta { get => _ordersMeta; }
+    public PlayerMetaData PlayerMetaData { get => _playerMetaData; set => _playerMetaData = value; }
+    public OrdersMetaData OrdersMeta { get => _ordersMeta; set => _ordersMeta = value; }
 
     public void SaveData(ProgressionData progressionData)
     {

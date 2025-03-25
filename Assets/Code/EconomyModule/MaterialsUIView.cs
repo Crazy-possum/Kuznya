@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using GameCoreModule;
 using MAEngine;
 using MAEngine.Extention;
-using UnityEditor.UI;
 using UnityEngine;
 
 namespace Economy
@@ -67,13 +66,26 @@ namespace Economy
         }
 
 
-        public void UpdateMaterialCount(MaterialName materialName, int materialCount)
+        public void UpdateMaterialInfo(MaterialName materialName, int materialCount, MaterialName currentlyCollectable)
         {
             if (_storableMaterials.IsContainsKey(materialName))
             {
                 StorableMaterialView storableMaterialView = _storableMaterials[materialName];
                 storableMaterialView.UpdateMaterialCount(materialCount);
+                if (materialName == currentlyCollectable)
+                {
+                    storableMaterialView.SetHighlight(true);
+                }
+                else
+                {
+                    storableMaterialView.SetHighlight(false);
+                }
             }
+        }
+
+        public void SetMaterialButtonUnlocked(MaterialName materialName, bool isUnlocked)
+        {
+            _storableMaterials[materialName].MaterialButton.interactable = isUnlocked;
         }
     }
 }
