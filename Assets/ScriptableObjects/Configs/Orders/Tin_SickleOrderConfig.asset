@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ddf7c932de844844f8553ee2da25266a, type: 3}
-  m_Name: Tin_ScickleOrderConfig
+  m_Name: Tin_SickleOrderConfig
   m_EditorClassIdentifier: 
   _name: "\u041E\u043B\u043E\u0432\u044F\u043D\u043D\u044B\u0439 \u0441\u0435\u0440\u043F"
   _descriptions:
@@ -29,3 +29,4 @@ MonoBehaviour:
     _count: 2
   _orderTime: 120
   _basicCost: 6
+  _orderType: 4

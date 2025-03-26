@@ -27,3 +27,4 @@ MonoBehaviour:
     _count: 1
   _orderTime: 120
   _basicCost: 24
+  _orderType: 1

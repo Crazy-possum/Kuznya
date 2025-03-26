@@ -124,7 +124,7 @@ namespace Economy
                 _currentMultipler -= 0.04f;
                 state = TradeState.WhiteZone;
             }
-            _currentMultipler = Mathf.Clamp(_currentMultipler, 1, 1.3f);
+            _currentMultipler = Mathf.Clamp(_currentMultipler, 1, 1.31f);
             return state;
         }
 

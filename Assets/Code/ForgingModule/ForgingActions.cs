@@ -7,8 +7,10 @@ using Zenject;
 
 public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
 {
-    private const float FIRST_STEP = 0.3f;
-    private const float SECOND_STEP = 0.6f;
+    private const float FIRST_STEP = 0.25f;
+    private const float SECOND_STEP = 0.5f;
+    private const float THIRD_STEP = 0.75f;
+    private const float FOURTH_STEP = 0.95f;
     private const float LIFETIME = 0.8f;
     private const int GOOD_SCORE = 15;
     private const int BAD_SCORE = 6;
@@ -18,11 +20,11 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private const float PROGRESS_MULTIPLER = 1;
     
     private ForgingUIView _uiView;
-    private PrefabsContainer _prefabs;
     private ForgingEventBus _eventBus;
     private GameEventBus _gameEventBus;
     private StateEventsBus _stateEventsBus;
     private OrdersEventBus _ordersEventBus;
+    private OrderSpritesContainer _orderSpritesContainer;
 
     private int _currentZoneIndex;
     private float _currentProgress;
@@ -31,19 +33,20 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
 
     private WorkZoneUIView _currentView;
     private int _currentAddingScore;
+    private ItemSprites _itemSprites;
 
 
     [Inject]
-    public void Construct(ForgingUIView uiView, PrefabsContainer prefabs,
-        ForgingEventBus eventBus, GameEventBus gameEventBus, StateEventsBus stateEventsBus,
-        OrdersEventBus ordersEventBus)
+    public void Construct(ForgingUIView uiView, ForgingEventBus eventBus,
+        GameEventBus gameEventBus, StateEventsBus stateEventsBus,
+        OrdersEventBus ordersEventBus, OrderSpritesContainer orderSpritesContainer)
     {
         _uiView = uiView;
-        _prefabs = prefabs;
         _eventBus = eventBus;
         _gameEventBus = gameEventBus;
         _stateEventsBus = stateEventsBus;
         _ordersEventBus = ordersEventBus;
+        _orderSpritesContainer = orderSpritesContainer;
     }
 
 
@@ -75,6 +78,9 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private void StartOrder(ActiveOrder order)
     {
         _currentBasicCost = order.BasicCost;
+        _itemSprites = _orderSpritesContainer.OrderSpritesDict[order.OrderType];
+        _uiView.ItemImage.sprite = _itemSprites.Stage0Sprite;
+        _uiView.ItemImage.SetNativeSize();
         _stateEventsBus.OnForgingStateActivate?.Invoke();
     }
     
@@ -83,11 +89,30 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         if (_currentProgress > FIRST_STEP &&
             _currentProgress < SECOND_STEP)
         {
+            _uiView.ItemImage.sprite = _itemSprites.Stage1Sprite;
+            _uiView.ItemImage.SetNativeSize();
             _currentZoneIndex = 1;
         }
-        else if (_currentProgress > SECOND_STEP)
+        else if (_currentProgress > SECOND_STEP &&
+                 _currentProgress < THIRD_STEP)
         {
+            _uiView.ItemImage.sprite = _itemSprites.Stage2Sprite;
+            _uiView.ItemImage.SetNativeSize();
             _currentZoneIndex = 2;
+        }
+        else if (_currentProgress > THIRD_STEP &&
+                 _currentProgress < FOURTH_STEP)
+        {
+            _uiView.ItemImage.sprite = _itemSprites.Stage3Sprite;
+            _uiView.ItemImage.SetNativeSize();
+            _currentZoneIndex = 3;
+        }
+        else if (_currentProgress >= FOURTH_STEP &&
+                 _currentProgress <= 1)
+        {
+            _uiView.ItemImage.sprite = _itemSprites.Stage4Sprite;
+            _uiView.ItemImage.SetNativeSize();
+            _currentZoneIndex = 1;
         }
     }
 
@@ -144,8 +169,6 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         _currentAddingScore = score;
         _gameEventBus.OnObjectSpawnedFromPool += InitializeTextObject;
         _gameEventBus.OnSpawnObjectFromPool?.Invoke(PrefabID.UIForgingScoreText, Vector3.zero);
-
-
         UpdateUI();
     }
 

@@ -460,6 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _forgingView: {fileID: 0}
   _resultsView: {fileID: 0}
+  _orderSpritesContainer: {fileID: 11400000, guid: 59cb62c53a66c0f458c0313257c7cf5b, type: 2}
 --- !u!114 &8245577362498517115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,5 +532,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shopView: {fileID: 0}
   _tradeView: {fileID: 0}
+  _materialsUIView: {fileID: 0}
   _upgradesPool: {fileID: 11400000, guid: bf63f51ddfe2cab4e81b4dc5bbd6e353, type: 2}
   _storageMaterialsConfig: {fileID: 11400000, guid: d8c141c8ce94ccb47b847b993fc74bcf, type: 2}
