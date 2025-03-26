@@ -1,9 +1,11 @@
 using System;
 using GameCoreModule;
 using MAEngine;
+using MAEngine.Extention;
 using Orders;
 using UnityEngine;
 using Zenject;
+using Random = System.Random;
 
 namespace Economy
 {
@@ -14,12 +16,13 @@ namespace Economy
         private StateEventsBus _stateEventsBus;
 
         private ActiveOrder _currentOrder;
-        private bool _wasTraded;
         private float _currentMultipler;
         private float _tradingTimeLeft;
         private bool _isTrading;
-        private int _tradeStateId;
         private float _currentTradeValue;
+        private Timer _tradeTickTimer;
+        private TradeState _tradeState;
+        private Random _random;
         
 
         [Inject]
@@ -37,6 +40,7 @@ namespace Economy
             _tradeView.ConfirmButton.onClick.AddListener(SubmitOrder);
             _tradeView.TradeClickerButton.onClick.AddListener(AddTradingScore);
             _economyEventBus.OnOrderSubmited += SetCurrentOrder;
+            _random = new Random();
         }
 
         public void Cleanup()
@@ -49,35 +53,14 @@ namespace Economy
         
         public void FixedExecute(float fixedDeltaTime)
         {
-            //TODO:
-            // Fix this mechanic
             if (_isTrading)
             {
-                if (_currentTradeValue >= 55 && _currentTradeValue <= 60)
+                if (_tradeTickTimer.Wait())
                 {
-                    _currentMultipler += 0.08f;
-                    _tradeStateId = 2;
+                    _tradeState = TradeAction(fixedDeltaTime);
                 }
-                else if (_currentTradeValue >= 61 && _currentTradeValue <= 70)
-                {
-                    _currentMultipler -= 0.02f;
-                    _tradeStateId = 1;
-                }
-                else if(_currentTradeValue <= 54 && _currentTradeValue >= 45)
-                {
-                    _currentMultipler -= 0.02f;
-                    _tradeStateId = 1;
-                }
-                else
-                {
-                    _currentMultipler -= 0.04f;
-                    _tradeStateId = 0;
-                }
-
-                _currentMultipler = Mathf.Clamp(_currentMultipler, 1, 3);
-                
                 int timeMultipler = 1;
-                if (_tradeStateId == 0)
+                if (_tradeState == TradeState.WhiteZone)
                 {
                     timeMultipler = 2;
                 }
@@ -90,16 +73,78 @@ namespace Economy
                     _tradeView.HideTradePanel();
                 }
                 UpdateUI();
-                _currentTradeValue -= 0.05f;
+                
+                float tradeValueDelta = 0;
+                if (_tradeState == TradeState.WhiteZone)
+                {
+                    tradeValueDelta = _random.Next(-4, 16);
+                }
+                else if (_tradeState == TradeState.YellowZone)
+                {
+                    tradeValueDelta = _random.Next(3, 12);
+                }
+                else if (_tradeState == TradeState.GreenZone)
+                {
+                    tradeValueDelta = _random.Next(1, 5);
+                }
+                else if (_tradeState == TradeState.RedZone)
+                {
+                    tradeValueDelta = _random.Next(1, 3);
+                }
+                tradeValueDelta = tradeValueDelta / 100f;
+                _currentTradeValue -= tradeValueDelta;
             }
         }
-        
+
+        private TradeState TradeAction(float fixedDeltaTime)
+        {
+            TradeState state = TradeState.NONE;
+            if (_currentTradeValue >= 55 && _currentTradeValue <= 60)
+            {
+                _currentMultipler += 0.08f;
+                state = TradeState.GreenZone;
+            }
+            else if (_currentTradeValue >= 61 && _currentTradeValue <= 70)
+            {
+                _currentMultipler -= 0.02f;
+                state = TradeState.YellowZone;
+            }
+            else if(_currentTradeValue <= 54 && _currentTradeValue >= 45)
+            {
+                _currentMultipler -= 0.02f;
+                state = TradeState.YellowZone;
+            }
+            else if (_currentTradeValue > 70)
+            {
+                _currentMultipler -= 0.12f;
+                state = TradeState.RedZone;
+            }
+            else
+            {
+                _currentMultipler -= 0.04f;
+                state = TradeState.WhiteZone;
+            }
+            _currentMultipler = Mathf.Clamp(_currentMultipler, 1, 1.3f);
+            return state;
+        }
+
         private void AddTradingScore()
         {
-            if (_currentTradeValue <= _tradeView.TradeSlider.maxValue)
+            if (_tradeState == TradeState.WhiteZone ||
+                _tradeState == TradeState.YellowZone)
             {
                 _currentTradeValue += 5;
             }
+            else if (_tradeState == TradeState.GreenZone)
+            {
+                _currentTradeValue += 3;
+            }
+            else if (_tradeState == TradeState.RedZone)
+            {
+                _currentTradeValue += 6;
+            }
+            
+            _currentTradeValue = Mathf.Clamp(_currentTradeValue,0, _tradeView.TradeSlider.maxValue);
         }
         
         private void SubmitOrder()
@@ -112,7 +157,8 @@ namespace Economy
         {
             _isTrading = true;
             _tradingTimeLeft = 20;
-            _tradeStateId = 0;
+            _tradeTickTimer = new Timer(1.5f);
+            _tradeState = TradeState.WhiteZone;
             _currentTradeValue = 0;
             _tradeView.ShowTradePanel();
         }
@@ -129,7 +175,6 @@ namespace Economy
 
         private void SetTradedState(bool wasTraded)
         {
-            _wasTraded = wasTraded;
             _tradeView.TradeButton.interactable = !wasTraded;
         }
 
@@ -137,12 +182,10 @@ namespace Economy
         {
             int reward = (int)(_currentOrder.Reward * _currentMultipler);
             _tradeView.RewardText.text = reward.ToString();
-            _tradeView.Multipler.text = _currentMultipler.ToString();
+            _tradeView.Multipler.text = $"+ {(int)((_currentMultipler - 1) * 100)} %";
             TimeSpan timeLeft = TimeSpan.FromSeconds(_tradingTimeLeft);
             _tradeView.Timer.text = timeLeft.ToString("mm' : 'ss");
             _tradeView.TradeSlider.value = _currentTradeValue;
         }
-
-
     }
 }

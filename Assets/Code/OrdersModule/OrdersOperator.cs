@@ -245,7 +245,7 @@ namespace Orders
             {
                 if (_playerMetaData.Materials.ContainsKey(material.Config.MaterialName))
                 {
-                    if (_playerMetaData.Materials[material.Config.MaterialName] <= material.Count)
+                    if (_playerMetaData.Materials[material.Config.MaterialName] < material.Count)
                     {
                         haveEnoughtMaterials = false;
                     }

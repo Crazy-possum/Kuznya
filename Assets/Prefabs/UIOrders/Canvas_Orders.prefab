@@ -940,6 +940,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: But_DialogueNo
       objectReference: {fileID: 0}
+    - target: {fileID: 3223759151434494631, guid: 3ba2e06d936ea5b49b1de9c891961afe, type: 3}
+      propertyPath: m_text
+      value: "\u041E\u0442\u043B\u043E\u0436\u0438\u0442\u044C"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
