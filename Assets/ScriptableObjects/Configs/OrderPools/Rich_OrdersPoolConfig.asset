@@ -12,4 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e577a03c648cca54d90abb3015000bfb, type: 3}
   m_Name: Rich_OrdersPoolConfig
   m_EditorClassIdentifier: 
-  _orders: []
+  _orders:
+  - {fileID: 11400000, guid: 74281acfecfcfae4f9c03990c8a8ca14, type: 2}
+  - {fileID: 11400000, guid: f6dc6cf5a2e0a714cb64c08439631843, type: 2}
+  - {fileID: 11400000, guid: de9a29eeda8c7904aa718f83abd483f5, type: 2}
+  - {fileID: 11400000, guid: 439b0a0936e5a514c81bd18eab376876, type: 2}
+  - {fileID: 11400000, guid: fba243ff01ee15c489d87a7437142988, type: 2}
+  - {fileID: 11400000, guid: 03fa61e1f794bd34f9288311f85b21d4, type: 2}
+  - {fileID: 11400000, guid: f60240360ea185f4ea4be0444f834604, type: 2}
+  - {fileID: 11400000, guid: fae9e79cecbbdef47a65d39d99bb185c, type: 2}
+  - {fileID: 11400000, guid: 3b065fcbb64436e43a995271edcdc285, type: 2}
+  - {fileID: 11400000, guid: f416f0aa6f036b944ad7c33cab8c4d69, type: 2}

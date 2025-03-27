@@ -12,4 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e577a03c648cca54d90abb3015000bfb, type: 3}
   m_Name: Traders_OrdersPoolConfig
   m_EditorClassIdentifier: 
-  _orders: []
+  _orders:
+  - {fileID: 11400000, guid: 394aa06c13458a74b8bb73e9568a97cc, type: 2}
+  - {fileID: 11400000, guid: f68791ddb45742f469c3e21a5c9bc6e7, type: 2}
+  - {fileID: 11400000, guid: 512133734f7f00649a42d8138d94e24b, type: 2}
+  - {fileID: 11400000, guid: 3b06117f55f824049b8a082cd4662c26, type: 2}
+  - {fileID: 11400000, guid: 7ab26548cb1a1674687acab84e96d0a7, type: 2}
+  - {fileID: 11400000, guid: 98571813085b417498d4c482c1312134, type: 2}
+  - {fileID: 11400000, guid: bbcff301fd0976d4d8bbbad7d6e79c5a, type: 2}
+  - {fileID: 11400000, guid: 0a524948f735a3041bbba7a4ecdeed1b, type: 2}
+  - {fileID: 11400000, guid: 1d9d5417f5ff7934fb5f813d810382fb, type: 2}
+  - {fileID: 11400000, guid: 257806aacc05ece44a820c5202a8baa9, type: 2}
+  - {fileID: 11400000, guid: a88772a50f213404cbc98b1da6a73a9e, type: 2}
+  - {fileID: 11400000, guid: bcb9a7ea69697b5498e040ff6c737e56, type: 2}
+  - {fileID: 11400000, guid: 9cfccbbe8cd5ec242b44b7c870439196, type: 2}
+  - {fileID: 11400000, guid: c62fe45d3563f224a913eda6ad5f665d, type: 2}
