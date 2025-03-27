@@ -6,5 +6,9 @@ public enum OrderType
     Axe = 3,
     Sickle = 4,
     Scythe = 5,
-    Spear = 6
+    Spear = 6,
+    Saw = 7,
+    Shield = 8,
+    Wheel = 9,
+    Dagger = 10
 }

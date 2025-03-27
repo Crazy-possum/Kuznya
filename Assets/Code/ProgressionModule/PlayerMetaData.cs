@@ -30,7 +30,7 @@ namespace Progression
         {
             if (_currentMaximumMaterial == MaterialName.NONE)
             {
-                _currentMaximumMaterial = MaterialName.Copper;
+                _currentMaximumMaterial = MaterialName.Tin;
             }
             if (_materials == null)
             {

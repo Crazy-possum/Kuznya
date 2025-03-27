@@ -51,10 +51,10 @@ namespace Economy
             switch (upgradeView.CurrentLevel)
             {
                 case 0 :
-                    material = MaterialName.Copper;
+                    material = MaterialName.Tin;
                     break;
                 case 1 :
-                    material = MaterialName.Bronze;
+                    material = MaterialName.Copper;
                     break;
                 case 2 :
                     material = MaterialName.Iron;

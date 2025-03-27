@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d70df436d3212d14e8f992a8fbc1d4fd, type: 3}
   m_Name: CopperConfig
   m_EditorClassIdentifier: 
-  _materialName: 2
+  _materialName: 3
   _name: "\u041C\u0435\u0434\u044C"
   _sprite: {fileID: 21300000, guid: ba34e5a77dfb1c34d85b247acb88766a, type: 3}
