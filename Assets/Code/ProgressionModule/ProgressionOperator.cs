@@ -1,6 +1,7 @@
 ﻿using GameCoreModule;
 using MAEngine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace Progression
@@ -22,6 +23,7 @@ namespace Progression
         public void Initialisation()
         {
             _progressionEvents.OnProgressionDataChanged += UpdateProgressData;
+            _progressionEvents.OnProgressionDataCleared += ClearProgressData;
             LoadData();
 
         }
@@ -29,8 +31,8 @@ namespace Progression
         public void Cleanup()
         {
             _progressionEvents.OnProgressionDataChanged -= UpdateProgressData;
+            _progressionEvents.OnProgressionDataCleared -= ClearProgressData;
         }
-
 
         private void UpdateProgressData(ProgressionData data)
         {
@@ -59,12 +61,27 @@ namespace Progression
                 ordersMetaData.Initialize();
                 _data.OrdersMeta = ordersMetaData;
             }
+            
+            _data.UpgradesMeta = _container.UpgradesMeta;
+            if (_data.UpgradesMeta == null)
+            {
+                UpgradesMetaData upgradesMetaData = new UpgradesMetaData();
+                upgradesMetaData.Initialize();
+                _data.UpgradesMeta = upgradesMetaData;
+            }
             //_progressionEvents.OnProgressionDataLoaded?.Invoke(_data);
         }
 
         private void SaveData()
         {
             _container.SaveData(_data);
+        }
+        
+        private void ClearProgressData()
+        {
+            _data.ClearData();
+            SaveData();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

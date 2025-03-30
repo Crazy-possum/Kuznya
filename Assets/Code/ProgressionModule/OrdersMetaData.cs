@@ -1,13 +1,16 @@
-﻿using Orders;
+﻿using System;
+using Orders;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Progression
 {
+    [Serializable]
     public class OrdersMetaData
     {
-        private List<ClientConfig> _activeClients;
-        private List<ActiveOrder> _activeOrders;
-        private ClientConfig _activeClient;
+        [SerializeField] private List<ClientConfig> _activeClients;
+        [SerializeField] private List<ActiveOrder> _activeOrders;
+        [SerializeField] private ClientConfig _activeClient;
 
         public List<ActiveOrder> ActiveOrders { get => _activeOrders; set => _activeOrders = value; }
         public ClientConfig ActiveClient { get => _activeClient; set => _activeClient = value; }
@@ -62,6 +65,13 @@ namespace Progression
             bool isClientFree = true;
             isClientFree = !_activeClients.Contains(client) && client != activeClient;
             return isClientFree;
+        }
+
+        public void Clear()
+        {
+            _activeClients.Clear();
+            _activeOrders.Clear();
+            _activeClient = null;
         }
 
     }

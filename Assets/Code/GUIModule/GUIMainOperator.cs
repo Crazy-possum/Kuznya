@@ -13,13 +13,16 @@ namespace MainGUI
         private GUIView _guiView;
         private ProgressionData _progressionData;
         private PlayerMetaData _playerMetaData;
+        private ProgressionEvents _progressionEvents;
         
         [Inject]
-        public void Construct(EconomyEventBus economyEventBus, GUIView guiView, ProgressionData progressionData)
+        public void Construct(EconomyEventBus economyEventBus, GUIView guiView, ProgressionData progressionData,
+            ProgressionEvents progressionEvents)
         {
             _economyEventBus = economyEventBus;
             _guiView = guiView;
             _progressionData = progressionData;
+            _progressionEvents = progressionEvents;
         }
         
         public void Initialisation()
@@ -29,12 +32,19 @@ namespace MainGUI
             _economyEventBus.OnMoneyUpdated += UpdateMoneyUI;
             _economyEventBus.OnTryBuyUpgrade += TryBuyUpgrade;
             _guiView.UpgradeConfirmView.gameObject.SetActive(false);
+            _guiView.ClearProgressButton.onClick.AddListener(ClearProgress);
+        }
+
+        private void ClearProgress()
+        {
+            _progressionEvents.OnProgressionDataCleared?.Invoke();
         }
 
         public void Cleanup()
         {
             _economyEventBus.OnMoneyUpdated -= UpdateMoneyUI;
             _economyEventBus.OnTryBuyUpgrade -= TryBuyUpgrade;
+            _guiView.ClearProgressButton.onClick.RemoveListener(ClearProgress);
         }
         
         private void UpdateMoneyUI(int money)
@@ -63,8 +73,9 @@ namespace MainGUI
 
         private void BuyUpgrade(UpgradeName upgradeName, UpgradeView upgradeView)
         {
-            _economyEventBus.OnUpgradeBought?.Invoke(upgradeName, upgradeView, upgradeView.CurrentValue);
+            int upgradePrice = upgradeView.CurrentValue;
             upgradeView.AddLevel();
+            _economyEventBus.OnUpgradeBought?.Invoke(upgradeName, upgradeView, upgradePrice);
             _guiView.UpgradeConfirmView.gameObject.SetActive(false);
             _guiView.UpgradeConfirmView.ConfirmButton.onClick.RemoveAllListeners();
             _guiView.UpgradeConfirmView.CancelButton.onClick.RemoveAllListeners();
