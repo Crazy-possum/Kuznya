@@ -42,7 +42,6 @@ namespace Orders
             _ordersMetaData = _progressionData.OrdersMeta;
             UpdateTimer();
             LoadClients();
-            SetActiveClient();
         }
 
         private void LoadClients()
