@@ -2,6 +2,7 @@
 using GameCoreModule;
 using MAEngine;
 using System.Collections.Generic;
+using MAEngine.Extention;
 using Orders;
 using UnityEngine;
 using Zenject;
@@ -11,7 +12,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private const float FIRST_STEP = 0.25f;
     private const float SECOND_STEP = 0.5f;
     private const float THIRD_STEP = 0.75f;
-    private const float FOURTH_STEP = 0.95f;
+    private const float FOURTH_STEP = 1f;
     private const float LIFETIME = 0.8f;
     private const int GOOD_SCORE = 15;
     private const int BAD_SCORE = 6;
@@ -19,6 +20,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private const float GOOD_PROGRESS = 0.02f;
     private const float BAD_PROGRESS = 0.02f;
     private const float PROGRESS_MULTIPLER = 1;
+    private const float END_PROCESS_DELAY = 2;
     
     private ForgingUIView _uiView;
     private ForgingEventBus _eventBus;
@@ -37,6 +39,8 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private ItemSprites _itemSprites;
     private ForgingStepsView _currentForgingSteps;
     private List<WorkZoneUIView> _currentWorkZoneViews;
+
+    private Timer _endProcessTimer;
 
 
     [Inject]
@@ -64,15 +68,28 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     public void Cleanup()
     {
         _ordersEventBus.OnOrderStarted -= StartOrder;
-        UnSubscribeWorkingZones();
+        //UnSubscribeWorkingZones();
     }
 
     public void FixedExecute(float fixedDeltaTime)
     {
         CheckScoreTextsLifetime();
         CheckProgress();
+        TryEndProcess();
     }
-    
+
+    private void TryEndProcess()
+    {
+        if (_endProcessTimer != null)
+        {
+            if (_endProcessTimer.Wait())
+            {
+                _endProcessTimer = null;
+                EndProcess();
+            }
+        }
+    }
+
     private void StartOrder(ActiveOrder order)
     {
         _currentBasicCost = order.BasicCost;
@@ -167,7 +184,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         {
             _uiView.ItemImage.sprite = _itemSprites.Stage4Sprite;
             _uiView.ItemImage.SetNativeSize();
-            UpdateForgingSteps(0);
+            UnSubscribeWorkingZones();
         }
     }
 
@@ -196,7 +213,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         {
             _currentProgress = 1;
             UpdateUI();
-            EndProcess();
+            _endProcessTimer = new Timer(END_PROCESS_DELAY);
         }
         _currentView = zoneView;
         _currentAddingScore = score;
