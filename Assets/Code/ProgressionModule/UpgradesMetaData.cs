@@ -8,8 +8,12 @@ namespace Progression
     public class UpgradesMetaData
     {
         [SerializeField] private SerializableDictionary<UpgradeName, int> _upgradesDict;
+
+        [SerializeField] private SerializableDictionary<UpgradeName, Upgrade> _upgrades;
         
         public SerializableDictionary<UpgradeName, int> UpgradesDict => _upgradesDict;
+        
+        public SerializableDictionary<UpgradeName, Upgrade> Upgrades => _upgrades;
 
         public void SetUpgradeLevel(UpgradeName upgradeName, int upgradeLevel)
         {
@@ -21,7 +25,6 @@ namespace Progression
             {
                 _upgradesDict[upgradeName] = upgradeLevel;
             }
-            Debug.Log(_upgradesDict[upgradeName]);
         }
         
         public int GetUpgradeLevel(UpgradeName upgradeName)
@@ -48,7 +51,11 @@ namespace Progression
             {
                 _upgradesDict.Clear();
             }
+
+            if (_upgrades != null)
+            {
+                _upgrades.Clear();
+            }
         }
-        
     }
 }

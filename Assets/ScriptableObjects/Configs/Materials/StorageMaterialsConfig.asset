@@ -19,5 +19,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 229a2a07e509ae64e8d59af4d7fe8533, type: 2}
   - {fileID: 11400000, guid: d70278e8084308542a0e6a41fcb0a034, type: 2}
   - {fileID: 11400000, guid: 9286652237eab11438397e677d3e3fa0, type: 2}
-  _storageCapacity: 0a0000003200000064000000
-  _materialAddingDeltaTime: 010000000400000003000000
+  _storageCapacity: 320000003200000064000000
+  _materialAddingDeltaTime:
+  - 4
+  - 3.5
+  - 3
+  - 2.5
+  - 2
+  - 1.5
+  - 1

@@ -22,6 +22,7 @@ namespace Progression
         public Dictionary<MaterialName, int> Materials { get => _materials; set => _materials = value; }
         public int CurrentMaxMaterialStorage { get => _currentMaxMaterialStorage; set => _currentMaxMaterialStorage = value; }
         public float MaterialAddingDeltaTime { get => _materialAddingDeltaTime; set => _materialAddingDeltaTime = value; }
+        public StorageMaterialsConfig StorageMaterialsConfig { get => _storageMaterialsConfig; set => _storageMaterialsConfig = value; }
 
         public void Initialize()
         {

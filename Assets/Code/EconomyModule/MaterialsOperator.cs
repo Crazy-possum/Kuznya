@@ -18,6 +18,10 @@ namespace Economy
         private PlayerMetaData _playerMetaData;
         private MaterialConfig _currentlyCollectabeMaterial;
         private Timer _materialAddingTimer;
+        private UpgradesMetaData _upgradesMetaData;
+        private Timer _clickCooldownTimer;
+        private bool _canClickMaterial;
+        private float _currentClickDelay;
         
         [Inject]
         public void Construct(ProgressionData progressionData, EconomyEventBus economyEventBus,
@@ -34,12 +38,16 @@ namespace Economy
         public void Initialisation()
         {
             _playerMetaData = _progressionData.PlayerMetaData;
+            _upgradesMetaData = _progressionData.UpgradesMeta;
             _playerMetaData.InitializeMaterials(_storageConfig);
             SetInitialCollectableMaterial(_playerMetaData.CurrentMaximumMaterial);
             _materialAddingTimer = new Timer(_playerMetaData.MaterialAddingDeltaTime);
             _economyEventBus.OnMaterialRemoved += RemoveMaterial;
             _economyEventBus.OnCollectableMaterialChanged += ChangeCollectableMaterial;
             _gameEventBus.OnCreatePool(PrefabID.UIAddingMaterialText);
+            _materialsUIView.MaterialsClickerButton.onClick.AddListener(ClickMaterialAction);
+            _clickCooldownTimer = new Timer(1);
+            _canClickMaterial = true;
             InitializeUI();
         }
 
@@ -47,6 +55,7 @@ namespace Economy
         {
             _economyEventBus.OnMaterialRemoved -= RemoveMaterial;
             _economyEventBus.OnCollectableMaterialChanged -= ChangeCollectableMaterial;
+            _materialsUIView.MaterialsClickerButton.onClick.RemoveListener(ClickMaterialAction);
             _materialsUIView.CleanView();
         }
 
@@ -59,6 +68,15 @@ namespace Economy
                     AddMaterial(_currentlyCollectabeMaterial);
                 }
             }
+
+            if (_clickCooldownTimer != null)
+            {
+                if (_clickCooldownTimer.Wait() && !_canClickMaterial)
+                {
+                    _canClickMaterial = true;
+                }
+            }
+
             UpdateUI();
         }
         
@@ -105,6 +123,26 @@ namespace Economy
                 _materialsUIView.UpdateMaterialInfo(materialConfig.MaterialName, materialCount,
                     _currentlyCollectabeMaterial.MaterialName);
             }
+
+            UpdateCooldownSlder();
+        }
+
+        private void UpdateCooldownSlder()
+        {
+            if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.ExtraDelivery))
+            {
+                _materialsUIView.CooldownSlider.gameObject.SetActive(true);
+            }
+            if (!_canClickMaterial)
+            {
+                _materialsUIView.CooldownSlider.maxValue = _currentClickDelay;
+                _materialsUIView.CooldownSlider.value = _currentClickDelay - _clickCooldownTimer.GetRemainingTime();
+            }
+            else
+            {
+                _materialsUIView.CooldownSlider.value = _materialsUIView.CooldownSlider.maxValue;
+            }
+            
         }
 
         private void SetUnlockedMaterials()
@@ -146,6 +184,34 @@ namespace Economy
             textView.Text.text = materialAddingText;
             _materialsUIView.AddTextToList(textView);
             _gameEventBus.OnObjectSpawnedFromPool -= InitializeTextObject;
+        }
+        
+        private void ClickMaterialAction()
+        {
+            if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.ExtraDelivery))
+            {
+                if (_upgradesMetaData.Upgrades[UpgradeName.ExtraDelivery].IsUpgradeActive)
+                {
+                    if (_clickCooldownTimer != null)
+                    {
+                        if (_canClickMaterial)
+                        {
+                            _currentClickDelay = _upgradesMetaData.Upgrades[UpgradeName.ExtraDelivery].GetUpgradeData();
+                            _clickCooldownTimer =
+                                new Timer(_currentClickDelay);
+                            AddMaterial(_currentlyCollectabeMaterial);
+                            _canClickMaterial = false;
+                        }
+                    }
+                    else
+                    {
+                        _currentClickDelay = _upgradesMetaData.Upgrades[UpgradeName.ExtraDelivery].GetUpgradeData();
+                        _clickCooldownTimer =
+                            new Timer(_currentClickDelay);
+                        AddMaterial(_currentlyCollectabeMaterial);
+                    }
+                }
+            }
         }
     }
 }
