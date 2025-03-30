@@ -200,6 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _guiView: {fileID: 0}
   _scalableView: {fileID: 0}
+  _clientsSpritesContainer: {fileID: 11400000, guid: 07f4d9fc53f22344aa4a1440bc9d4405, type: 2}
 --- !u!1 &3753749270997253337
 GameObject:
   m_ObjectHideFlags: 0

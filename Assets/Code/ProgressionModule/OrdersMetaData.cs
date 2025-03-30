@@ -11,7 +11,8 @@ namespace Progression
         [SerializeField] private List<ClientConfig> _activeClients;
         [SerializeField] private List<ActiveOrder> _activeOrders;
         [SerializeField] private ClientConfig _activeClient;
-
+        
+        public List<ClientConfig> ActiveClients { get => _activeClients; set => _activeClients = value; }
         public List<ActiveOrder> ActiveOrders { get => _activeOrders; set => _activeOrders = value; }
         public ClientConfig ActiveClient { get => _activeClient; set => _activeClient = value; }
 

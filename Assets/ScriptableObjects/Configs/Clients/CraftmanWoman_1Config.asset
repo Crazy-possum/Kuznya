@@ -16,3 +16,4 @@ MonoBehaviour:
   _materialName: 2
   _clientSprite: {fileID: 21300000, guid: a541cf749323a0147acb52c60c798139, type: 3}
   _orders: {fileID: 11400000, guid: eba7f72073fc0af4994bfbe21c2c8342, type: 2}
+  _clientType: 2
