@@ -29,7 +29,6 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private OrdersEventBus _ordersEventBus;
     private OrderSpritesContainer _orderSpritesContainer;
 
-    private int _currentZoneIndex;
     private float _currentProgress;
     private int _currentScore;
     private int _currentBasicCost;
@@ -97,7 +96,8 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         _uiView.ItemImage.sprite = _itemSprites.Stage0Sprite;
         _currentForgingSteps = _uiView.StepsDict[order.OrderType];
         _uiView.ItemImage.SetNativeSize();
-        _stateEventsBus.OnForgingStateActivate?.Invoke();
+        _stateEventsBus.OnSmeltingStateActivate?.Invoke();
+        //_stateEventsBus.OnForgingStateActivate?.Invoke();
         UpdateForgingSteps(0);
     }
 
@@ -275,7 +275,6 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private void ClearProgress()
     {
         _currentProgress = 0;
-        _currentZoneIndex = 0;
         _currentScore = 0;
     }
 
