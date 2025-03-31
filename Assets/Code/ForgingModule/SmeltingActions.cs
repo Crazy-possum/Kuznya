@@ -8,6 +8,7 @@ using Zenject;
 
 public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute, ICleanUp
 {
+    //TODO: Configure timers, add random
     private const float MINUTE = 60f;
     private const float SMELTING_BPM = 60f;
     private const float MAX_TEMPERATURE = 100f;

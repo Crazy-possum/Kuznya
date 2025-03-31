@@ -156,7 +156,15 @@ namespace Economy
 
         private void ChangeCollectableMaterial(MaterialConfig materialConfig)
         {
-            _currentlyCollectabeMaterial = materialConfig;
+            if (_currentlyCollectabeMaterial != materialConfig)
+            {
+                _currentlyCollectabeMaterial = materialConfig;
+            }
+            else
+            {
+                ClickMaterialAction();
+            }
+                
         }
 
         private void AddMaterial(MaterialConfig currentlyCollectabeMaterial)
