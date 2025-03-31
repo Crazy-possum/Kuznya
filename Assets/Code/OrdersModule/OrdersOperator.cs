@@ -93,10 +93,19 @@ namespace Orders
                     UpdateOrderSlider(keyValuePair.Key, keyValuePair.Value);
                     if (keyValuePair.Value.OrderTimer.Wait())
                     {
+                        if (_currentActiveOrder != null)
+                        {
+                            if (_currentActiveOrder == keyValuePair.Key)
+                            {
+                                _ordersEventBus.OnOrderEnded?.Invoke(keyValuePair.Value);
+                            }
+                        }
                         keyValuePair.Value.OrderTimer = null;
                         RemoveOrder(keyValuePair.Key, REMOVE_TIME);
                     }
                 }
+
+
             }
         }
 

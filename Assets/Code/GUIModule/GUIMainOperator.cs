@@ -1,12 +1,13 @@
 using GameCoreModule;
 using MAEngine;
+using Orders;
 using Progression;
 using UnityEngine;
 using Zenject;
 
 namespace MainGUI
 {
-    public class GUIMainOperator : IAction, IInitialisation, ICleanUp
+    public class GUIMainOperator : IAction, IInitialisation, ICleanUp, IFixedExecute
     {
         private const string PRE_COST_TEXT = "Желаете потратить";
         private EconomyEventBus _economyEventBus;
@@ -14,15 +15,21 @@ namespace MainGUI
         private ProgressionData _progressionData;
         private PlayerMetaData _playerMetaData;
         private ProgressionEvents _progressionEvents;
+        private OrdersEventBus _ordersEventBus;
+        private StateEventsBus _stateEventsBus;
+        
+        private ActiveOrder _activeOrder;
         
         [Inject]
         public void Construct(EconomyEventBus economyEventBus, GUIView guiView, ProgressionData progressionData,
-            ProgressionEvents progressionEvents)
+            ProgressionEvents progressionEvents, OrdersEventBus ordersEventBus, StateEventsBus stateEventsBus)
         {
             _economyEventBus = economyEventBus;
             _guiView = guiView;
             _progressionData = progressionData;
             _progressionEvents = progressionEvents;
+            _ordersEventBus = ordersEventBus;
+            _stateEventsBus = stateEventsBus;
         }
         
         public void Initialisation()
@@ -31,6 +38,9 @@ namespace MainGUI
             _playerMetaData = _progressionData.PlayerMetaData;
             _economyEventBus.OnMoneyUpdated += UpdateMoneyUI;
             _economyEventBus.OnTryBuyUpgrade += TryBuyUpgrade;
+            _ordersEventBus.OnOrderEnded += ActiveOrderEnded;
+            _ordersEventBus.OnOrderStarted += SetOrderGUI;
+            _ordersEventBus.OnOrderFinished += HideOrderGUI;
             _guiView.UpgradeConfirmView.gameObject.SetActive(false);
             _guiView.ClearProgressButton.onClick.AddListener(ClearProgress);
         }
@@ -44,7 +54,43 @@ namespace MainGUI
         {
             _economyEventBus.OnMoneyUpdated -= UpdateMoneyUI;
             _economyEventBus.OnTryBuyUpgrade -= TryBuyUpgrade;
+            _ordersEventBus.OnOrderEnded -= ActiveOrderEnded;
             _guiView.ClearProgressButton.onClick.RemoveListener(ClearProgress);
+        }
+        
+        public void FixedExecute(float fixedDeltaTime)
+        {
+            if (_activeOrder != null)
+            {
+                float delta = _activeOrder.OrderTime - _activeOrder.OrderTimer.GetRemainingTime();
+                _guiView.OrderTimeSlider.value =  _activeOrder.OrderTime - delta;
+            }
+        }
+        
+        private void ActiveOrderEnded(ActiveOrder order)
+        {
+            _guiView.OrderEndedPanel.SetActive(true);
+            _stateEventsBus.OnDialogueStateActivate?.Invoke();
+            HideOrderGUI(order);
+        }
+        
+        private void SetOrderGUI(ActiveOrder order)
+        {
+            _guiView.ClientsQueueTransform.gameObject.SetActive(false);
+            _guiView.OrderTimePanel.SetActive(true);
+            _guiView.OrderTimeSlider.maxValue = order.OrderTime;
+            float delta = order.OrderTime - order.OrderTimer.GetRemainingTime();
+            _guiView.OrderTimeSlider.value = order.OrderTime - delta;
+            _activeOrder = order;
+        }
+        
+        private void HideOrderGUI(ActiveOrder order)
+        {
+            _guiView.ClientsQueueTransform.gameObject.SetActive(true);
+            _guiView.OrderTimePanel.SetActive(false);
+            _guiView.NavigationPanel.gameObject.SetActive(true);
+            _activeOrder = null;
+
         }
         
         private void UpdateMoneyUI(int money)

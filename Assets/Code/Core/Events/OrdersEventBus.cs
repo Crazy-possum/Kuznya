@@ -13,6 +13,7 @@ namespace GameCoreModule
         private Action _onOrderRemoved;
         private Action<ActiveOrder> _onOrderStarted;
         private Action<ActiveOrder> _onOrderFinished;
+        private Action<ActiveOrder> _onOrderEnded;
 
         public Action OnClientActivated { get => _onClientActivated; set => _onClientActivated = value; }
         public Action OnClientDeactivated { get => _onClientDeactivated; set => _onClientDeactivated = value; }
@@ -22,5 +23,6 @@ namespace GameCoreModule
         public Action OnOrderRemoved { get => _onOrderRemoved; set => _onOrderRemoved = value; }
         public Action<ActiveOrder> OnOrderStarted { get => _onOrderStarted; set => _onOrderStarted = value; }
         public Action<ActiveOrder> OnOrderFinished { get => _onOrderFinished; set => _onOrderFinished = value; }
+        public Action<ActiveOrder> OnOrderEnded { get => _onOrderEnded; set => _onOrderEnded = value; }
     }
 }

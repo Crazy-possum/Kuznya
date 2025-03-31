@@ -60,6 +60,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     {
         ClearProgress();
         _ordersEventBus.OnOrderStarted += StartOrder;
+        _ordersEventBus.OnOrderEnded += StopProcess;
         _gameEventBus.OnCreatePool(PrefabID.UIForgingScoreText);
         UpdateUI();
     }
@@ -67,6 +68,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     public void Cleanup()
     {
         _ordersEventBus.OnOrderStarted -= StartOrder;
+        _ordersEventBus.OnOrderEnded -= StopProcess;
         //UnSubscribeWorkingZones();
     }
 
@@ -262,6 +264,12 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         {
             textView.RemoveText();
         }
+    }
+
+    private void StopProcess(ActiveOrder order = null)
+    {
+        ClearProgress();
+        _uiView.gameObject.SetActive(false);
     }
 
     private void EndProcess()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GameCoreModule;
 using MAEngine;
 using MAEngine.Extention;
+using Orders;
 using UnityEngine;
 using Zenject;
 
@@ -23,6 +24,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     private SmeltingView _smeltingView;
     private GameEventBus _gameEventBus;
     private StateEventsBus _stateEvents;
+    private OrdersEventBus _ordersEventBus;
     
     private Timer _smeltingTimer;
     private bool _isSmelting;
@@ -36,16 +38,19 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     private bool _isTriggeredObjectSet;
 
     [Inject]
-    public void Construct(SmeltingView smeltingView, GameEventBus gameEventBus, StateEventsBus stateEvents)
+    public void Construct(SmeltingView smeltingView, GameEventBus gameEventBus, StateEventsBus stateEvents,
+        OrdersEventBus ordersEventBus)
     {
         _smeltingView = smeltingView;
         _gameEventBus = gameEventBus;
         _stateEvents = stateEvents;
+        _ordersEventBus = ordersEventBus;
     }
     
     public void Initialisation()
     {
         _stateEvents.OnSmeltingStateActivate += StartSmelting;
+        _ordersEventBus.OnOrderEnded += StopProcess;
         _smeltingView.BellowsButton.onClick.AddListener(BellowsAction);
         _isSmelting = false;
     }
@@ -53,6 +58,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     public void Cleanup()
     {
         _stateEvents.OnSmeltingStateActivate -= StartSmelting;
+        _ordersEventBus.OnOrderEnded -= StopProcess;
         _smeltingView.BellowsButton.onClick.RemoveListener(BellowsAction);
     }
     
@@ -278,12 +284,23 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
         {
             if (_temperatureTimer.Wait())
             {
-                _activeSignalRects = new List<RectTransform>();
-                _triggeredSignalRect = null;
-                _stateEvents.OnForgingStateActivate?.Invoke();
-                _isSmelting = false;
-                _temperatureTimer = null;
+                EndProcess();
             }
         }
+    }
+    
+    private void StopProcess(ActiveOrder order = null)
+    {
+        _activeSignalRects = new List<RectTransform>();
+        _triggeredSignalRect = null;
+        _isSmelting = false;
+        _temperatureTimer = null;
+    }
+
+    private void EndProcess()
+    {
+        StopProcess();
+        _stateEvents.OnForgingStateActivate?.Invoke();
+        //TODO : Add points to next stage
     }
 }
