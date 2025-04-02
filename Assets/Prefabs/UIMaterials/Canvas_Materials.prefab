@@ -1123,6 +1123,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1381560130971830136}
     m_Modifications:
+    - target: {fileID: 406898564778604032, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3031709540396630976, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1357,6 +1361,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1381560130971830136}
     m_Modifications:
+    - target: {fileID: 406898564778604032, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3031709540396630976, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1470,6 +1478,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1381560130971830136}
     m_Modifications:
+    - target: {fileID: 406898564778604032, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3031709540396630976, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1583,6 +1595,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1381560130971830136}
     m_Modifications:
+    - target: {fileID: 406898564778604032, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3031709540396630976, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1696,6 +1712,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1381560130971830136}
     m_Modifications:
+    - target: {fileID: 406898564778604032, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3031709540396630976, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1809,6 +1829,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1381560130971830136}
     m_Modifications:
+    - target: {fileID: 406898564778604032, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3031709540396630976, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

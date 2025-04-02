@@ -1188,7 +1188,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.57
 --- !u!1 &6970334011972592432
 GameObject:
   m_ObjectHideFlags: 0
@@ -1358,8 +1358,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 67.39161, y: -80}
-  m_SizeDelta: {x: -134.9233, y: 75}
+  m_AnchoredPosition: {x: 45, y: -70}
+  m_SizeDelta: {x: -150, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2225457756990972275
 CanvasRenderer:
@@ -1787,6 +1787,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 401925940300085980}
     m_Modifications:
+    - target: {fileID: 65183327199359510, guid: 033d7c451579fd2419cf4a4947958b63, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6737533049885266102, guid: 033d7c451579fd2419cf4a4947958b63, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1912,6 +1916,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 401925940300085980}
     m_Modifications:
+    - target: {fileID: 969318057912883074, guid: a3f2b69bc1f41fa48a1c0244826b0aca, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 1.45
+      objectReference: {fileID: 0}
     - target: {fileID: 5770413889160721698, guid: a3f2b69bc1f41fa48a1c0244826b0aca, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2036,6 +2044,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 401925940300085980}
     m_Modifications:
+    - target: {fileID: 65183327199359510, guid: 033d7c451579fd2419cf4a4947958b63, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6737533049885266102, guid: 033d7c451579fd2419cf4a4947958b63, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2232,6 +2244,10 @@ PrefabInstance:
     - target: {fileID: 2625570132912978805, guid: 3ba2e06d936ea5b49b1de9c891961afe, type: 3}
       propertyPath: m_Name
       value: But_DialogueNo
+      objectReference: {fileID: 0}
+    - target: {fileID: 5394060367077112217, guid: 3ba2e06d936ea5b49b1de9c891961afe, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 1.45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
