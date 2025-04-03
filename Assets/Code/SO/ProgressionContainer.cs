@@ -16,8 +16,17 @@ public class ProgressionContainer : ScriptableObject
     public void SaveData(ProgressionData progressionData)
     {
         _playerMetaData = progressionData.PlayerMetaData;
+        SaveOrders(progressionData.OrdersMeta);
         _ordersMeta = progressionData.OrdersMeta;
         _upgradesMeta = progressionData.UpgradesMeta;
+    }
+
+    private void SaveOrders(OrdersMetaData ordersMeta)
+    {
+        foreach (ActiveOrder order in ordersMeta.ActiveOrders)
+        {
+            order.PreSaveOrder();
+        }
     }
 
     public ProgressionData LoadProgress()

@@ -213,7 +213,7 @@ namespace Orders
 
         private void AcceptOrder()
         {
-            _ordersMetaData.ActiveOrders.Add(_currentActiveOrder);
+            _ordersMetaData.SaveActiveOrder(_currentActiveOrder);
             _ordersEvents.OnOrderAdded?.Invoke();
             DialogueEndActions();
         }

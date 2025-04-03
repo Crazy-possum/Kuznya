@@ -55,6 +55,8 @@ namespace MainGUI
             _economyEventBus.OnMoneyUpdated -= UpdateMoneyUI;
             _economyEventBus.OnTryBuyUpgrade -= TryBuyUpgrade;
             _ordersEventBus.OnOrderEnded -= ActiveOrderEnded;
+            _ordersEventBus.OnOrderStarted -= SetOrderGUI;
+            _ordersEventBus.OnOrderFinished -= HideOrderGUI;
             _guiView.ClearProgressButton.onClick.RemoveListener(ClearProgress);
         }
         

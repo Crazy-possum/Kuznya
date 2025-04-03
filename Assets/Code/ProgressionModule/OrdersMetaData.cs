@@ -75,6 +75,22 @@ namespace Progression
             _activeClient = null;
         }
 
+        public ActiveOrder GetActiveOrder(int index)
+        {
+            ActiveOrder order = _activeOrders[index];
+            order.PreLoadOrder();
+            return order;
+        }
+        
+        public void SaveActiveOrder(ActiveOrder order)
+        {
+            order.PreSaveOrder();
+            if (!_activeOrders.Contains(order))
+            {
+                _activeOrders.Add(order);
+            }
+        }
+
     }
 }
 

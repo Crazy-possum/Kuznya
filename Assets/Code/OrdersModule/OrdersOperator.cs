@@ -76,8 +76,9 @@ namespace Orders
         {
             if (_ordersMetaData.ActiveOrders.Count > 0)
             {
-                foreach (ActiveOrder order in _ordersMetaData.ActiveOrders)
+                for (int i = 0; i < _ordersMetaData.ActiveOrders.Count; i++)
                 {
+                    ActiveOrder order = _ordersMetaData.GetActiveOrder(i);
                     AddOrder(order);
                 }
             }
@@ -174,13 +175,12 @@ namespace Orders
         private void AddOrder()
         {
             ActiveOrder activeOrder =
-                _ordersMetaData.ActiveOrders[_ordersMetaData.ActiveOrders.Count - 1];
+                _ordersMetaData.GetActiveOrder(_ordersMetaData.ActiveOrders.Count - 1);
             AddOrder(activeOrder);
         }
 
         private void AddOrder(ActiveOrder activeOrder)
         {
-
             OrderPanelView orderPanelView = null;
             if (_emptyOrderPanels.Count > 0)
             {

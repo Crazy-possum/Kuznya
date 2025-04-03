@@ -94,6 +94,7 @@ MonoBehaviour:
   _materialImage: {fileID: 2289448142378613259}
   _materialButton: {fileID: 5572661613461296368}
   _highlightObject: {fileID: 8054651822070324668}
+  _materialRectTransform: {fileID: 3031709540396630976}
 --- !u!1 &8054651822070324668
 GameObject:
   m_ObjectHideFlags: 0

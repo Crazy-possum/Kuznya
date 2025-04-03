@@ -10,10 +10,12 @@ namespace Economy
         [SerializeField] private Image _materialImage;
         [SerializeField] private Button _materialButton;
         [SerializeField] private GameObject _highlightObject;
+        [SerializeField] private RectTransform _materialRectTransform;
         
         public TMP_Text CountText { get => _countText; }
         public Image MaterialImage { get => _materialImage; }
         public Button MaterialButton { get => _materialButton; }
+        public RectTransform MaterialRectTransform { get => _materialRectTransform; }
         
         
 
