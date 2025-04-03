@@ -61,7 +61,6 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         ClearProgress();
         _ordersEventBus.OnOrderStarted += StartOrder;
         _ordersEventBus.OnOrderEnded += StopProcess;
-        _gameEventBus.OnCreatePool(PrefabID.UIForgingScoreText);
         UpdateUI();
     }
 
@@ -219,19 +218,19 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         }
         _currentView = zoneView;
         _currentAddingScore = score;
-        _gameEventBus.OnObjectSpawnedFromPool += InitializeTextObject;
-        _gameEventBus.OnSpawnObjectFromPool?.Invoke(PrefabID.UIForgingScoreText, Vector3.zero);
+        GameObjectSpawnCallback callback = new GameObjectSpawnCallback();
+        _gameEventBus.OnSpawnObjectFromPool?.Invoke(PrefabID.UIForgingScoreText, Vector3.zero, callback);
+        InitializeTextObject(callback.SpawnedObject);
         UpdateUI();
     }
 
-    private void InitializeTextObject(GameObject textObject, IPool pool)
+    private void InitializeTextObject(GameObject textObject)
     {
         textObject.transform.SetParent(_currentView.ScoreRoot);
         ScoreTextView textView = textObject.GetComponent<ScoreTextView>();
         textView.InitializeView(_currentView, LIFETIME);
         textView.Text.text = _currentAddingScore.ToString();
         _currentView.AddTextToList(textView);
-        _gameEventBus.OnObjectSpawnedFromPool -= InitializeTextObject;
         _currentView = null;
         _currentAddingScore = 0;
 

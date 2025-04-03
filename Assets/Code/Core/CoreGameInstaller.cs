@@ -1,5 +1,6 @@
 using Zenject;
 using GameCoreModule;
+using SO;
 using UnityEngine;
 
 public class CoreGameInstaller : MonoInstaller

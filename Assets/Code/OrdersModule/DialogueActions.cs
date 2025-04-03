@@ -122,14 +122,14 @@ namespace Orders
         private void AddClientIconToQueue(ClientConfig config)
         {
             _currentClientConfig = config;
-            _gameEventBus.OnObjectSpawned += AddClientIconObject;
+            GameObjectSpawnCallback callback = new GameObjectSpawnCallback();
             _gameEventBus.OnSpawnObject?.Invoke(PrefabID.ClientIcon,
-                Vector3.zero, _guiView.ClientsQueueTransform);
+                Vector3.zero, _guiView.ClientsQueueTransform, callback);
+            AddClientIconObject(callback.SpawnedObject);
         }
 
         private void AddClientIconObject(GameObject clientIconObject)
         {
-            _gameEventBus.OnObjectSpawned -= AddClientIconObject;
             clientIconObject.transform.SetSiblingIndex(0);
             Image clientImage = clientIconObject.GetComponent<Image>();
             clientImage.sprite = _clientsSpritesContainer.ClientSprites[_currentClientConfig.ClientType];

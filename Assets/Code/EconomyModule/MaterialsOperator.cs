@@ -44,7 +44,6 @@ namespace Economy
             _materialAddingTimer = new Timer(_playerMetaData.MaterialAddingDeltaTime);
             _economyEventBus.OnMaterialRemoved += RemoveMaterial;
             _economyEventBus.OnCollectableMaterialChanged += ChangeCollectableMaterial;
-            _gameEventBus.OnCreatePool(PrefabID.UIAddingMaterialText);
             _materialsUIView.MaterialsClickerButton.onClick.AddListener(ClickMaterialAction);
             _clickCooldownTimer = new Timer(1);
             _canClickMaterial = true;
@@ -177,8 +176,9 @@ namespace Economy
             if (_playerMetaData.Materials.ContainsKey(currentlyCollectabeMaterial.MaterialName))
             {
                 _playerMetaData.Materials[currentlyCollectabeMaterial.MaterialName]++;
-                _gameEventBus.OnObjectSpawnedFromPool += InitializeTextObject;
-                _gameEventBus.OnSpawnObjectFromPool?.Invoke(PrefabID.UIAddingMaterialText, Vector3.zero);
+                GameObjectSpawnCallback callback = new GameObjectSpawnCallback();
+                _gameEventBus.OnSpawnObjectFromPool?.Invoke(PrefabID.UIAddingMaterialText, Vector3.zero, callback);
+                InitializeTextObject(callback.SpawnedObject);
             }
             
         }
@@ -188,7 +188,7 @@ namespace Economy
             _playerMetaData.Materials[materialName] -= count;
         }
         
-        private void InitializeTextObject(GameObject textObject, IPool pool)
+        private void InitializeTextObject(GameObject textObject)
         {
             textObject.transform.SetParent(_materialsUIView.CountRoot);
             CountTextView textView = textObject.GetComponent<CountTextView>();
@@ -196,7 +196,6 @@ namespace Economy
             string materialAddingText = $"+{1} {_currentlyCollectabeMaterial.Name}";
             textView.Text.text = materialAddingText;
             _materialsUIView.AddTextToList(textView);
-            _gameEventBus.OnObjectSpawnedFromPool -= InitializeTextObject;
         }
         
         private void ClickMaterialAction()

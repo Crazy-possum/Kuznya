@@ -231,9 +231,10 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
         {
             if (_smeltingTimer.Wait())
             {
-                _gameEventBus.OnObjectSpawned += AddBellowsSignal;
+                GameObjectSpawnCallback callback = new GameObjectSpawnCallback();
                 _gameEventBus.OnSpawnObject?.Invoke(PrefabID.UISmeltingSingal,
-                    Vector3.zero, _smeltingView.SpawnZoneTransform);
+                    Vector3.zero, _smeltingView.SpawnZoneTransform, callback);
+                AddBellowsSignal(callback.SpawnedObject);
             }
         }
     }
@@ -243,7 +244,6 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
         RectTransform signalRect = signalObject.GetComponent<RectTransform>();
         signalRect.anchoredPosition = Vector2.zero;
         _activeSignalRects.Add(signalRect);
-        _gameEventBus.OnObjectSpawned -= AddBellowsSignal;
     }
 
     private void StartSmelting()

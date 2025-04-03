@@ -4,5 +4,6 @@ public enum PrefabID
     UIForgingScoreText = 1,
     ClientIcon = 2,
     UIAddingMaterialText = 3,
-    UISmeltingSingal = 4
+    UISmeltingSingal = 4,
+    UIRemovingMaterialIcon = 5 
 }

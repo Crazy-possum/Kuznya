@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 6232017268175427702}
   - component: {fileID: 1969577512834672667}
   m_Layer: 5
-  m_Name: P-StorableMaterialRemoving
+  m_Name: P-MaterialRemoving
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
