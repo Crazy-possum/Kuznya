@@ -24,6 +24,7 @@ namespace Orders
         private GUIView _guiView;
         private GameConfig _gameConfig;
         private ClientsSpritesContainer _clientsSpritesContainer;
+        private UIEventBus _uiEventBus;
 
         private OrdersMetaData _ordersMetaData;
         private PlayerMetaData _playerMetaData;
@@ -39,7 +40,8 @@ namespace Orders
         [Inject]
         public void Construct(DialogueView dialogueView, ProgressionData progressionData,
             OrdersEventBus ordersEvents, GameEventBus gameEventBus, GUIView guiView,
-            GameConfig gameConfig, ClientsSpritesContainer clientsSpritesContainer)
+            GameConfig gameConfig, ClientsSpritesContainer clientsSpritesContainer,
+            UIEventBus uiEventBus)
         {
             _dialogueView = dialogueView;
             _progressionData = progressionData;
@@ -48,6 +50,7 @@ namespace Orders
             _guiView = guiView;
             _gameConfig = gameConfig;
             _clientsSpritesContainer = clientsSpritesContainer;
+            _uiEventBus = uiEventBus;
         }
         
         public void PreInitialisation()
@@ -219,6 +222,7 @@ namespace Orders
 
         private void StartDialogueEndDelay()
         {
+            _uiEventBus.OnFreezeUI?.Invoke();
             _dialogueEndTimer = new Timer(DIALOGUE_END_DELAY);
         }
 
@@ -238,6 +242,7 @@ namespace Orders
 
         private void DialogueEndActions()
         {
+            _uiEventBus.OnUnfreezeUI?.Invoke();
             _dialogueView.HighlightComfirmObject.SetActive(false);
             _dialogueView.HighlightRejectObject.gameObject.SetActive(false);
             _dialogueView.ClientImage.gameObject.SetActive(false);

@@ -17,12 +17,14 @@ namespace MainGUI
         private ProgressionEvents _progressionEvents;
         private OrdersEventBus _ordersEventBus;
         private StateEventsBus _stateEventsBus;
+        private UIEventBus _uiEventBus;
         
         private ActiveOrder _activeOrder;
         
         [Inject]
         public void Construct(EconomyEventBus economyEventBus, GUIView guiView, ProgressionData progressionData,
-            ProgressionEvents progressionEvents, OrdersEventBus ordersEventBus, StateEventsBus stateEventsBus)
+            ProgressionEvents progressionEvents, OrdersEventBus ordersEventBus, StateEventsBus stateEventsBus,
+            UIEventBus uiEventBus)
         {
             _economyEventBus = economyEventBus;
             _guiView = guiView;
@@ -30,6 +32,7 @@ namespace MainGUI
             _progressionEvents = progressionEvents;
             _ordersEventBus = ordersEventBus;
             _stateEventsBus = stateEventsBus;
+            _uiEventBus = uiEventBus;
         }
         
         public void Initialisation()
@@ -43,6 +46,8 @@ namespace MainGUI
             _ordersEventBus.OnOrderFinished += HideOrderGUI;
             _guiView.UpgradeConfirmView.gameObject.SetActive(false);
             _guiView.ClearProgressButton.onClick.AddListener(ClearProgress);
+            _uiEventBus._onFreezeUI += FreezeUI;
+            _uiEventBus._onUnfreezeUI += UnfreezeUI;
         }
 
         private void ClearProgress()
@@ -58,6 +63,8 @@ namespace MainGUI
             _ordersEventBus.OnOrderStarted -= SetOrderGUI;
             _ordersEventBus.OnOrderFinished -= HideOrderGUI;
             _guiView.ClearProgressButton.onClick.RemoveListener(ClearProgress);
+            _uiEventBus._onFreezeUI -= FreezeUI;
+            _uiEventBus._onUnfreezeUI -= UnfreezeUI;
         }
         
         public void FixedExecute(float fixedDeltaTime)
@@ -136,6 +143,16 @@ namespace MainGUI
             _guiView.UpgradeConfirmView.ConfirmButton.onClick.RemoveAllListeners();
             _guiView.UpgradeConfirmView.CancelButton.onClick.RemoveAllListeners();
             _economyEventBus.OnBuyUpgradeCanceled?.Invoke();
+        }
+        
+        private void FreezeUI()
+        {
+            _guiView.UIBlockingPanel.SetActive(true);
+        }
+
+        private void UnfreezeUI()
+        {
+            _guiView.UIBlockingPanel.SetActive(false);
         }
     }
 }

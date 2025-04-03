@@ -11,12 +11,14 @@ namespace Orders
     public class OrdersOperator : IAction, IInitialisation, ICleanUp, IFixedExecute
     {
         private const float REMOVE_TIME = 2f;
+        private const float ORDER_START_DELAY = 2f;
 
         private ProgressionData _progressionData;
         private OrdersView _ordersView;
         private OrdersEventBus _ordersEventBus;
         private ResultsEventBus _resultsEventBus;
         private EconomyEventBus _economyEventBus;
+        private UIEventBus _uiEventBus;
 
         private OrdersMetaData _ordersMetaData;
         private PlayerMetaData _playerMetaData;
@@ -24,17 +26,20 @@ namespace Orders
         private Dictionary<OrderPanelView, ActiveOrder> _activeOrders;
         private Dictionary<OrderPanelView, Timer> _ordersToRemove;
         private OrderPanelView _currentActiveOrder;
+        private Timer _orderStartDelayTimer;
 
         [Inject]
         public void Construct(ProgressionData progressionData,
             OrdersView ordersView, OrdersEventBus ordersEventBus,
-            ResultsEventBus resultsEventBus, EconomyEventBus economyEventBus)
+            ResultsEventBus resultsEventBus, EconomyEventBus economyEventBus,
+            UIEventBus uiEventBus)
         {
             _progressionData = progressionData;
             _ordersView = ordersView;
             _ordersEventBus = ordersEventBus;
             _resultsEventBus = resultsEventBus;
             _economyEventBus = economyEventBus;
+            _uiEventBus = uiEventBus;
         }
 
 
@@ -69,6 +74,15 @@ namespace Orders
             if (_ordersToRemove.Count > 0)
             {
                 RemoveDelayedPanels();
+            }
+
+            if (_orderStartDelayTimer != null)
+            {
+                if (_orderStartDelayTimer.Wait())
+                {
+                    _uiEventBus.OnUnfreezeUI?.Invoke();
+                    _ordersEventBus.OnOrderStarted?.Invoke(_activeOrders[_currentActiveOrder]);
+                }
             }
         }
         
@@ -298,12 +312,13 @@ namespace Orders
 
         private void AcceptOrder(OrderPanelView orderPanelView)
         {
-            _ordersEventBus.OnOrderStarted?.Invoke(_activeOrders[orderPanelView]);
+            _uiEventBus.OnFreezeUI?.Invoke();
             _currentActiveOrder = orderPanelView;
             foreach (ForgingMaterial material in _currentActiveOrder.ActiveOrder.Materials)
             {
                 _economyEventBus.OnMaterialRemoved?.Invoke(material.Config.MaterialName, material.Count);
             }
+            _orderStartDelayTimer = new Timer(ORDER_START_DELAY);
             HideConfirmPanel();
         }
 

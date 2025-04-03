@@ -27,6 +27,7 @@ public class CoreGameInstaller : MonoInstaller
         Container.Bind<OrdersEventBus>().AsSingle();
         Container.Bind<StateEventsBus>().AsSingle();
         Container.Bind<EconomyEventBus>().AsSingle();
+        Container.Bind<UIEventBus>().AsSingle();
     }
 
     private void InstallContainers()

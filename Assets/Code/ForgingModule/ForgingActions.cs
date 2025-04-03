@@ -21,7 +21,6 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private const float BAD_PROGRESS = 0.02f;
     private const float PROGRESS_MULTIPLER = 1;
     private const float END_PROCESS_DELAY = 2;
-    private const float ORDER_START_DELAY = 2f;
     
     private ForgingUIView _uiView;
     private ForgingEventBus _eventBus;
@@ -41,7 +40,6 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private List<WorkZoneUIView> _currentWorkZoneViews;
 
     private Timer _endProcessTimer;
-    private Timer _orderStartDelayTimer;
 
 
     [Inject]
@@ -78,19 +76,6 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         CheckScoreTextsLifetime();
         CheckProgress();
         TryEndProcess();
-        CheckOrderStartTimer();
-    }
-
-    private void CheckOrderStartTimer()
-    {
-        if (_orderStartDelayTimer != null)
-        {
-            if (_orderStartDelayTimer.Wait())
-            {
-                _stateEventsBus.OnSmeltingStateActivate?.Invoke();
-                _orderStartDelayTimer = null;
-            }
-        }
     }
 
     private void TryEndProcess()
@@ -112,7 +97,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         _uiView.ItemImage.sprite = _itemSprites.Stage0Sprite;
         _currentForgingSteps = _uiView.StepsDict[order.OrderType];
         _uiView.ItemImage.SetNativeSize();
-        _orderStartDelayTimer = new Timer(ORDER_START_DELAY);
+        _stateEventsBus.OnSmeltingStateActivate?.Invoke();
         UpdateForgingSteps(0);
     }
 

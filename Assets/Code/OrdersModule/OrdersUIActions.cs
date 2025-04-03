@@ -23,7 +23,8 @@ namespace Orders
         private StorableMaterialView _currentlySpawnedRemovingMaterial;
         
         [Inject]
-        public void Construct(OrdersView orderView, EconomyEventBus economyEventBus, GameEventBus gameEventBus)
+        public void Construct(OrdersView orderView, EconomyEventBus economyEventBus,
+            GameEventBus gameEventBus)
         {
             _ordersView = orderView;
             _economyEventBus = economyEventBus;
