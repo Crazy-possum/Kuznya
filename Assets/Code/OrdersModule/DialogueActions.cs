@@ -15,6 +15,7 @@ namespace Orders
     {
         private const string ACCEPT_TEXT = "Принять";
         private const string NOT_ENOUTH_TEXT = "Нет места";
+        private const float DIALOGUE_END_DELAY = 2f;
 
         private DialogueView _dialogueView;
         private ProgressionData _progressionData;
@@ -33,6 +34,7 @@ namespace Orders
         private int _generationLength;
         private Timer _timer;
         private ClientConfig _currentClientConfig;
+        private Timer _dialogueEndTimer;
 
         [Inject]
         public void Construct(DialogueView dialogueView, ProgressionData progressionData,
@@ -92,6 +94,15 @@ namespace Orders
             if (_timer.Wait())
             {
                 GenerateText();
+            }
+
+            if (_dialogueEndTimer != null)
+            {
+                if (_dialogueEndTimer.Wait())
+                {
+                    DialogueEndActions();
+                    _dialogueEndTimer = null;
+                }
             }
         }
         
@@ -206,20 +217,29 @@ namespace Orders
             _guiView.NavigationPanel.SetActive(false);
         }
 
-        private void RejectOrder()
+        private void StartDialogueEndDelay()
         {
-            DialogueEndActions();
+            _dialogueEndTimer = new Timer(DIALOGUE_END_DELAY);
         }
 
+        private void RejectOrder()
+        {
+            _dialogueView.HighlightRejectObject.gameObject.SetActive(true);
+            StartDialogueEndDelay();
+        }
+        
         private void AcceptOrder()
         {
+            _dialogueView.HighlightComfirmObject.SetActive(true);
             _ordersMetaData.SaveActiveOrder(_currentActiveOrder);
             _ordersEvents.OnOrderAdded?.Invoke();
-            DialogueEndActions();
+            StartDialogueEndDelay();
         }
 
         private void DialogueEndActions()
         {
+            _dialogueView.HighlightComfirmObject.SetActive(false);
+            _dialogueView.HighlightRejectObject.gameObject.SetActive(false);
             _dialogueView.ClientImage.gameObject.SetActive(false);
             _dialogueView.DialoguePanel.SetActive(false);
             _guiView.NavigationPanel.SetActive(true);
