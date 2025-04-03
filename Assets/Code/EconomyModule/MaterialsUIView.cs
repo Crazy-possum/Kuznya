@@ -3,6 +3,7 @@ using GameCoreModule;
 using MAEngine;
 using MAEngine.Extention;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Economy
 {
@@ -12,6 +13,8 @@ namespace Economy
         [SerializeField] private string _viewID;
         [SerializeField] private Transform _countRoot;
         [SerializeField] private int _maxCountTexts;
+        [SerializeField] private Button _materialsClickerButton;
+        [SerializeField] private Slider _cooldownSlider;
         [SerializeField] private SerializableDictionary<MaterialName, StorableMaterialView> _storableMaterials;
         private List<CountTextView> _addingCountTextList = new List<CountTextView>();
         private EconomyEventBus _economyEventBus;
@@ -20,6 +23,8 @@ namespace Economy
         public GameObject Object { get => _panelObject; }
         public string ViewID { get => _viewID; set => _viewID = value; }
         public Transform CountRoot { get => _countRoot; }
+        public Button MaterialsClickerButton { get => _materialsClickerButton; }
+        public Slider CooldownSlider { get => _cooldownSlider; }
         public SerializableDictionary<MaterialName, StorableMaterialView> StorableMaterials 
         { get => _storableMaterials; set => _storableMaterials = value; }
         public List<CountTextView> AddingCountTextList { get => _addingCountTextList; }

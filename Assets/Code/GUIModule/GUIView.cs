@@ -14,6 +14,11 @@ namespace MainGUI
         [SerializeField] private GameObject _navigationPanel;
         [SerializeField] private TMP_Text _currentMoneyText;
         [SerializeField] private UpgradeConfirmView _upgradeConfirmView;
+        [SerializeField] private Button _clearProgressButton;
+        [SerializeField] private GameObject _orderEndedPanel;
+        [SerializeField] private GameObject _orderTimePanel;
+        [SerializeField] private Slider _orderTimeSlider;
+        [SerializeField] private GameObject _uiBlockingPanel;
 
         public Button DialogueButton { get => _dialogueButton; }
         public Button OrdersButton { get => _ordersButton; }
@@ -23,6 +28,11 @@ namespace MainGUI
         public GameObject NavigationPanel { get => _navigationPanel; }
         public TMP_Text CurrentMoneyText { get => _currentMoneyText; }
         public UpgradeConfirmView UpgradeConfirmView { get => _upgradeConfirmView; }
+        public Button ClearProgressButton { get => _clearProgressButton; }
+        public GameObject OrderEndedPanel { get => _orderEndedPanel; }
+        public GameObject OrderTimePanel { get => _orderTimePanel; }
+        public Slider OrderTimeSlider { get => _orderTimeSlider; }
+        public GameObject UIBlockingPanel { get => _uiBlockingPanel; }
         
     }
 }

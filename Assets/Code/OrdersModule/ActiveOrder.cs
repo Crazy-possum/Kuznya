@@ -19,6 +19,8 @@ namespace Orders
         private Timer _orderTimer;
         private bool _isCompleted;
         private int _reward;
+        private OrderType _orderType;
+        private float _remainingTime;
 
         public string ClientName { get => _clientName; }
         public Sprite ClientIcon { get => _clientIcon; }
@@ -31,6 +33,8 @@ namespace Orders
         public Timer OrderTimer { get => _orderTimer; set => _orderTimer = value; }
         public bool IsCompleted { get => _isCompleted; set => _isCompleted = value; }
         public int Reward { get => _reward; set => _reward = value; }
+        public OrderType OrderType { get => _orderType; }
+        public float RemainingTime { get => _remainingTime; }
         
 
         public ActiveOrder(string name, OrderText description,
@@ -55,8 +59,19 @@ namespace Orders
             _materials = orderConfig.Materials;
             _orderTime = orderConfig.OrderTime;
             _basicCost = orderConfig.BasicCost;
+            _orderType = orderConfig.OrderType;
             _orderTimer = new Timer(orderConfig.OrderTime);
             _isCompleted = false;
+        }
+
+        public void PreSaveOrder()
+        {
+            _remainingTime = _orderTimer.GetRemainingTime();
+        }
+        
+        public void PreLoadOrder()
+        {
+            _orderTimer = new Timer(_remainingTime);
         }
     }
 }

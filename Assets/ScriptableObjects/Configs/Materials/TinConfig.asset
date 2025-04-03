@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d70df436d3212d14e8f992a8fbc1d4fd, type: 3}
   m_Name: TinConfig
   m_EditorClassIdentifier: 
-  _materialName: 1
+  _materialName: 2
   _name: "\u041E\u043B\u043E\u0432\u043E"
   _sprite: {fileID: 21300000, guid: 28ded2cd006acd94d86a70f2843edd8d, type: 3}

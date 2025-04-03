@@ -7,9 +7,11 @@ public class ClientConfig : ScriptableObject
     [SerializeField] private MaterialName _materialName;
     [SerializeField] private Sprite _clientSprite;
     [SerializeField] private OrdersPoolConfig _orders;
+    [SerializeField] private ClientType _clientType;
 
     public string Name { get => _name; }
     public MaterialName MaterialName { get => _materialName; }
     public Sprite ClientSprite { get => _clientSprite; }
     public OrdersPoolConfig Orders { get => _orders; }
+    public ClientType ClientType { get => _clientType; }
 }

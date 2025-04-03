@@ -12,4 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e577a03c648cca54d90abb3015000bfb, type: 3}
   m_Name: Warriors_OrdersPoolConfig
   m_EditorClassIdentifier: 
-  _orders: []
+  _orders:
+  - {fileID: 11400000, guid: da6235c6e734a224b9ae78dbee87dc91, type: 2}
+  - {fileID: 11400000, guid: 19d99a9952326e941aea3f02814f964a, type: 2}
+  - {fileID: 11400000, guid: d5cb3aceb28c4bd45a19edd6f133d922, type: 2}
+  - {fileID: 11400000, guid: 091d7f0eb2fb4d8498e6a80093506d4e, type: 2}
+  - {fileID: 11400000, guid: 73e59a654b7cc664896c04a8656a9edc, type: 2}
+  - {fileID: 11400000, guid: ac7f7daae4400a840933cce1acb79d9c, type: 2}
+  - {fileID: 11400000, guid: 08e3eebce5129ae4fa1494f62534571c, type: 2}
+  - {fileID: 11400000, guid: 6cd9f9062010be64fa9e6049f2b8045f, type: 2}
+  - {fileID: 11400000, guid: ef7f062a63f50db4880375307540b1ee, type: 2}
+  - {fileID: 11400000, guid: f467361deb679e444aa607ec7222627b, type: 2}

@@ -13,6 +13,7 @@ public class ForgingModule : BasicModule
         InitializeFields();
         InitializeForgingActions();
         InitializeResultsActions();
+        InitializeSmeltingActions();
     }
 
     private void InitializeFields()
@@ -32,5 +33,12 @@ public class ForgingModule : BasicModule
         ResultsActions resultsActions =
             _di.Resolve<ResultsActions>();
         _actions.Add(resultsActions);
+    }
+    
+    private void InitializeSmeltingActions()
+    {
+        SmeltingActions smeltingActions =
+            _di.Resolve<SmeltingActions>();
+        _actions.Add(smeltingActions);
     }
 }

@@ -7,6 +7,7 @@ namespace MainGUI
     {
         [SerializeField] private GUIView _guiView;
         [SerializeField] private ScalableView _scalableView;
+        [SerializeField] private ClientsSpritesContainer _clientsSpritesContainer;
 
         public override void InstallBindings()
         {
@@ -14,6 +15,9 @@ namespace MainGUI
                 FromInstance(_guiView).AsSingle();
             Container.Bind<ScalableView>().
                 FromInstance(_scalableView).AsSingle();
+            
+            Container.Bind<ClientsSpritesContainer>().FromInstance(_clientsSpritesContainer).AsSingle();
+            
             Container.Bind<GUINavigationButtonsOperator>().AsSingle();
             Container.Bind<UIScalingAction>().AsSingle();
             Container.Bind<GUIMainOperator>().AsSingle();

@@ -4,6 +4,7 @@ using MAEngine.Extention;
 using Progression;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Zenject;
 
 namespace Orders
@@ -39,17 +40,24 @@ namespace Orders
             _ordersEventBus.OnClientDeactivated += DeactivateClient;
             _random = new System.Random();
             _ordersMetaData = _progressionData.OrdersMeta;
-
             UpdateTimer();
+            LoadClients();
+        }
+
+        private void LoadClients()
+        {
             if (_ordersMetaData.ActiveClient != null)
             {
                 _isClientActive = true;
+                _ordersEventBus.OnClientAdded?.Invoke(_ordersMetaData.ActiveClient);
             }
-            if (_ordersMetaData.GetClientsCount() == 0)
+            if (_ordersMetaData.GetClientsCount() != 0)
             {
-                AddNewClient();
+                foreach (ClientConfig clientConfig in _ordersMetaData.ActiveClients)
+                {
+                    _ordersEventBus.OnClientAdded?.Invoke(clientConfig);
+                }
             }
-            SetActiveClient();
         }
 
         public void Cleanup()
@@ -82,7 +90,6 @@ namespace Orders
                 if (_ordersMetaData.ActiveClient != null)
                 {
                     _isClientActive = true;
-                    _ordersEventBus.OnClientRemoved?.Invoke();
                     _ordersEventBus.OnClientActivated?.Invoke();
                 }
             }
@@ -123,10 +130,7 @@ namespace Orders
                     {
 
                         _ordersMetaData.AddClient(clients[clientIndex]);
-                        if (_isClientActive)
-                        {
-                            _ordersEventBus.OnClientAdded?.Invoke();
-                        }
+                        _ordersEventBus.OnClientAdded?.Invoke(clients[clientIndex]);
                         //Debug.Log($"{clients[clientIndex]}");
                     }
                     else

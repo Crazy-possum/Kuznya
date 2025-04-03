@@ -9,6 +9,8 @@ namespace MAEngine.Extention
         private float _startWaitTime;
         private float _duration;
 
+        public float Duration => _duration;
+
         public Timer()
         {
             IsWaiting = false;

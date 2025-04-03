@@ -1,6 +1,7 @@
 ﻿using MAEngine;
 using MAEngine.Extention;
 using System;
+using SO;
 using Zenject;
 
 namespace GameCoreModule

@@ -28,8 +28,8 @@ namespace MainGUI
             _view.OrdersButton.onClick.AddListener(() => ShowOrders());
             _view.ShopButton.onClick.AddListener(() => ShowShop());
             _view.MaterialsButton.onClick.AddListener(() => ShowMaterials());
-            _events.OnForgingStateActivate += HideNavigationButtons;
-            _resultsEvents.OnResultsFinished += ShowNavigationButtons;
+            _events.OnSmeltingStateActivate += ActivateOrderForging;
+            _resultsEvents.OnResultsFinished += StopOrderForging;
             InitializeButtonsList();
             ShowDialogue();
         }
@@ -51,6 +51,8 @@ namespace MainGUI
             _view.OrdersButton.onClick.RemoveListener(() => ShowOrders());
             _view.ShopButton.onClick.RemoveListener(() => ShowShop());
             _view.MaterialsButton.onClick.RemoveListener(() => ShowMaterials());
+            _events.OnSmeltingStateActivate -= ActivateOrderForging;
+            _resultsEvents.OnResultsFinished -= StopOrderForging;
         }
 
         private void ShowDialogue()
@@ -98,6 +100,18 @@ namespace MainGUI
         private void HideNavigationButtons()
         {
             _view.NavigationPanel.gameObject.SetActive(false);
+        }
+
+        private void ActivateOrderForging()
+        {
+            HideNavigationButtons();
+            _view.ClientsQueueTransform.gameObject.SetActive(false);
+        }
+
+        private void StopOrderForging(int money)
+        {
+            ShowNavigationButtons(money);
+            _view.ClientsQueueTransform.gameObject.SetActive(true);
         }
 
     }

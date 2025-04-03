@@ -71,3 +71,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /.idea/*
+Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Zenject-ReflectionBaking.csproj.meta
+Assets/Plugins/Zenject/OptionalExtras/Signals/Zenject-Signals.csproj.meta
+Assets/Plugins/Zenject/Source/Zenject.csproj.meta

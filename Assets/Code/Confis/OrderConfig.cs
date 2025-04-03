@@ -11,6 +11,7 @@ public class OrderConfig : ScriptableObject
     [SerializeField] private List<ForgingMaterial> _materials;
     [SerializeField] private int _orderTime;
     [SerializeField] private int _basicCost;
+    [SerializeField] private OrderType _orderType;
 
     public string Name { get => _name; }
     public List<OrderText> Descriptions { get => _descriptions; }
@@ -18,4 +19,5 @@ public class OrderConfig : ScriptableObject
     public List<ForgingMaterial> Materials { get => _materials; }
     public int OrderTime { get => _orderTime; }
     public int BasicCost { get => _basicCost; }
+    public OrderType OrderType { get => _orderType; }
 }

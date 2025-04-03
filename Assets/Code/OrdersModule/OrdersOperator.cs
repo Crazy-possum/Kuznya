@@ -11,12 +11,14 @@ namespace Orders
     public class OrdersOperator : IAction, IInitialisation, ICleanUp, IFixedExecute
     {
         private const float REMOVE_TIME = 2f;
+        private const float ORDER_START_DELAY = 2f;
 
         private ProgressionData _progressionData;
         private OrdersView _ordersView;
         private OrdersEventBus _ordersEventBus;
         private ResultsEventBus _resultsEventBus;
         private EconomyEventBus _economyEventBus;
+        private UIEventBus _uiEventBus;
 
         private OrdersMetaData _ordersMetaData;
         private PlayerMetaData _playerMetaData;
@@ -24,17 +26,20 @@ namespace Orders
         private Dictionary<OrderPanelView, ActiveOrder> _activeOrders;
         private Dictionary<OrderPanelView, Timer> _ordersToRemove;
         private OrderPanelView _currentActiveOrder;
+        private Timer _orderStartDelayTimer;
 
         [Inject]
         public void Construct(ProgressionData progressionData,
             OrdersView ordersView, OrdersEventBus ordersEventBus,
-            ResultsEventBus resultsEventBus, EconomyEventBus economyEventBus)
+            ResultsEventBus resultsEventBus, EconomyEventBus economyEventBus,
+            UIEventBus uiEventBus)
         {
             _progressionData = progressionData;
             _ordersView = ordersView;
             _ordersEventBus = ordersEventBus;
             _resultsEventBus = resultsEventBus;
             _economyEventBus = economyEventBus;
+            _uiEventBus = uiEventBus;
         }
 
 
@@ -43,31 +48,19 @@ namespace Orders
             _ordersMetaData = _progressionData.OrdersMeta;
             _playerMetaData = _progressionData.PlayerMetaData;
             _ordersEventBus.OnOrderAdded += AddOrder;
+            _resultsEventBus.OnResultsFinished += ActiveOrderFinished;
             _ordersToRemove = new Dictionary<OrderPanelView, Timer>();
             _activeOrders = new Dictionary<OrderPanelView, ActiveOrder>();
             InitializeOrderPanels();
             AddInitialOrders();
-            _resultsEventBus.OnResultsFinished += ActiveOrderFinished;
-
-        }
-
-        private void AddInitialOrders()
-        {
-            if (_ordersMetaData.ActiveOrders.Count > 0)
-            {
-                foreach (ActiveOrder order in _ordersMetaData.ActiveOrders)
-                {
-                    AddOrder(order);
-                }
-            }
         }
 
         public void Cleanup()
         {
             _ordersEventBus.OnOrderAdded -= AddOrder;
+            _resultsEventBus.OnResultsFinished -= ActiveOrderFinished;
             _ordersView.ConfirmButton.onClick.RemoveAllListeners();
             _ordersView.DenyButton.onClick.RemoveAllListeners();
-            _resultsEventBus.OnResultsFinished -= ActiveOrderFinished;
             CleanOrderPanels();
         }
 
@@ -82,8 +75,29 @@ namespace Orders
             {
                 RemoveDelayedPanels();
             }
-        }
 
+            if (_orderStartDelayTimer != null)
+            {
+                if (_orderStartDelayTimer.Wait())
+                {
+                    _uiEventBus.OnUnfreezeUI?.Invoke();
+                    _ordersEventBus.OnOrderStarted?.Invoke(_activeOrders[_currentActiveOrder]);
+                }
+            }
+        }
+        
+        private void AddInitialOrders()
+        {
+            if (_ordersMetaData.ActiveOrders.Count > 0)
+            {
+                for (int i = 0; i < _ordersMetaData.ActiveOrders.Count; i++)
+                {
+                    ActiveOrder order = _ordersMetaData.GetActiveOrder(i);
+                    AddOrder(order);
+                }
+            }
+        }
+        
         private void CheckPanelsTimers()
         {
             foreach (KeyValuePair<OrderPanelView, ActiveOrder> keyValuePair in _activeOrders)
@@ -93,10 +107,19 @@ namespace Orders
                     UpdateOrderSlider(keyValuePair.Key, keyValuePair.Value);
                     if (keyValuePair.Value.OrderTimer.Wait())
                     {
+                        if (_currentActiveOrder != null)
+                        {
+                            if (_currentActiveOrder == keyValuePair.Key)
+                            {
+                                _ordersEventBus.OnOrderEnded?.Invoke(keyValuePair.Value);
+                            }
+                        }
                         keyValuePair.Value.OrderTimer = null;
                         RemoveOrder(keyValuePair.Key, REMOVE_TIME);
                     }
                 }
+
+
             }
         }
 
@@ -166,13 +189,12 @@ namespace Orders
         private void AddOrder()
         {
             ActiveOrder activeOrder =
-                _ordersMetaData.ActiveOrders[_ordersMetaData.ActiveOrders.Count - 1];
+                _ordersMetaData.GetActiveOrder(_ordersMetaData.ActiveOrders.Count - 1);
             AddOrder(activeOrder);
         }
 
         private void AddOrder(ActiveOrder activeOrder)
         {
-
             OrderPanelView orderPanelView = null;
             if (_emptyOrderPanels.Count > 0)
             {
@@ -245,7 +267,7 @@ namespace Orders
             {
                 if (_playerMetaData.Materials.ContainsKey(material.Config.MaterialName))
                 {
-                    if (_playerMetaData.Materials[material.Config.MaterialName] <= material.Count)
+                    if (_playerMetaData.Materials[material.Config.MaterialName] < material.Count)
                     {
                         haveEnoughtMaterials = false;
                     }
@@ -290,12 +312,13 @@ namespace Orders
 
         private void AcceptOrder(OrderPanelView orderPanelView)
         {
-            _ordersEventBus.OnOrderStarted?.Invoke(_activeOrders[orderPanelView]);
+            _uiEventBus.OnFreezeUI?.Invoke();
             _currentActiveOrder = orderPanelView;
             foreach (ForgingMaterial material in _currentActiveOrder.ActiveOrder.Materials)
             {
                 _economyEventBus.OnMaterialRemoved?.Invoke(material.Config.MaterialName, material.Count);
             }
+            _orderStartDelayTimer = new Timer(ORDER_START_DELAY);
             HideConfirmPanel();
         }
 

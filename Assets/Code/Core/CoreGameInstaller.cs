@@ -1,5 +1,6 @@
 using Zenject;
 using GameCoreModule;
+using SO;
 using UnityEngine;
 
 public class CoreGameInstaller : MonoInstaller
@@ -26,6 +27,7 @@ public class CoreGameInstaller : MonoInstaller
         Container.Bind<OrdersEventBus>().AsSingle();
         Container.Bind<StateEventsBus>().AsSingle();
         Container.Bind<EconomyEventBus>().AsSingle();
+        Container.Bind<UIEventBus>().AsSingle();
     }
 
     private void InstallContainers()

@@ -18,6 +18,8 @@ namespace Orders
         [SerializeField] private GameObject _dialogueIcon;
         [SerializeField] private TMP_Text _dialogueIconText;
         [SerializeField] private TMP_Text _acceptButtonText;
+        [SerializeField] private GameObject _highlightComfirmObject;
+        [SerializeField] private GameObject _highlightRejectObject;
 
         public Button AcceptButton { get => _acceptButton; }
         public Button RejectButton { get => _rejectButton; }
@@ -31,6 +33,8 @@ namespace Orders
         public GameObject DialogueIcon { get => _dialogueIcon; }
         public TMP_Text DialogueIconText { get => _dialogueIconText; }
         public TMP_Text AcceptButtonText { get => _acceptButtonText; }
+        public GameObject HighlightComfirmObject { get => _highlightComfirmObject; }
+        public GameObject HighlightRejectObject { get => _highlightRejectObject; }
     }
 }
 

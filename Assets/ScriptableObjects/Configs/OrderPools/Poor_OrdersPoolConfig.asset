@@ -13,6 +13,17 @@ MonoBehaviour:
   m_Name: Poor_OrdersPoolConfig
   m_EditorClassIdentifier: 
   _orders:
-  - {fileID: 11400000, guid: 2333d0a2d0b86e641b2627b6399c14ae, type: 2}
-  - {fileID: 11400000, guid: eb16a7e903b45724c9844e2bf4ac413a, type: 2}
-  - {fileID: 11400000, guid: 7e3be8ef138edcd4e90c9cb69c37eb78, type: 2}
+  - {fileID: 11400000, guid: 0d9b87ed58cd60948bab5aae4b558536, type: 2}
+  - {fileID: 11400000, guid: 6c9f51a876dc7bf4385d6095896ac7fe, type: 2}
+  - {fileID: 11400000, guid: 27002601e2ce08048bd9e1c9e752df33, type: 2}
+  - {fileID: 11400000, guid: 01d9f7bb55a2eab4a91f92e3074a354c, type: 2}
+  - {fileID: 11400000, guid: 59fcb840865d0f34baeb54654e6c6c1c, type: 2}
+  - {fileID: 11400000, guid: f9adae2894ce0bd4b9f68ea2f911f34a, type: 2}
+  - {fileID: 11400000, guid: 8b0b3ff280040ca41ac870310ed1081f, type: 2}
+  - {fileID: 11400000, guid: c8c7e86b611bd244ead10dac32aa31f1, type: 2}
+  - {fileID: 11400000, guid: fdd0cc331e70f80418f4494a76e5b4c2, type: 2}
+  - {fileID: 11400000, guid: 1147d9a4bf43593478b1db15cfd8b32c, type: 2}
+  - {fileID: 11400000, guid: b903a59f0c274974498710168b6846ad, type: 2}
+  - {fileID: 11400000, guid: 6fa83b62914eddf47b3b948443969997, type: 2}
+  - {fileID: 11400000, guid: 667e20281bfe4f54980c2e93f1aabd4d, type: 2}
+  - {fileID: 11400000, guid: 3a03854e1dcb42149b66773a0412a323, type: 2}

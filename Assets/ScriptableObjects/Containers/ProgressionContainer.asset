@@ -13,7 +13,23 @@ MonoBehaviour:
   m_Name: ProgressionContainer
   m_EditorClassIdentifier: 
   _playerMetaData:
-    _currentMaximumMaterial: 1
-    _currentMoney: 19728
-    _currentMaxMaterialStorage: 100
-    _materialAddingDeltaTime: 2
+    _currentMaximumMaterial: 2
+    _currentMoney: 8500
+    _currentMaxMaterialStorage: 50
+    _materialAddingDeltaTime: 4
+  _ordersMeta:
+    _activeClients:
+    - {fileID: 11400000, guid: f3a76b645c302e54d80fd10cf2fb0a0d, type: 2}
+    _activeOrders: []
+    _activeClient: {fileID: 11400000, guid: cec882a392332674a8b17c73a38684b6, type: 2}
+  _upgradesMeta:
+    _upgradesDict:
+      Dictionary:
+      - Key: 1
+        Value: 1
+    _upgrades:
+      Dictionary:
+      - Key: 1
+        Value:
+          _upgradeModifier: 0
+          _isUpgradeActive: 1

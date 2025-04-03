@@ -12,4 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e577a03c648cca54d90abb3015000bfb, type: 3}
   m_Name: Craftman_OrdersPoolConfig
   m_EditorClassIdentifier: 
-  _orders: []
+  _orders:
+  - {fileID: 11400000, guid: e7dfb97e7eb0abb47b714c28d1039163, type: 2}
+  - {fileID: 11400000, guid: ef2ce278b1387b240a43e07fd46d7095, type: 2}
+  - {fileID: 11400000, guid: eeff8c9d7d45d0d46890774af5712ce3, type: 2}
+  - {fileID: 11400000, guid: ba4afa9ecd5522647adac2c6a9d40f2f, type: 2}
+  - {fileID: 11400000, guid: f810208f98ed340429a73d9a62fcbedf, type: 2}
+  - {fileID: 11400000, guid: 16a291cb00c886c4d82ac8f6f1e67da6, type: 2}
+  - {fileID: 11400000, guid: 3553a8ae5ded4bd4bb5a647671e5ef57, type: 2}
+  - {fileID: 11400000, guid: b6021f791617dc94680cbcba69d6e0f3, type: 2}
+  - {fileID: 11400000, guid: e530b60666e9dd34388b9e876b3de7a5, type: 2}
+  - {fileID: 11400000, guid: b27fd246ad43f28459c1a741ca2bc2ac, type: 2}
+  - {fileID: 11400000, guid: c445530c13ed686499b650eb4d8fe8a5, type: 2}
+  - {fileID: 11400000, guid: 35ac1a81db754144bbac679730650901, type: 2}
+  - {fileID: 11400000, guid: d456df14099db5a40959fa8575730c36, type: 2}
+  - {fileID: 11400000, guid: ad1905b7213829c4ca9c2a6c84d0e8d8, type: 2}

@@ -1,4 +1,5 @@
 ﻿using MAEngine;
+using MAEngine.Extention;
 using UnityEngine;
 using Zenject;
 
@@ -15,37 +16,59 @@ namespace GameCoreModule
         {
             _poolsContainer = poolsContainer;
             _gameEventBus = gameEventBus;
+            _poolsContainer.Initialize();
+            
         }
 
         public void Initialisation()
         {
-            _poolsContainer.Initialize();
             _gameEventBus.OnSpawnObjectFromPool += SpawnObject;
             _gameEventBus.OnSpawnRotatedObjectFromPool += SpawnObject;
+            _gameEventBus.OnCreatePool += CreatePool;
         }
 
         public void Cleanup()
         {
-            _poolsContainer.CleanUp();
             _gameEventBus.OnSpawnObjectFromPool -= SpawnObject;
             _gameEventBus.OnSpawnRotatedObjectFromPool -= SpawnObject;
+            _gameEventBus.OnCreatePool -= CreatePool;
         }
-
-
-
-        public void SpawnObject(PrefabID prefabID, Vector3 position)
+        
+        public void CreatePool(PrefabID prefabID, PoolCallback poolCallback)
         {
-            IPool pool = _poolsContainer.PoolsDict.GetValue(prefabID);
+            _poolsContainer.InitializePool(prefabID, poolCallback);
+        }
+
+        public void SpawnObject(PrefabID prefabID, Vector3 position, GameObjectSpawnCallback callback)
+        {
+            IPool pool = GetPool(prefabID);
             GameObject go = pool.Pop(position);
-            _gameEventBus.OnObjectSpawnedFromPool?.Invoke(go, pool);
+            callback.SetObject(go, pool);
 
         }
 
-        public void SpawnObject(PrefabID prefabID, Vector3 position, Quaternion rotation)
+        private IPool GetPool(PrefabID prefabID)
+        {
+            IPool pool = null;
+            if (_poolsContainer.PoolsDict.IsContainsKey(prefabID))
+            {
+                pool = _poolsContainer.PoolsDict.GetValue(prefabID);
+            }
+            else
+            {
+                PoolCallback poolCallback = new PoolCallback();
+                _gameEventBus.OnCreatePool.Invoke(prefabID, poolCallback);
+                pool = poolCallback.Pool;
+            }
+            return pool;
+        }
+
+        public void SpawnObject(PrefabID prefabID, Vector3 position, Quaternion rotation,
+            GameObjectSpawnCallback callback)
         {
             IPool pool = _poolsContainer.PoolsDict.GetValue(prefabID);
             GameObject go = pool.Pop(position, rotation);
-            _gameEventBus.OnObjectSpawnedFromPool?.Invoke(go, pool);
+            callback.SetObject(go, pool);
         }
 
     }

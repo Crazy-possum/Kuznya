@@ -6,14 +6,16 @@ using Progression;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace Orders
 {
-    public class DialogueActions : IInitialisation, ICleanUp, IFixedExecute
+    public class DialogueActions : IPreInitialisation, IInitialisation, ICleanUp, IFixedExecute
     {
         private const string ACCEPT_TEXT = "Принять";
         private const string NOT_ENOUTH_TEXT = "Нет места";
+        private const float DIALOGUE_END_DELAY = 2f;
 
         private DialogueView _dialogueView;
         private ProgressionData _progressionData;
@@ -21,6 +23,8 @@ namespace Orders
         private GameEventBus _gameEventBus;
         private GUIView _guiView;
         private GameConfig _gameConfig;
+        private ClientsSpritesContainer _clientsSpritesContainer;
+        private UIEventBus _uiEventBus;
 
         private OrdersMetaData _ordersMetaData;
         private PlayerMetaData _playerMetaData;
@@ -30,11 +34,14 @@ namespace Orders
         private float _generationDelay;
         private int _generationLength;
         private Timer _timer;
+        private ClientConfig _currentClientConfig;
+        private Timer _dialogueEndTimer;
 
         [Inject]
         public void Construct(DialogueView dialogueView, ProgressionData progressionData,
             OrdersEventBus ordersEvents, GameEventBus gameEventBus, GUIView guiView,
-            GameConfig gameConfig)
+            GameConfig gameConfig, ClientsSpritesContainer clientsSpritesContainer,
+            UIEventBus uiEventBus)
         {
             _dialogueView = dialogueView;
             _progressionData = progressionData;
@@ -42,17 +49,12 @@ namespace Orders
             _gameEventBus = gameEventBus;
             _guiView = guiView;
             _gameConfig = gameConfig;
+            _clientsSpritesContainer = clientsSpritesContainer;
+            _uiEventBus = uiEventBus;
         }
-
-        public void Initialisation()
+        
+        public void PreInitialisation()
         {
-            _ordersMetaData = _progressionData.OrdersMeta;
-            _playerMetaData = _progressionData.PlayerMetaData;
-            _random = new System.Random();
-            _clientIconObjects = new List<GameObject>();
-            _generationLength = 20;
-            _generationDelay = 1f;
-            _timer = new Timer(_generationDelay);
             _ordersEvents.OnClientAdded += AddClientIconToQueue;
             _ordersEvents.OnClientRemoved += RemoveClientIconFromQueue;
             _ordersEvents.OnClientActivated += SetClientDialogue;
@@ -62,20 +64,24 @@ namespace Orders
             _dialogueView.DialogueStartButton.onClick.AddListener(() => StartDialogue());
             _dialogueView.NextButton.onClick.AddListener(() => ShowDescriptionText());
             _dialogueView.PrevButton.onClick.AddListener(() => ShowDefaultText());
-            if (_ordersMetaData.ActiveClient != null)
-            {
-                SetClientDialogue();
-            }
-            else
-            {
-                _dialogueView.DialoguePanel.SetActive(false);
-            }
-            GenerateText();
+            
+            _random = new System.Random();
+            _clientIconObjects = new List<GameObject>();
+            _generationLength = 20;
+            _generationDelay = 1f;
+        }
+
+        public void Initialisation()
+        {
+            _ordersMetaData = _progressionData.OrdersMeta;
+            _playerMetaData = _progressionData.PlayerMetaData;
+            _timer = new Timer(_generationDelay);
+            LoadDialogue();
         }
 
         public void Cleanup()
         {
-            _ordersEvents.OnClientActivated -= SetClientDialogue;
+            _ordersEvents.OnClientAdded -= AddClientIconToQueue;
             _ordersEvents.OnClientRemoved -= RemoveClientIconFromQueue;
             _ordersEvents.OnClientActivated -= SetClientDialogue;
             _ordersEvents.OnOrderRemoved -= CheckOrdersCount;
@@ -92,6 +98,29 @@ namespace Orders
             {
                 GenerateText();
             }
+
+            if (_dialogueEndTimer != null)
+            {
+                if (_dialogueEndTimer.Wait())
+                {
+                    DialogueEndActions();
+                    _dialogueEndTimer = null;
+                }
+            }
+        }
+        
+        private void LoadDialogue()
+        {
+            if (_ordersMetaData.ActiveClient != null)
+            {
+                SetClientDialogue();
+                GenerateText();
+            }
+            else
+            {
+                _dialogueView.ClientImage.gameObject.SetActive(false);
+                _dialogueView.DialoguePanel.SetActive(false);
+            }
         }
 
         private void RemoveClientIconFromQueue()
@@ -104,16 +133,21 @@ namespace Orders
             }
         }
 
-        private void AddClientIconToQueue()
+        private void AddClientIconToQueue(ClientConfig config)
         {
-            _gameEventBus.OnObjectSpawned += AddClientIconObject;
+            _currentClientConfig = config;
+            GameObjectSpawnCallback callback = new GameObjectSpawnCallback();
             _gameEventBus.OnSpawnObject?.Invoke(PrefabID.ClientIcon,
-                Vector3.zero, _guiView.ClientsQueueTransform);
+                Vector3.zero, _guiView.ClientsQueueTransform, callback);
+            AddClientIconObject(callback.SpawnedObject);
         }
 
         private void AddClientIconObject(GameObject clientIconObject)
         {
-            _gameEventBus.OnObjectSpawned -= AddClientIconObject;
+            clientIconObject.transform.SetSiblingIndex(0);
+            Image clientImage = clientIconObject.GetComponent<Image>();
+            clientImage.sprite = _clientsSpritesContainer.ClientSprites[_currentClientConfig.ClientType];
+            _currentClientConfig = null;
             _clientIconObjects.Add(clientIconObject);
         }
 
@@ -164,8 +198,19 @@ namespace Orders
 
         private void SetClientDialogue()
         {
-            ClientConfig client = _ordersMetaData.ActiveClient;
-            DialogueStartActions(client);
+            if (_ordersMetaData.ActiveClient != null)
+            {
+                ClientConfig client = _ordersMetaData.ActiveClient;
+                ResizeQueueIcon(client);
+                DialogueStartActions(client);
+            }
+        }
+
+        private void ResizeQueueIcon(ClientConfig client)
+        {
+            Vector3 scale = _clientIconObjects[0].gameObject.transform.localScale;
+            _clientIconObjects[0].gameObject.transform.localScale =
+                new Vector3(scale.x * 1.5f, scale.y * 1.5f, scale.z * 1.5f);
         }
 
         private void StartDialogue()
@@ -175,24 +220,36 @@ namespace Orders
             _guiView.NavigationPanel.SetActive(false);
         }
 
-        private void RejectOrder()
+        private void StartDialogueEndDelay()
         {
-            DialogueEndActions();
+            _uiEventBus.OnFreezeUI?.Invoke();
+            _dialogueEndTimer = new Timer(DIALOGUE_END_DELAY);
         }
 
+        private void RejectOrder()
+        {
+            _dialogueView.HighlightRejectObject.gameObject.SetActive(true);
+            StartDialogueEndDelay();
+        }
+        
         private void AcceptOrder()
         {
-            _ordersMetaData.ActiveOrders.Add(_currentActiveOrder);
+            _dialogueView.HighlightComfirmObject.SetActive(true);
+            _ordersMetaData.SaveActiveOrder(_currentActiveOrder);
             _ordersEvents.OnOrderAdded?.Invoke();
-            DialogueEndActions();
+            StartDialogueEndDelay();
         }
 
         private void DialogueEndActions()
         {
+            _uiEventBus.OnUnfreezeUI?.Invoke();
+            _dialogueView.HighlightComfirmObject.SetActive(false);
+            _dialogueView.HighlightRejectObject.gameObject.SetActive(false);
             _dialogueView.ClientImage.gameObject.SetActive(false);
             _dialogueView.DialoguePanel.SetActive(false);
             _guiView.NavigationPanel.SetActive(true);
             _currentActiveOrder = null;
+            _ordersEvents.OnClientRemoved?.Invoke();
             _ordersEvents.OnClientDeactivated?.Invoke();
         }
 

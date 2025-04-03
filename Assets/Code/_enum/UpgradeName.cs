@@ -17,6 +17,6 @@ public enum UpgradeName
     ClientsHolydays = 14,
     ClientsSign = 15,
     ClientsPrestige = 16,
-    AutomaticOpt = 17,
-    OptFrequency = 18
+    AutomaticWholesale = 17,
+    WholesaleFrequency = 18
 }

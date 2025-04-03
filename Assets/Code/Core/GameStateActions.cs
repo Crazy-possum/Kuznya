@@ -18,13 +18,12 @@ namespace GameCoreModule
 
         public void Initialisation()
         {
-            _gameEventBus.OnContinueGame += SetPlayingState;
             SetPlayingState();
         }
 
         public void Cleanup()
         {
-            _gameEventBus.OnContinueGame -= SetPlayingState;
+            
         }
 
         private void SetPlayingState()
