@@ -110,6 +110,8 @@ namespace Economy
             {
                 int materialCount = _playerMetaData.Materials[materialConfig.MaterialName];
                 _materialsUIView.InitializeMaterial(materialConfig, materialCount);
+                _economyEventBus.OnMaterialInitialization?.Invoke(materialConfig, materialCount);
+
             }
         }
 
@@ -122,6 +124,9 @@ namespace Economy
                 int materialCount = _playerMetaData.Materials[materialConfig.MaterialName];
                 _materialsUIView.UpdateMaterialInfo(materialConfig.MaterialName, materialCount,
                     _currentlyCollectabeMaterial.MaterialName);
+                _economyEventBus.OnMaterialUpdateInfo?.Invoke(materialConfig.MaterialName, materialCount,
+                    _currentlyCollectabeMaterial.MaterialName);
+                
             }
 
             UpdateCooldownSlder();

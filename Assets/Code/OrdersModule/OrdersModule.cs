@@ -11,9 +11,9 @@ namespace Orders
             InitializeClientsOperator();
             InitializeOrdersOperator();
             InitializeDialogueActions();
-            
-        }
+            InitializeOrdersUIActions();
 
+        }
 
         private void InitializeFields()
         {
@@ -39,6 +39,13 @@ namespace Orders
             DialogueActions dialogueActions =
                 _di.Resolve<DialogueActions>();
             _actions.Add(dialogueActions);
+        }
+        
+        private void InitializeOrdersUIActions()
+        {
+            OrdersUIActions ordersUIActions =
+                _di.Resolve<OrdersUIActions>();
+            _actions.Add(ordersUIActions);
         }
 
     }

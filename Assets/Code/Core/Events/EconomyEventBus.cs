@@ -15,6 +15,9 @@ namespace GameCoreModule
         private Action<ActiveOrder> _onOrderSubmited;
         private Action<MaterialName, int> _onMaterialRemoved;
         private Action<MaterialConfig> _onCollectableMaterialChanged;
+        private Action<MaterialConfig, int> _onMaterialInitialization;
+        private Action<MaterialName, int, MaterialName> _onMaterialUpdateInfo;
+        
 
         public Action<UpgradeName, UpgradeView> OnTryBuyUpgrade 
         { get => _onTryBuyUpgrade; set => _onTryBuyUpgrade = value; }
@@ -36,5 +39,9 @@ namespace GameCoreModule
         { get => _onMaterialRemoved; set => _onMaterialRemoved = value; }
         public Action<MaterialConfig> OnCollectableMaterialChanged
         { get => _onCollectableMaterialChanged; set => _onCollectableMaterialChanged = value; }
+        public Action<MaterialConfig, int> OnMaterialInitialization
+        { get => _onMaterialInitialization; set => _onMaterialInitialization = value; }
+        public Action<MaterialName, int, MaterialName> OnMaterialUpdateInfo
+        { get => _onMaterialUpdateInfo; set => _onMaterialUpdateInfo = value; }
     }
 }

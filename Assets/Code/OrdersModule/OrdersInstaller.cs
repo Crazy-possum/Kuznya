@@ -20,6 +20,7 @@ namespace Orders
             Container.Bind<ClientsOperator>().AsSingle();
             Container.Bind<OrdersOperator>().AsSingle();
             Container.Bind<DialogueActions>().AsSingle();
+            Container.Bind<OrdersUIActions>().AsSingle();
 
         }
     }

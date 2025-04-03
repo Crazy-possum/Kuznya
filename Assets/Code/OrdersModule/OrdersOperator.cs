@@ -43,31 +43,19 @@ namespace Orders
             _ordersMetaData = _progressionData.OrdersMeta;
             _playerMetaData = _progressionData.PlayerMetaData;
             _ordersEventBus.OnOrderAdded += AddOrder;
+            _resultsEventBus.OnResultsFinished += ActiveOrderFinished;
             _ordersToRemove = new Dictionary<OrderPanelView, Timer>();
             _activeOrders = new Dictionary<OrderPanelView, ActiveOrder>();
             InitializeOrderPanels();
             AddInitialOrders();
-            _resultsEventBus.OnResultsFinished += ActiveOrderFinished;
-
-        }
-
-        private void AddInitialOrders()
-        {
-            if (_ordersMetaData.ActiveOrders.Count > 0)
-            {
-                foreach (ActiveOrder order in _ordersMetaData.ActiveOrders)
-                {
-                    AddOrder(order);
-                }
-            }
         }
 
         public void Cleanup()
         {
             _ordersEventBus.OnOrderAdded -= AddOrder;
+            _resultsEventBus.OnResultsFinished -= ActiveOrderFinished;
             _ordersView.ConfirmButton.onClick.RemoveAllListeners();
             _ordersView.DenyButton.onClick.RemoveAllListeners();
-            _resultsEventBus.OnResultsFinished -= ActiveOrderFinished;
             CleanOrderPanels();
         }
 
@@ -83,7 +71,18 @@ namespace Orders
                 RemoveDelayedPanels();
             }
         }
-
+        
+        private void AddInitialOrders()
+        {
+            if (_ordersMetaData.ActiveOrders.Count > 0)
+            {
+                foreach (ActiveOrder order in _ordersMetaData.ActiveOrders)
+                {
+                    AddOrder(order);
+                }
+            }
+        }
+        
         private void CheckPanelsTimers()
         {
             foreach (KeyValuePair<OrderPanelView, ActiveOrder> keyValuePair in _activeOrders)

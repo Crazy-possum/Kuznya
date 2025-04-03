@@ -1,3 +1,6 @@
+using Economy;
+using MAEngine.Extention;
+using MainGUI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +19,9 @@ public class OrdersView : MonoBehaviour
     [SerializeField] private TMP_Text _confirmPanelText;
     [SerializeField] private Button _confirmButton;
     [SerializeField] private Button _denyButton;
+    [SerializeField] private SerializableDictionary<MaterialName, StorableMaterialView> _storableMaterials;
+    [SerializeField] private ButtonView _resizeButton;
+    [SerializeField] private RectTransform _materialsPanelRect;
 
     public OrderPanelView Order1PanelView { get => _order1PanelView; }
     public OrderPanelView Order2PanelView { get => _order2PanelView; }
@@ -29,5 +35,28 @@ public class OrdersView : MonoBehaviour
     public TMP_Text ConfirmPanelText { get => _confirmPanelText; }
     public Button ConfirmButton { get => _confirmButton; }
     public Button DenyButton { get => _denyButton; }
+    public SerializableDictionary<MaterialName, StorableMaterialView> StorableMaterials { get => _storableMaterials; }
+    public ButtonView ResizeButton { get => _resizeButton; }
+    public RectTransform MaterialsPanelRect { get => _materialsPanelRect; }
+    
+    
+    public void InitializeMaterial(MaterialConfig materialConfig, int materialCount)
+    {
+        if (_storableMaterials.IsContainsKey(materialConfig.MaterialName))
+        {
+            StorableMaterialView storableMaterialView = _storableMaterials[materialConfig.MaterialName];
+            storableMaterialView.MaterialImage.sprite = materialConfig.Sprite;
+            storableMaterialView.UpdateMaterialCount(materialCount);
+        }
+    }
+
+    public void UpdateMaterialInfo(MaterialName materialName, int materialCount, MaterialName currentlyCollectable)
+    {
+        if (_storableMaterials.IsContainsKey(materialName))
+        {
+            StorableMaterialView storableMaterialView = _storableMaterials[materialName];
+            storableMaterialView.UpdateMaterialCount(materialCount);
+        }
+    }
     
 }
