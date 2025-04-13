@@ -124,7 +124,7 @@ namespace Economy
                 _currentMultipler -= 0.04f;
                 state = TradeState.WhiteZone;
             }
-            _currentMultipler = Mathf.Clamp(_currentMultipler, 1, 1.31f);
+            _currentMultipler = Mathf.Clamp(_currentMultipler, -0.25f, 0.51f);
             return state;
         }
 
@@ -167,7 +167,7 @@ namespace Economy
         {
             _currentOrder = order;
             SetTradedState(false);
-            _currentMultipler = 1;
+            _currentMultipler = 0;
             _tradeView.ClientImage.sprite = order.ClientIcon;
             _tradeView.ClientName.text = order.ClientName;
             UpdateUI();
@@ -180,9 +180,19 @@ namespace Economy
 
         private void UpdateUI()
         {
-            int reward = (int)(_currentOrder.Reward * _currentMultipler);
+            int basicCost = _currentOrder.BasicCost * 100;
+            int addingCost = (int)(basicCost * _currentMultipler);
+            int reward = _currentOrder.Reward + addingCost;
             _tradeView.RewardText.text = reward.ToString();
-            _tradeView.Multipler.text = $"+ {(int)((_currentMultipler - 1) * 100)} %";
+            if (addingCost > 0)
+            {
+                _tradeView.Multipler.text = $"+ {addingCost}";
+            }
+            else
+            {
+                _tradeView.Multipler.text = $"- {Mathf.Abs(addingCost)}";
+            }
+            
             TimeSpan timeLeft = TimeSpan.FromSeconds(_tradingTimeLeft);
             _tradeView.Timer.text = timeLeft.ToString("mm' : 'ss");
             _tradeView.TradeSlider.value = _currentTradeValue;

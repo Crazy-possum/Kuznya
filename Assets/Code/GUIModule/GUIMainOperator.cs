@@ -18,13 +18,14 @@ namespace MainGUI
         private OrdersEventBus _ordersEventBus;
         private StateEventsBus _stateEventsBus;
         private UIEventBus _uiEventBus;
+        private ResultsEventBus _resultsEventBus;
         
         private ActiveOrder _activeOrder;
         
         [Inject]
         public void Construct(EconomyEventBus economyEventBus, GUIView guiView, ProgressionData progressionData,
             ProgressionEvents progressionEvents, OrdersEventBus ordersEventBus, StateEventsBus stateEventsBus,
-            UIEventBus uiEventBus)
+            UIEventBus uiEventBus, ResultsEventBus resultsEventBus)
         {
             _economyEventBus = economyEventBus;
             _guiView = guiView;
@@ -33,6 +34,7 @@ namespace MainGUI
             _ordersEventBus = ordersEventBus;
             _stateEventsBus = stateEventsBus;
             _uiEventBus = uiEventBus;
+            _resultsEventBus = resultsEventBus;
         }
         
         public void Initialisation()
@@ -43,7 +45,7 @@ namespace MainGUI
             _economyEventBus.OnTryBuyUpgrade += TryBuyUpgrade;
             _ordersEventBus.OnOrderEnded += ActiveOrderEnded;
             _ordersEventBus.OnOrderStarted += SetOrderGUI;
-            _ordersEventBus.OnOrderFinished += HideOrderGUI;
+            _resultsEventBus.OnResultsFinished += HideOrderGUI;
             _guiView.UpgradeConfirmView.gameObject.SetActive(false);
             _guiView.ClearProgressButton.onClick.AddListener(ClearProgress);
             _uiEventBus._onFreezeUI += FreezeUI;
@@ -61,7 +63,7 @@ namespace MainGUI
             _economyEventBus.OnTryBuyUpgrade -= TryBuyUpgrade;
             _ordersEventBus.OnOrderEnded -= ActiveOrderEnded;
             _ordersEventBus.OnOrderStarted -= SetOrderGUI;
-            _ordersEventBus.OnOrderFinished -= HideOrderGUI;
+            _resultsEventBus.OnResultsFinished -= HideOrderGUI;
             _guiView.ClearProgressButton.onClick.RemoveListener(ClearProgress);
             _uiEventBus._onFreezeUI -= FreezeUI;
             _uiEventBus._onUnfreezeUI -= UnfreezeUI;
@@ -79,8 +81,8 @@ namespace MainGUI
         private void ActiveOrderEnded(ActiveOrder order)
         {
             _guiView.OrderEndedPanel.SetActive(true);
-            _stateEventsBus.OnDialogueStateActivate?.Invoke();
-            HideOrderGUI(order);
+            _stateEventsBus.OnOrdersStateActivate?.Invoke();
+            HideOrderGUI(0);
         }
         
         private void SetOrderGUI(ActiveOrder order)
@@ -93,11 +95,12 @@ namespace MainGUI
             _activeOrder = order;
         }
         
-        private void HideOrderGUI(ActiveOrder order)
+        private void HideOrderGUI(int value)
         {
             _guiView.ClientsQueueTransform.gameObject.SetActive(true);
             _guiView.OrderTimePanel.SetActive(false);
             _guiView.NavigationPanel.gameObject.SetActive(true);
+            _guiView.OrderTimePanel.SetActive(false);
             _activeOrder = null;
 
         }

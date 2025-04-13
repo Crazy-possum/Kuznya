@@ -118,7 +118,7 @@ public class ResultsActions : IAction, IInitialisation, ICleanUp, IFixedExecute
     private void EndProcess()
     {
         StopProcess();
-        _resultEvents.OnResultsFinished?.Invoke(_gold);
+        _resultEvents.OnResultsFinished?.Invoke(_finalGold);
     }
 
 

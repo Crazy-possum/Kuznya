@@ -15,8 +15,8 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     private const float MAX_TEMPERATURE = 100f;
     private const float TARGET_TEMPERATURE = 85f;
     private const float TEMPERATURE_TIME = 5f;
-    private const float TEMPERATURE_ADD_STEP = 5f;
-    private const float TEMPERATURE_REMOVE_STEP = 8f;
+    private const float TEMPERATURE_ADD_STEP = 10f;
+    private const float TEMPERATURE_REMOVE_STEP = 15f;
     private const float TEMPERATURE_REMOVE_COOLING_STEP = 2f;
     private const float COOLING_TIME = 0.5f;
     private const float SIGNAL_SPEED = 5f;
@@ -291,10 +291,15 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     
     private void StopProcess(ActiveOrder order = null)
     {
+        foreach (RectTransform signalTransform in _activeSignalRects)
+        {
+            GameObject.Destroy(signalTransform.gameObject);
+        }
         _activeSignalRects = new List<RectTransform>();
         _triggeredSignalRect = null;
         _isSmelting = false;
         _temperatureTimer = null;
+        _isTriggeredObjectSet = false;
     }
 
     private void EndProcess()

@@ -82,6 +82,7 @@ namespace Orders
                 {
                     _uiEventBus.OnUnfreezeUI?.Invoke();
                     _ordersEventBus.OnOrderStarted?.Invoke(_activeOrders[_currentActiveOrder]);
+                    _orderStartDelayTimer = null;
                 }
             }
         }
@@ -118,8 +119,6 @@ namespace Orders
                         RemoveOrder(keyValuePair.Key, REMOVE_TIME);
                     }
                 }
-
-
             }
         }
 
