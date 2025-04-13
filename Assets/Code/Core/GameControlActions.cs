@@ -79,7 +79,7 @@ namespace GameCoreModule
             ShowCurrentScreen(_canvasList.MaterialsCanvas);
         }
 
-        private void ShowForgingScreen()
+        private void ShowForgingScreen(float forgingBonus)
         {
             ShowCurrentScreen(_canvasList.ForgingCanvas);
         }

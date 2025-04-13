@@ -315,7 +315,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     private void EndProcess()
     {
         StopProcess();
-        _stateEvents.OnForgingStateActivate?.Invoke();
+        _stateEvents.OnForgingStateActivate?.Invoke(0.5f);
         //TODO : Add points to next stage
     }
 }

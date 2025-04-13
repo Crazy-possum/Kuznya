@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using MAEngine.Extention;
 using Orders;
 using UnityEngine;
+using UnityEngine.Events;
 using Zenject;
 
 public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
@@ -21,6 +22,8 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private const float BAD_PROGRESS = 0.02f;
     private const float PROGRESS_MULTIPLER = 1;
     private const float END_PROCESS_DELAY = 2;
+    private const float COOLING_STEP_DURATION = 0.8f;
+    private const float COOLING_STEP_VALUE_DELTA = 0.01f;
     
     private ForgingUIView _uiView;
     private ForgingEventBus _eventBus;
@@ -40,6 +43,9 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private List<WorkZoneUIView> _currentWorkZoneViews;
 
     private Timer _endProcessTimer;
+    private float _currentSmeltingBonus;
+    private Timer _coolingTimer;
+    private bool _isHeated;
 
 
     [Inject]
@@ -61,6 +67,8 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         ClearProgress();
         _ordersEventBus.OnOrderStarted += StartOrder;
         _ordersEventBus.OnOrderEnded += StopProcess;
+        _stateEventsBus.OnForgingStateActivate += SetForgingBonus;
+        _uiView.SmeltingButton.Button.onClick.AddListener(GoToSmelting);
         UpdateUI();
     }
 
@@ -68,7 +76,8 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     {
         _ordersEventBus.OnOrderStarted -= StartOrder;
         _ordersEventBus.OnOrderEnded -= StopProcess;
-        //UnSubscribeWorkingZones();
+        _stateEventsBus.OnForgingStateActivate -= SetForgingBonus;
+        _uiView.SmeltingButton.Button.onClick.RemoveListener(GoToSmelting);
     }
 
     public void FixedExecute(float fixedDeltaTime)
@@ -76,6 +85,39 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         CheckScoreTextsLifetime();
         CheckProgress();
         TryEndProcess();
+        ActCooling();
+    }
+
+    private void ActCooling()
+    {
+        if (_coolingTimer != null)
+        {
+            if (_coolingTimer.Wait())
+            {
+                _currentSmeltingBonus -= COOLING_STEP_VALUE_DELTA;
+                if (_currentSmeltingBonus <= 0)
+                {
+                    _currentSmeltingBonus = 0;
+                    _isHeated = false;
+                    _coolingTimer = null;
+                }
+                UpdateUI();
+            }
+        }
+    }
+    
+    private void SetForgingBonus(float forgingBonus)
+    {
+        _currentSmeltingBonus = forgingBonus;
+        _coolingTimer = new Timer(COOLING_STEP_DURATION);
+        _isHeated = true;
+        UpdateUI();
+    }
+
+    private void GoToSmelting()
+    {
+        _coolingTimer = null;
+        _stateEventsBus.OnSmeltingStateActivate?.Invoke();
     }
 
     private void TryEndProcess()
@@ -190,7 +232,10 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
 
     private void ZoneTiggered(WorkZoneUIView zoneView)
     {
-        ZoneActions(zoneView);
+        if (_isHeated)
+        {
+            ZoneActions(zoneView);
+        }
     }
     
 
@@ -200,12 +245,14 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         if (zoneView == _currentWorkZoneViews[0])
         {
             score = (int)(GOOD_SCORE * SCORE_MULTIPLER * _currentBasicCost);
+            score = score + (int)(score * _currentSmeltingBonus);
             _currentScore += score;
             _currentProgress += GOOD_PROGRESS * PROGRESS_MULTIPLER;
         }
         else
         {
             score = (int)(BAD_SCORE * SCORE_MULTIPLER * _currentBasicCost);
+            score = score + (int)(score * _currentSmeltingBonus);
             _currentScore += score;
             _currentProgress += BAD_PROGRESS * PROGRESS_MULTIPLER;
         }
@@ -239,6 +286,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     {
         _uiView.ProgressSlider.value = _currentProgress;
         _uiView.ScoreText.text = _currentScore.ToString();
+        _uiView.SmeltingBonusText.text = $"+{(int)(_currentSmeltingBonus * 100f)}%";
     }
 
     private void CheckScoreTextsLifetime()
