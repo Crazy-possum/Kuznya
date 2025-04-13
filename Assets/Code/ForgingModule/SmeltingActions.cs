@@ -9,17 +9,17 @@ using Zenject;
 
 public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute, ICleanUp
 {
-    //TODO: Configure timers, add random
     private const float MINUTE = 60f;
-    private const float SMELTING_BPM = 60f;
+    private const int SMELTING_PER_MINUTE_MIN = 60;
+    private const int SMELTING_PER_MINUTE_MAX = 140;
     private const float MAX_TEMPERATURE = 100f;
     private const float TARGET_TEMPERATURE = 85f;
     private const float TEMPERATURE_TIME = 5f;
     private const float TEMPERATURE_ADD_STEP = 10f;
     private const float TEMPERATURE_REMOVE_STEP = 15f;
-    private const float TEMPERATURE_REMOVE_COOLING_STEP = 2f;
+    private const float TEMPERATURE_REMOVE_COOLING_STEP = 8f;
     private const float COOLING_TIME = 0.5f;
-    private const float SIGNAL_SPEED = 5f;
+    private const float SIGNAL_SPEED = 10f;
     
     private SmeltingView _smeltingView;
     private GameEventBus _gameEventBus;
@@ -36,6 +36,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     private SignalObjectView _triggeredSignalRect;
     private SignalObjectView _lastTriggeredSignalRect;
     private bool _isTriggeredObjectSet;
+    private System.Random _random;
 
     [Inject]
     public void Construct(SmeltingView smeltingView, GameEventBus gameEventBus, StateEventsBus stateEvents,
@@ -53,6 +54,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
         _ordersEventBus.OnOrderEnded += StopProcess;
         _smeltingView.BellowsButton.onClick.AddListener(BellowsAction);
         _isSmelting = false;
+        _random = new System.Random();
     }
 
     public void Cleanup()
@@ -113,6 +115,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
         {
             _temperature += TEMPERATURE_ADD_STEP;
             ClearTriggeredObject(_triggeredSignalRect.gameObject, true);
+            _coolingTimer = new Timer(COOLING_TIME);
         }
         else
         {
@@ -231,6 +234,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
         {
             if (_smeltingTimer.Wait())
             {
+                SetupSignalTimer();
                 GameObjectSpawnCallback callback = new GameObjectSpawnCallback();
                 _gameEventBus.OnSpawnObject?.Invoke(PrefabID.UISmeltingSingal,
                     Vector3.zero, _smeltingView.SpawnZoneTransform, callback);
@@ -251,14 +255,20 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
         _isSmelting = true;
         _activeSignalRects = new List<RectTransform>();
         _triggeredSignalRect = null;
-        float cooldown = MINUTE / SMELTING_BPM;
-        _smeltingTimer = new Timer(cooldown);
+        SetupSignalTimer();
         _coolingTimer = new Timer(COOLING_TIME);
         _temperatureTimer = null;
         _smeltingView.TemperatureSlider.maxValue = MAX_TEMPERATURE;
         _temperature = 0f;
     }
-    
+
+    private void SetupSignalTimer()
+    {
+        int randomSmeltingPerMinute = _random.Next(SMELTING_PER_MINUTE_MIN, SMELTING_PER_MINUTE_MAX);
+        float cooldown = MINUTE / randomSmeltingPerMinute;
+        _smeltingTimer = new Timer(cooldown);
+    }
+
     private void CheckTemperature()
     {
         if (_temperature > MAX_TEMPERATURE)
