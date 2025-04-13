@@ -265,7 +265,7 @@ namespace Orders
             bool haveEnoughtMaterials = true;
             foreach (ForgingMaterial material in orderPanelView.ActiveOrder.Materials)
             {
-                if (_playerMetaData.Materials.ContainsKey(material.Config.MaterialName))
+                if (_playerMetaData.Materials.IsContainsKey(material.Config.MaterialName))
                 {
                     if (_playerMetaData.Materials[material.Config.MaterialName] < material.Count)
                     {

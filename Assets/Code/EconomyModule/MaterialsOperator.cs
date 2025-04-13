@@ -173,7 +173,7 @@ namespace Economy
 
         private void AddMaterial(MaterialConfig currentlyCollectabeMaterial)
         {
-            if (_playerMetaData.Materials.ContainsKey(currentlyCollectabeMaterial.MaterialName))
+            if (_playerMetaData.Materials.IsContainsKey(currentlyCollectabeMaterial.MaterialName))
             {
                 _playerMetaData.Materials[currentlyCollectabeMaterial.MaterialName]++;
                 GameObjectSpawnCallback callback = new GameObjectSpawnCallback();

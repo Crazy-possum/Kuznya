@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Progression
 {
-    public class ProgressionOperator : IAction, IInitialisation, ICleanUp
+    public class ProgressionOperator : IAction, IPreInitialisation, ICleanUp
     {
         private ProgressionData _data;
         private ProgressionContainer _container;
@@ -20,7 +20,7 @@ namespace Progression
             _progressionEvents = progressionEvents;
         }
 
-        public void Initialisation()
+        public void PreInitialisation()
         {
             _progressionEvents.OnProgressionDataChanged += UpdateProgressData;
             _progressionEvents.OnProgressionDataCleared += ClearProgressData;
@@ -36,7 +36,7 @@ namespace Progression
 
         private void UpdateProgressData(ProgressionData data)
         {
-            _data = data;
+            //_data = data;
             SaveData();
         }
 

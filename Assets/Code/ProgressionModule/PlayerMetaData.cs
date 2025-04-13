@@ -11,15 +11,15 @@ namespace Progression
     {
         [SerializeField] private MaterialName _currentMaximumMaterial;
         [SerializeField] private int _currentMoney;
-        [SerializeField] private Dictionary<MaterialName, int> _materials;
-        [FormerlySerializedAs("_currentMaxMaterialStorageStorage")] [SerializeField] private int _currentMaxMaterialStorage;
+        [SerializeField] private SerializableDictionary<MaterialName, int> _materials;
+        [SerializeField] private int _currentMaxMaterialStorage;
         [SerializeField] private float _materialAddingDeltaTime;
 
         private StorageMaterialsConfig _storageMaterialsConfig;
 
         public MaterialName CurrentMaximumMaterial { get => _currentMaximumMaterial; set => _currentMaximumMaterial = value; }
         public int CurrentMoney { get => _currentMoney; set => _currentMoney = value; }
-        public Dictionary<MaterialName, int> Materials { get => _materials; set => _materials = value; }
+        public SerializableDictionary<MaterialName, int> Materials { get => _materials; set => _materials = value; }
         public int CurrentMaxMaterialStorage { get => _currentMaxMaterialStorage; set => _currentMaxMaterialStorage = value; }
         public float MaterialAddingDeltaTime { get => _materialAddingDeltaTime; set => _materialAddingDeltaTime = value; }
         public StorageMaterialsConfig StorageMaterialsConfig { get => _storageMaterialsConfig; set => _storageMaterialsConfig = value; }
@@ -38,7 +38,7 @@ namespace Progression
             }
             if (_materials == null)
             {
-                _materials = new Dictionary<MaterialName, int>();
+                _materials = new SerializableDictionary<MaterialName, int>();
                 foreach (MaterialConfig materialConfig in config.StorableMaterials)
                 {
                     _materials.Add(materialConfig.MaterialName, 0);
@@ -48,7 +48,7 @@ namespace Progression
             {
                 foreach (MaterialConfig materialConfig in config.StorableMaterials)
                 {
-                    if (!_materials.ContainsKey(materialConfig.MaterialName))
+                    if (!_materials.IsContainsKey(materialConfig.MaterialName))
                     {
                         _materials.Add(materialConfig.MaterialName, 0);
                     }
