@@ -4,6 +4,7 @@ using MAEngine;
 using System.Collections.Generic;
 using MAEngine.Extention;
 using Orders;
+using Progression;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
@@ -18,8 +19,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private const int GOOD_SCORE = 15;
     private const int BAD_SCORE = 6;
     private const float SCORE_MULTIPLER = 1f;
-    private const float GOOD_PROGRESS = 0.02f;
-    private const float BAD_PROGRESS = 0.02f;
+    private const float PROGRESS_VALUE = 0.02f;
     private const float PROGRESS_MULTIPLER = 1;
     private const float END_PROCESS_DELAY = 2;
     private const float COOLING_STEP_DURATION = 0.8f;
@@ -41,17 +41,20 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private ItemSprites _itemSprites;
     private ForgingStepsView _currentForgingSteps;
     private List<WorkZoneUIView> _currentWorkZoneViews;
+    private ProgressionData _progressionData;
 
     private Timer _endProcessTimer;
     private float _currentSmeltingBonus;
     private Timer _coolingTimer;
     private bool _isHeated;
+    private UpgradesMetaData _upgradesMetaData;
 
 
     [Inject]
     public void Construct(ForgingUIView uiView, ForgingEventBus eventBus,
         GameEventBus gameEventBus, StateEventsBus stateEventsBus,
-        OrdersEventBus ordersEventBus, OrderSpritesContainer orderSpritesContainer)
+        OrdersEventBus ordersEventBus, OrderSpritesContainer orderSpritesContainer,
+        ProgressionData progressionData)
     {
         _uiView = uiView;
         _eventBus = eventBus;
@@ -59,12 +62,14 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         _stateEventsBus = stateEventsBus;
         _ordersEventBus = ordersEventBus;
         _orderSpritesContainer = orderSpritesContainer;
+        _progressionData = progressionData;
     }
 
 
     public void Initialisation()
     {
         ClearProgress();
+        _upgradesMetaData = _progressionData.UpgradesMeta;
         _ordersEventBus.OnOrderStarted += StartOrder;
         _ordersEventBus.OnOrderEnded += StopProcess;
         _stateEventsBus.OnForgingStateActivate += SetForgingBonus;
@@ -242,19 +247,27 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private void ZoneActions(WorkZoneUIView zoneView)
     {
         int score = 0;
+        float progressMultipler = _upgradesMetaData.Upgrades[UpgradeName.ForgingEfficiency].GetUpgradeData();
+        float additionalGoodScoreMultipler = _upgradesMetaData.Upgrades[UpgradeName.ForgingEfficiency].GetUpgradeData();
+        float additionalBadScoreMultipler = _upgradesMetaData.Upgrades[UpgradeName.ForgingMistakeScore].GetUpgradeData();
+
+        float additionalProgerss = PROGRESS_VALUE * progressMultipler;
+        float additionalGoodScore = Mathf.Ceil(GOOD_SCORE * additionalGoodScoreMultipler);
+        float additionalBadScore = Mathf.Ceil(BAD_SCORE * additionalBadScoreMultipler);
+        
         if (zoneView == _currentWorkZoneViews[0])
         {
             score = (int)(GOOD_SCORE * SCORE_MULTIPLER * _currentBasicCost);
-            score = score + (int)(score * _currentSmeltingBonus);
+            score = score + (int)((score + additionalGoodScore) * _currentSmeltingBonus);
             _currentScore += score;
-            _currentProgress += GOOD_PROGRESS * PROGRESS_MULTIPLER;
+            _currentProgress += (PROGRESS_VALUE + additionalProgerss) * PROGRESS_MULTIPLER;
         }
         else
         {
             score = (int)(BAD_SCORE * SCORE_MULTIPLER * _currentBasicCost);
-            score = score + (int)(score * _currentSmeltingBonus);
+            score = score + (int)((score + additionalBadScore) * _currentSmeltingBonus);
             _currentScore += score;
-            _currentProgress += BAD_PROGRESS * PROGRESS_MULTIPLER;
+            _currentProgress += (PROGRESS_VALUE + additionalProgerss) * PROGRESS_MULTIPLER;
         }
         if (_currentProgress >= 1)
         {

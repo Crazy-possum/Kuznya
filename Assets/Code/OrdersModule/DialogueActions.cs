@@ -15,7 +15,7 @@ namespace Orders
     {
         private const string ACCEPT_TEXT = "Принять";
         private const string NOT_ENOUTH_TEXT = "Нет места";
-        private const float DIALOGUE_END_DELAY = 2f;
+        private const float DIALOGUE_END_DELAY = 1f;
 
         private DialogueView _dialogueView;
         private ProgressionData _progressionData;
@@ -36,6 +36,7 @@ namespace Orders
         private Timer _timer;
         private ClientConfig _currentClientConfig;
         private Timer _dialogueEndTimer;
+        private UpgradesMetaData _upgradesMetaData;
 
         [Inject]
         public void Construct(DialogueView dialogueView, ProgressionData progressionData,
@@ -75,6 +76,7 @@ namespace Orders
         {
             _ordersMetaData = _progressionData.OrdersMeta;
             _playerMetaData = _progressionData.PlayerMetaData;
+            _upgradesMetaData = _progressionData.UpgradesMeta;
             _timer = new Timer(_generationDelay);
             LoadDialogue();
         }
@@ -193,6 +195,9 @@ namespace Orders
             OrderConfig orderConfig = selectedOrders[orderIndex];
             int descriptionID = _random.Next(0, orderConfig.Descriptions.Count);
             _currentActiveOrder = new ActiveOrder(client, orderConfig, descriptionID);
+            _currentActiveOrder.BasicCost = orderConfig.BasicCost + 
+                                            (int)Mathf.Ceil(orderConfig.BasicCost * 
+                                                            _upgradesMetaData.Upgrades[UpgradeName.Cost].GetUpgradeData());
             ShowDefaultText();
         }
 

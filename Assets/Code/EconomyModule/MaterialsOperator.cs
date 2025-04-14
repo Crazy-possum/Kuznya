@@ -180,7 +180,6 @@ namespace Economy
                 _gameEventBus.OnSpawnObjectFromPool?.Invoke(PrefabID.UIAddingMaterialText, Vector3.zero, callback);
                 InitializeTextObject(callback.SpawnedObject);
             }
-            
         }
 
         private void RemoveMaterial(MaterialName materialName, int count)

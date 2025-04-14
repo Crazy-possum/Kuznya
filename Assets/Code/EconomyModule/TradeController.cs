@@ -3,6 +3,7 @@ using GameCoreModule;
 using MAEngine;
 using MAEngine.Extention;
 using Orders;
+using Progression;
 using UnityEngine;
 using Zenject;
 using Random = System.Random;
@@ -14,6 +15,7 @@ namespace Economy
         private TradeView _tradeView;
         private EconomyEventBus _economyEventBus;
         private StateEventsBus _stateEventsBus;
+        private ProgressionData _progressionData;
 
         private ActiveOrder _currentOrder;
         private float _currentMultipler;
@@ -23,19 +25,22 @@ namespace Economy
         private Timer _tradeTickTimer;
         private TradeState _tradeState;
         private Random _random;
+        private UpgradesMetaData _upgradesMetaData;
         
 
         [Inject]
         public void Construct(TradeView tradeView, EconomyEventBus economyEventBus,
-            StateEventsBus stateEventsBus)
+            StateEventsBus stateEventsBus, ProgressionData progressionData)
         {
             _tradeView = tradeView;
             _economyEventBus = economyEventBus;
             _stateEventsBus = stateEventsBus;
+            _progressionData = progressionData;
         }
         
         public void Initialisation()
         {
+            _upgradesMetaData = _progressionData.UpgradesMeta;
             _tradeView.TradeButton.onClick.AddListener(StartTrading);
             _tradeView.ConfirmButton.onClick.AddListener(SubmitOrder);
             _tradeView.TradeClickerButton.onClick.AddListener(AddTradingScore);
@@ -75,6 +80,8 @@ namespace Economy
                 UpdateUI();
                 
                 float tradeValueDelta = 0;
+                float upgradeMultipler = _upgradesMetaData.Upgrades[UpgradeName.TradeDiplomacy].GetUpgradeData();
+                
                 if (_tradeState == TradeState.WhiteZone)
                 {
                     tradeValueDelta = _random.Next(-4, 16);
@@ -91,7 +98,7 @@ namespace Economy
                 {
                     tradeValueDelta = _random.Next(1, 3);
                 }
-                tradeValueDelta = tradeValueDelta / 100f;
+                tradeValueDelta = (tradeValueDelta / 100f) - ((tradeValueDelta / 100f) * upgradeMultipler);
                 _currentTradeValue -= tradeValueDelta;
             }
         }
@@ -124,7 +131,7 @@ namespace Economy
                 _currentMultipler -= 0.04f;
                 state = TradeState.WhiteZone;
             }
-            _currentMultipler = Mathf.Clamp(_currentMultipler, -0.25f, 0.51f);
+            _currentMultipler = Mathf.Clamp(_currentMultipler, -0.25f, 1.01f);
             return state;
         }
 
@@ -180,8 +187,10 @@ namespace Economy
 
         private void UpdateUI()
         {
-            int basicCost = _currentOrder.BasicCost * 100;
-            int addingCost = (int)(basicCost * _currentMultipler);
+            int basicCost = _currentOrder.BasicCost * 50;
+            float tradeMultipler = _upgradesMetaData.Upgrades[UpgradeName.TradeSpeechcraft].GetUpgradeData();
+            int addingCost = (int)(basicCost * _currentMultipler) + 
+                             (int)Mathf.Ceil((basicCost * _currentMultipler) * tradeMultipler);
             int reward = _currentOrder.Reward + addingCost;
             _tradeView.RewardText.text = reward.ToString();
             if (addingCost > 0)

@@ -18,6 +18,7 @@ namespace Orders
         private GameConfig _gameConfig;
 
         private OrdersMetaData _ordersMetaData;
+        private UpgradesMetaData _upgradesMetaData;
         private System.Random _random;
         private Timer _timer;
         private int _currentTimeBetweenClients;
@@ -40,6 +41,7 @@ namespace Orders
             _ordersEventBus.OnClientDeactivated += DeactivateClient;
             _random = new System.Random();
             _ordersMetaData = _progressionData.OrdersMeta;
+            _upgradesMetaData = _progressionData.UpgradesMeta;
             UpdateTimer();
             LoadClients();
         }
@@ -131,7 +133,6 @@ namespace Orders
 
                         _ordersMetaData.AddClient(clients[clientIndex]);
                         _ordersEventBus.OnClientAdded?.Invoke(clients[clientIndex]);
-                        //Debug.Log($"{clients[clientIndex]}");
                     }
                     else
                     {
@@ -143,8 +144,14 @@ namespace Orders
 
         private void UpdateTimer()
         {
-            _currentTimeBetweenClients = _random.Next(_gameConfig.MinTimeBetweenClients,
-                _gameConfig.MaxTimeBetweenClients);
+            int minTimeBetweenClients = _gameConfig.MinTimeBetweenClients -
+                                        (int)Mathf.Ceil(_gameConfig.MinTimeBetweenClients * _upgradesMetaData.
+                                            Upgrades[UpgradeName.ClientsSign].GetUpgradeData());
+            int maxTimeBetweenClients = _gameConfig.MaxTimeBetweenClients -
+                                        (int)Mathf.Ceil(_gameConfig.MaxTimeBetweenClients * _upgradesMetaData.
+                                            Upgrades[UpgradeName.ClientsSign].GetUpgradeData());;
+            _currentTimeBetweenClients = _random.Next(minTimeBetweenClients,
+                maxTimeBetweenClients);
             _timer = new Timer(_currentTimeBetweenClients);
         }
 
