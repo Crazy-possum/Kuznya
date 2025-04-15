@@ -144,12 +144,17 @@ namespace Orders
 
         private void UpdateTimer()
         {
-            int minTimeBetweenClients = _gameConfig.MinTimeBetweenClients -
-                                        (int)Mathf.Ceil(_gameConfig.MinTimeBetweenClients * _upgradesMetaData.
-                                            Upgrades[UpgradeName.ClientsSign].GetUpgradeData());
-            int maxTimeBetweenClients = _gameConfig.MaxTimeBetweenClients -
-                                        (int)Mathf.Ceil(_gameConfig.MaxTimeBetweenClients * _upgradesMetaData.
-                                            Upgrades[UpgradeName.ClientsSign].GetUpgradeData());;
+            int minTimeBetweenClients = _gameConfig.MinTimeBetweenClients;
+            int maxTimeBetweenClients = _gameConfig.MaxTimeBetweenClients;
+            if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.ClientsSign))
+            {
+                minTimeBetweenClients = _gameConfig.MinTimeBetweenClients -
+                                            (int)Mathf.Ceil(_gameConfig.MinTimeBetweenClients * _upgradesMetaData.
+                                                Upgrades[UpgradeName.ClientsSign].GetUpgradeData());
+                maxTimeBetweenClients = _gameConfig.MaxTimeBetweenClients -
+                                            (int)Mathf.Ceil(_gameConfig.MaxTimeBetweenClients * _upgradesMetaData.
+                                                Upgrades[UpgradeName.ClientsSign].GetUpgradeData());
+            }
             _currentTimeBetweenClients = _random.Next(minTimeBetweenClients,
                 maxTimeBetweenClients);
             _timer = new Timer(_currentTimeBetweenClients);

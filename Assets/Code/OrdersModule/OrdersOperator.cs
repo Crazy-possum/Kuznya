@@ -317,8 +317,12 @@ namespace Orders
             _currentActiveOrder = orderPanelView;
             foreach (ForgingMaterial material in _currentActiveOrder.ActiveOrder.Materials)
             {
-                int materialEconomy = 
-                    (int)Mathf.Ceil(material.Count * _upgradesMetaData.Upgrades[UpgradeName.Economy].GetUpgradeData());
+                int materialEconomy = 0;
+                if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.Economy))
+                {
+                    materialEconomy = (int)Mathf.Ceil(material.Count *
+                                                      _upgradesMetaData.Upgrades[UpgradeName.Economy].GetUpgradeData());
+                }
                 int requiredMaterialCount = material.Count - materialEconomy;
                 if (requiredMaterialCount < 1)
                 {

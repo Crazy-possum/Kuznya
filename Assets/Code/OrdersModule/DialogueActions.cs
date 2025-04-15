@@ -195,9 +195,13 @@ namespace Orders
             OrderConfig orderConfig = selectedOrders[orderIndex];
             int descriptionID = _random.Next(0, orderConfig.Descriptions.Count);
             _currentActiveOrder = new ActiveOrder(client, orderConfig, descriptionID);
-            _currentActiveOrder.BasicCost = orderConfig.BasicCost + 
-                                            (int)Mathf.Ceil(orderConfig.BasicCost * 
-                                                            _upgradesMetaData.Upgrades[UpgradeName.Cost].GetUpgradeData());
+            _currentActiveOrder.BasicCost = orderConfig.BasicCost;
+            if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.Cost))
+            {
+                _currentActiveOrder.BasicCost += 
+                    (int)Mathf.Ceil(orderConfig.BasicCost *
+                                    _upgradesMetaData.Upgrades[UpgradeName.Cost].GetUpgradeData());
+            }
             ShowDefaultText();
         }
 

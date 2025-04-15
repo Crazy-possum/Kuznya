@@ -80,8 +80,11 @@ namespace Economy
                 UpdateUI();
                 
                 float tradeValueDelta = 0;
-                float upgradeMultipler = _upgradesMetaData.Upgrades[UpgradeName.TradeDiplomacy].GetUpgradeData();
-                
+                float upgradeMultipler = 0;
+                if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.TradeDiplomacy))
+                {
+                    upgradeMultipler = _upgradesMetaData.Upgrades[UpgradeName.TradeDiplomacy].GetUpgradeData();
+                }
                 if (_tradeState == TradeState.WhiteZone)
                 {
                     tradeValueDelta = _random.Next(-4, 16);
@@ -188,7 +191,11 @@ namespace Economy
         private void UpdateUI()
         {
             int basicCost = _currentOrder.BasicCost * 50;
-            float tradeMultipler = _upgradesMetaData.Upgrades[UpgradeName.TradeSpeechcraft].GetUpgradeData();
+            float tradeMultipler = 0;
+            if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.TradeSpeechcraft))
+            {
+                tradeMultipler = _upgradesMetaData.Upgrades[UpgradeName.TradeSpeechcraft].GetUpgradeData();
+            }
             int addingCost = (int)(basicCost * _currentMultipler) + 
                              (int)Mathf.Ceil((basicCost * _currentMultipler) * tradeMultipler);
             int reward = _currentOrder.Reward + addingCost;

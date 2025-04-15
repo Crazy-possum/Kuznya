@@ -247,9 +247,21 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private void ZoneActions(WorkZoneUIView zoneView)
     {
         int score = 0;
-        float progressMultipler = _upgradesMetaData.Upgrades[UpgradeName.ForgingEfficiency].GetUpgradeData();
-        float additionalGoodScoreMultipler = _upgradesMetaData.Upgrades[UpgradeName.ForgingEfficiency].GetUpgradeData();
-        float additionalBadScoreMultipler = _upgradesMetaData.Upgrades[UpgradeName.ForgingMistakeScore].GetUpgradeData();
+        float progressMultipler = 0;
+        float additionalGoodScoreMultipler = 0;
+        float additionalBadScoreMultipler = 0;
+        if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.ForgingEfficiency))
+        {
+            progressMultipler = _upgradesMetaData.Upgrades[UpgradeName.ForgingEfficiency].GetUpgradeData();
+        }
+        if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.ForgingScore))
+        {
+            additionalGoodScoreMultipler = _upgradesMetaData.Upgrades[UpgradeName.ForgingScore].GetUpgradeData();
+        }
+        if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.ForgingMistakeScore))
+        {
+            additionalBadScoreMultipler = _upgradesMetaData.Upgrades[UpgradeName.ForgingMistakeScore].GetUpgradeData();
+        }
 
         float additionalProgerss = PROGRESS_VALUE * progressMultipler;
         float additionalGoodScore = Mathf.Ceil(GOOD_SCORE * additionalGoodScoreMultipler);
