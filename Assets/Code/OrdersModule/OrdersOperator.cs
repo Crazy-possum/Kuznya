@@ -27,6 +27,7 @@ namespace Orders
         private Dictionary<OrderPanelView, Timer> _ordersToRemove;
         private OrderPanelView _currentActiveOrder;
         private Timer _orderStartDelayTimer;
+        private UpgradesMetaData _upgradesMetaData;
 
         [Inject]
         public void Construct(ProgressionData progressionData,
@@ -47,6 +48,7 @@ namespace Orders
         {
             _ordersMetaData = _progressionData.OrdersMeta;
             _playerMetaData = _progressionData.PlayerMetaData;
+            _upgradesMetaData = _progressionData.UpgradesMeta;
             _ordersEventBus.OnOrderAdded += AddOrder;
             _resultsEventBus.OnResultsFinished += ActiveOrderFinished;
             _ordersToRemove = new Dictionary<OrderPanelView, Timer>();
@@ -82,6 +84,7 @@ namespace Orders
                 {
                     _uiEventBus.OnUnfreezeUI?.Invoke();
                     _ordersEventBus.OnOrderStarted?.Invoke(_activeOrders[_currentActiveOrder]);
+                    _orderStartDelayTimer = null;
                 }
             }
         }
@@ -118,8 +121,6 @@ namespace Orders
                         RemoveOrder(keyValuePair.Key, REMOVE_TIME);
                     }
                 }
-
-
             }
         }
 
@@ -265,7 +266,7 @@ namespace Orders
             bool haveEnoughtMaterials = true;
             foreach (ForgingMaterial material in orderPanelView.ActiveOrder.Materials)
             {
-                if (_playerMetaData.Materials.ContainsKey(material.Config.MaterialName))
+                if (_playerMetaData.Materials.IsContainsKey(material.Config.MaterialName))
                 {
                     if (_playerMetaData.Materials[material.Config.MaterialName] < material.Count)
                     {
@@ -316,7 +317,14 @@ namespace Orders
             _currentActiveOrder = orderPanelView;
             foreach (ForgingMaterial material in _currentActiveOrder.ActiveOrder.Materials)
             {
-                _economyEventBus.OnMaterialRemoved?.Invoke(material.Config.MaterialName, material.Count);
+                int materialEconomy = 
+                    (int)Mathf.Ceil(material.Count * _upgradesMetaData.Upgrades[UpgradeName.Economy].GetUpgradeData());
+                int requiredMaterialCount = material.Count - materialEconomy;
+                if (requiredMaterialCount < 1)
+                {
+                    requiredMaterialCount = 1;
+                }
+                _economyEventBus.OnMaterialRemoved?.Invoke(material.Config.MaterialName, requiredMaterialCount);
             }
             _orderStartDelayTimer = new Timer(ORDER_START_DELAY);
             HideConfirmPanel();

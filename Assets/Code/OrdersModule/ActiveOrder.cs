@@ -28,7 +28,7 @@ namespace Orders
         public OrderText Description { get => _description; }
         public Sprite OrderIcon { get => _orderIcon; }
         public List<ForgingMaterial> Materials { get => _materials; }
-        public int BasicCost { get => _basicCost; }
+        public int BasicCost { get => _basicCost; set => _basicCost = value; }
         public float OrderTime { get => _orderTime; }
         public Timer OrderTimer { get => _orderTimer; set => _orderTimer = value; }
         public bool IsCompleted { get => _isCompleted; set => _isCompleted = value; }

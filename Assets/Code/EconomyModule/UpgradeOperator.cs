@@ -74,16 +74,21 @@ namespace Economy
                     SetExtraDeliveryUpgrade(upgradeView);
                     break;
                 case UpgradeName.TradeSpeechcraft :
+                    SetTradeSpeechcraftUpgrade(upgradeView);
                     break;
                 case UpgradeName.TradeDiplomacy :
+                    SetTradeDiplomacyUpgrade(upgradeView);
                     break;
                 case UpgradeName.ForgingEfficiency :
+                    SetForgingEfficiencyUpgrade(upgradeView);
                     break;
                 case UpgradeName.ForgingMastersExp :
                     break;
                 case UpgradeName.ForgingScore :
+                    SetForgingScoreUpgrade(upgradeView);
                     break;
                 case UpgradeName.ForgingMistakeScore :
+                    SetForgingMistakeScoreUpgrade(upgradeView);
                     break;
                 case UpgradeName.MultiTask :
                     break;
@@ -92,6 +97,7 @@ namespace Economy
                 case UpgradeName.ClientsHolydays :
                     break;
                 case UpgradeName.ClientsSign :
+                    SetClientSignUpgrade(upgradeView);
                     break;
                 case UpgradeName.ClientsPrestige :
                     break;
@@ -106,7 +112,7 @@ namespace Economy
             _upgradesMetaData.SetUpgradeLevel(upgradeName, upgradeView.CurrentLevel);
             _progressionEvents.OnProgressionDataChanged?.Invoke(_progressionData);
         }
-
+        
         private void SetUpgradeValue(UpgradeView upgradeView, float value)
         {
             //Debug.Log($"level {upgradeView.CurrentLevel}");
@@ -179,23 +185,22 @@ namespace Economy
             float value = 0;
             SetUpgradeValue(upgradeView, value);
         }
-
         private void SetEconomyUpgrade(UpgradeView upgradeView)
         {
             float value = 0;
             switch (upgradeView.CurrentLevel)
             {
                 case 1:
-                    value = 0.1f;
+                    value = 0.08f;
                     break;
                 case 2:
-                    value = 0.2f;
+                    value = 0.16f;
                     break;
                 case 3:
-                    value = 0.3f;
+                    value = 0.24f;
                     break;
                 case 4:
-                    value = 0.4f;
+                    value = 0.32f;
                     break;
                 default:
                     Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
@@ -203,23 +208,22 @@ namespace Economy
             }
             SetUpgradeValue(upgradeView, value);
         }
-        
         private void SetCostUpgrade(UpgradeView upgradeView)
         {
             float value = 0;
             switch (upgradeView.CurrentLevel)
             {
                 case 1:
-                    value = 0.1f;
+                    value = 0.05f;
                     break;
                 case 2:
-                    value = 0.2f;
+                    value = 0.1f;
                     break;
                 case 3:
-                    value = 0.3f;
+                    value = 0.15f;
                     break;
                 case 4:
-                    value = 0.4f;
+                    value = 0.2f;
                     break;
                 default:
                     Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
@@ -251,18 +255,21 @@ namespace Economy
             switch (upgradeView.CurrentLevel)
             {
                 case 1:
-                    value = 5;
+                    value = 6;
                     break;
                 case 2:
-                    value = 3f;
+                    value = 5;
                     break;
                 case 3:
-                    value = 2;
+                    value = 4;
                     break;
                 case 4:
-                    value = 1.5f;
+                    value = 3;
                     break;
                 case 5:
+                    value = 2;
+                    break;
+                case 6:
                     value = 1;
                     break;
                 default:
@@ -271,5 +278,165 @@ namespace Economy
             }
             SetUpgradeValue(upgradeView, value);
         }
+        private void SetForgingEfficiencyUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1:
+                    value = 0.05f;
+                    break;
+                case 2:
+                    value = 0.1f;
+                    break;
+                case 3:
+                    value = 0.15f;
+                    break;
+                case 4:
+                    value = 0.2f;
+                    break;
+                case 5:
+                    value = 0.25f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        private void SetForgingScoreUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1:
+                    value = 0.08f;
+                    break;
+                case 2:
+                    value = 0.16f;
+                    break;
+                case 3:
+                    value = 0.24f;
+                    break;
+                case 4:
+                    value = 0.32f;
+                    break;
+                case 5:
+                    value = 0.40f;
+                    break;
+                case 6:
+                    value = 0.48f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        private void SetForgingMistakeScoreUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1:
+                    value = 0.04f;
+                    break;
+                case 2:
+                    value = 0.08f;
+                    break;
+                case 3:
+                    value = 0.12f;
+                    break;
+                case 4:
+                    value = 0.16f;
+                    break;
+                case 5:
+                    value = 0.20f;
+                    break;
+                case 6:
+                    value = 0.24f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        private void SetTradeSpeechcraftUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1:
+                    value = 0.05f;
+                    break;
+                case 2:
+                    value = 0.1f;
+                    break;
+                case 3:
+                    value = 0.15f;
+                    break;
+                case 4:
+                    value = 0.20f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        private void SetTradeDiplomacyUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1:
+                    value = 0.1f;
+                    break;
+                case 2:
+                    value = 0.2f;
+                    break;
+                case 3:
+                    value = 0.3f;
+                    break;
+                case 4:
+                    value = 0.4f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        private void SetClientSignUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1:
+                    value = 0.1f;
+                    break;
+                case 2:
+                    value = 0.2f;
+                    break;
+                case 3:
+                    value = 0.3f;
+                    break;
+                case 4:
+                    value = 0.4f;
+                    break;
+                case 5:
+                    value = 0.5f;
+                    break;
+                case 6:
+                    value = 0.6f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+
     }
 }

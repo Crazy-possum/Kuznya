@@ -11,7 +11,7 @@ namespace Orders
     {
         private const float HIDDEN_POSITION_Y = -70;
         private const float VISIBLE_POSITION_Y = 130;
-        private const float REMOVING_MATERIAL_LIFETIME = 1.5f;
+        private const float REMOVING_MATERIAL_LIFETIME = 2f;
         
         private OrdersView _ordersView;
         private EconomyEventBus _economyEventBus;
@@ -109,7 +109,6 @@ namespace Orders
             _currentlySpawnedRemovingMaterial = removingMaterialView;
             _targetPosition = new Vector2(startAnchoredPos.x, startAnchoredPos.y + 200);
             _removingMaterialLifetime = new Timer(REMOVING_MATERIAL_LIFETIME);
-
         }
         
         private void CheckRemovingMaterialActions()
@@ -119,7 +118,8 @@ namespace Orders
                 MoveRemovingMaterialObject();
                 if (_removingMaterialLifetime.Wait())
                 {
-                    GameObject.Destroy(_currentlySpawnedRemovingMaterial);
+                    GameObject.Destroy(_currentlySpawnedRemovingMaterial.gameObject);
+                    _removingMaterialLifetime = null;
                 }
             }
         }
