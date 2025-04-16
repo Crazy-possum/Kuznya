@@ -12,6 +12,7 @@ namespace GameCoreModule
         public void SetValue(string value)
         {
             _value = value;
+            _isLoaded = true;
         }
     }
 }

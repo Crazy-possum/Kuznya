@@ -11,6 +11,8 @@ namespace MAEngine.Extention
 
         public float Duration => _duration;
 
+        public float StartWaitTime { get => _startWaitTime; set => _startWaitTime = value; }
+
         public Timer()
         {
             IsWaiting = false;

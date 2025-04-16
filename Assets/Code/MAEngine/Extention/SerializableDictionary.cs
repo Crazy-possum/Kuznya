@@ -172,6 +172,16 @@ namespace MAEngine.Extention
             }
         }
 
+        public override string ToString()
+        {
+            string result = "";
+            foreach (DictionaryElement<TKey, TValue> element in Dictionary)
+            {
+                result += $"{element.Key} : {element.Value}],[";
+            }
+            return result;
+        }
+
         public void Clear()
         {
             Dictionary.Clear();

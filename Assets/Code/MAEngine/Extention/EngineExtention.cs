@@ -321,5 +321,59 @@ namespace MAEngine.Extention
         }
 
         #endregion
+
+        #region Serialization
+
+        public static string ListToString<T>(this List<T> list) where T : IFormattable
+        {
+            string result = "";
+            foreach (var item in list)
+            {
+                result += item.ToString() + "],[";
+            }
+            return result;
+        }
+
+        public static List<int> StringToListInt(this string s)
+        {
+            List<int> result = new List<int>();
+            string[] items = s.Split(new string[] { "],[" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var item in items)
+            {
+                int intItem = int.Parse(item);
+                result.Add(intItem);
+            }
+            return result;
+        }
+        
+        public static List<float> StringToListFloat(this string s)
+        {
+            List<float> result = new List<float>();
+            string[] items = s.Split(new string[] { "],[" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var item in items)
+            {
+                float floatItem = float.Parse(item);
+                result.Add(floatItem);
+            }
+            return result;
+        }
+        
+        public static List<string> StringToListString(this string s)
+        {
+            List<string> result = new List<string>();
+            string[] items = s.Split(new string[] { "],[" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var item in items)
+            {
+                result.Add(item);
+            }
+            return result;
+        }
+
+        #endregion
+        
+        public static T ParseEnum<T>(this string value)
+        {
+            return (T) Enum.Parse(typeof(T), value, true);
+        }
     }
 }

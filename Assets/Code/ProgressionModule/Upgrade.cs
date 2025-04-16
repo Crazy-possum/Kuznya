@@ -39,5 +39,24 @@ namespace Progression
             _upgradeModifier = 0;
             _isUpgradeActive = false;
         }
+
+        public override string ToString()
+        {
+            return $"{_upgradeModifier}|_|{_isUpgradeActive}";
+        }
+
+        public void LoadUpgrade(string loadedString)
+        {
+            string[] data = loadedString.Split(new[] { "|_|" }, StringSplitOptions.None);
+            if (data.Length == 2)
+            {
+                _upgradeModifier = float.Parse(data[0]);
+                _isUpgradeActive = bool.Parse(data[1]);
+            }
+            else
+            {
+                Debug.LogError($"Failed to load upgrade data: {loadedString}");
+            }
+        }
     }
 }
