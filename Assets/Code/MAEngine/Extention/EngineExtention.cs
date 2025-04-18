@@ -375,5 +375,14 @@ namespace MAEngine.Extention
         {
             return (T) Enum.Parse(typeof(T), value, true);
         }
+
+        public static bool IsObjectInsideUIRectHorizontal(RectTransform targetRect, RectTransform checkingRect)
+        {
+            Vector3 checkingWorldPosition = checkingRect.TransformPoint(checkingRect.rect.center);
+            Vector3 checkingLocalPosition = targetRect.InverseTransformPoint(checkingWorldPosition);
+            float targetLeft = -targetRect.rect.width / 2f;
+            float targetRight = targetRect.rect.width / 2f;
+            return checkingLocalPosition.x >= targetLeft && checkingLocalPosition.x <= targetRight;
+        }
     }
 }

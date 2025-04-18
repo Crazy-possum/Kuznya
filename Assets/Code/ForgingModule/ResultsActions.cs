@@ -31,14 +31,14 @@ public class ResultsActions : IAction, IInitialisation, ICleanUp, IFixedExecute
 
     public void Initialisation()
     {
-        _eventBus.OnForgingFinished += StartCountingResult;
+        _eventBus.OnHardeningFinished += StartCountingResult;
         _resultsView.EndButton.onClick.AddListener(() => EndButtonPressed());
         _orderEventBus.OnOrderEnded += StopProcess;
     }
 
     public void Cleanup()
     {
-        _eventBus.OnForgingFinished -= StartCountingResult;
+        _eventBus.OnHardeningFinished -= StartCountingResult;
         _resultsView.EndButton.onClick.RemoveListener(() => EndButtonPressed());
         _orderEventBus.OnOrderEnded -= StopProcess;
     }
