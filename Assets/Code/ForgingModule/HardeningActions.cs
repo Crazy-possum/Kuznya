@@ -10,7 +10,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
 {
     private const int ZONE_SIZE_DELTA = 20;
     private const int MAX_PROGRESS = 5;
-    private const int COST_MULTIPLER = 10;
+    private const int COST_MULTIPLER = 50;
     
     private HardeningUIView _uiView;
     private ForgingEventBus _eventBus;

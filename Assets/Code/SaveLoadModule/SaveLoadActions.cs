@@ -44,6 +44,7 @@ namespace SaveLoad
             //_saveLoadEventBus.OnSavableDataChanged -= SaveAllDataToPlayerPrefs;
             _saveLoadEventBus.OnSaveData -= SaveAllDataToPlayerPrefs;
             _saveLoadEventBus.OnLoadData -= LoadAllDataFromPlayerPrefs;
+            _saveLoadEventBus.OnClearData -= ClearDataFromPlayerPrefs;
         }
         
         private void ClearDataFromPlayerPrefs()
