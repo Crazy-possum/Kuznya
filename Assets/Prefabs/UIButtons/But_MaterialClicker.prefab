@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1347493816179584944, guid: 57015827f86bbce4da7681275cee7378, type: 3}
       propertyPath: m_Name
-      value: But_Bacic
+      value: But_MaterialClicker
       objectReference: {fileID: 0}
     - target: {fileID: 2404988682911862780, guid: 57015827f86bbce4da7681275cee7378, type: 3}
       propertyPath: m_Pivot.x
@@ -90,6 +90,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2404988682911862780, guid: 57015827f86bbce4da7681275cee7378, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538954208972251366, guid: 57015827f86bbce4da7681275cee7378, type: 3}
+      propertyPath: _audioResourceID
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

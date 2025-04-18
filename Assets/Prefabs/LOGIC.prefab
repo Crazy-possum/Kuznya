@@ -64,6 +64,7 @@ MonoBehaviour:
   _shopCanvas: {fileID: 0}
   _materialsCanvas: {fileID: 0}
   _forgingCanvas: {fileID: 0}
+  _hardeningCanvas: {fileID: 0}
   _resultsCanvas: {fileID: 0}
   _tradeCanvas: {fileID: 0}
   _smeltingCanvas: {fileID: 0}
@@ -378,6 +379,65 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _progressionContainer: {fileID: 11400000, guid: c4730235a203217428789fe74439cbcb, type: 2}
+--- !u!1 &6043246132418086622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3472201434542356199}
+  - component: {fileID: 6556195569453439701}
+  - component: {fileID: 1641303399990579214}
+  m_Layer: 0
+  m_Name: AudioModule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3472201434542356199
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6043246132418086622}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6220452103543172344}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6556195569453439701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6043246132418086622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad216648cd7243ad9de4bad66a6a57b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1641303399990579214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6043246132418086622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abe7e7ab9f94497c938ba66e2b211f1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSourceView: {fileID: 0}
+  _audioContainer: {fileID: 11400000, guid: f852d56810c47ba4d813fa9d704ff6aa, type: 2}
 --- !u!1 &6322116106192995287
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,6 +470,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9026588797680876637}
+  - {fileID: 3472201434542356199}
   - {fileID: 561083149736483337}
   - {fileID: 6790627534596408494}
   - {fileID: 6039172355533780090}
@@ -434,6 +495,7 @@ MonoBehaviour:
   _monoInstallers:
   - {fileID: 6496626111333660557}
   - {fileID: 4376237025561611539}
+  - {fileID: 1641303399990579214}
   - {fileID: 3873344359494973135}
   - {fileID: 4762195954417408171}
   - {fileID: 1125963181286853862}
@@ -471,6 +533,7 @@ MonoBehaviour:
   Modules:
   - {fileID: 5627879035573737632}
   - {fileID: 938657475901290744}
+  - {fileID: 6556195569453439701}
   - {fileID: 372731516821023602}
   - {fileID: 8245577362498517115}
   - {fileID: 2816897771114400598}
@@ -524,6 +587,7 @@ MonoBehaviour:
   _forgingView: {fileID: 0}
   _resultsView: {fileID: 0}
   _smeltingView: {fileID: 0}
+  _hardeningView: {fileID: 0}
   _orderSpritesContainer: {fileID: 11400000, guid: 59cb62c53a66c0f458c0313257c7cf5b, type: 2}
 --- !u!114 &8245577362498517115
 MonoBehaviour:

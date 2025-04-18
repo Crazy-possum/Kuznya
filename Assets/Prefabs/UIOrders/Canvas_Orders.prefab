@@ -354,7 +354,7 @@ MonoBehaviour:
       Value: {fileID: 3882392318309389160}
     - Key: 6
       Value: {fileID: 2565566307408390039}
-  _resizeButton: {fileID: 3707950952216841813}
+  _resizeButton: {fileID: 287985842125880741}
   _materialsPanelRect: {fileID: 6916287640221427966}
 --- !u!1 &2074482293634642200
 GameObject:
@@ -2616,15 +2616,15 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7843373930360955023, guid: 39cc2736175c47d4b91038c79e85a5f0, type: 3}
   m_PrefabInstance: {fileID: 7888744698552365616}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3707950952216841813 stripped
+--- !u!114 &287985842125880741 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6777700007001816165, guid: 39cc2736175c47d4b91038c79e85a5f0, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7963861784286498709, guid: 39cc2736175c47d4b91038c79e85a5f0, type: 3}
   m_PrefabInstance: {fileID: 7888744698552365616}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b64e815ee9e96a34fa3b747802cfdb1e, type: 3}
+  m_Script: {fileID: 11500000, guid: 57767a930493412e9947cbdae1218aa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &8666988995981584950

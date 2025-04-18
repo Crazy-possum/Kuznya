@@ -1412,7 +1412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scoreText: {fileID: 596477833704425683}
   _progressSlider: {fileID: 9190400922318689796}
-  _smeltingButton: {fileID: 8803619998424366611}
+  _smeltingButton: {fileID: 5379221656381033955}
   _smeltingBonusText: {fileID: 1983260191496143242}
   _stepsDict:
     Dictionary:
@@ -2797,15 +2797,15 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4626509842003735900, guid: 21dd94a67fcb2a74a83a09cbbddea1d1, type: 3}
   m_PrefabInstance: {fileID: 634566339794098085}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8803619998424366611 stripped
+--- !u!114 &5379221656381033955 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8278411095874677174, guid: 21dd94a67fcb2a74a83a09cbbddea1d1, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4785280357869476422, guid: 21dd94a67fcb2a74a83a09cbbddea1d1, type: 3}
   m_PrefabInstance: {fileID: 634566339794098085}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b64e815ee9e96a34fa3b747802cfdb1e, type: 3}
+  m_Script: {fileID: 11500000, guid: 57767a930493412e9947cbdae1218aa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &762239522738203816
