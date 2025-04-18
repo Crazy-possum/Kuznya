@@ -159,7 +159,8 @@ namespace Economy
         
         private void SubmitOrder()
         {
-            _economyEventBus.OnAddMoney?.Invoke((int)(_currentOrder.Reward * _currentMultipler));
+            int reward = GetRewardValue();
+            _economyEventBus.OnAddMoney?.Invoke((int)(reward));
             _stateEventsBus.OnOrdersStateActivate?.Invoke();
         }
 
@@ -212,6 +213,19 @@ namespace Economy
             TimeSpan timeLeft = TimeSpan.FromSeconds(_tradingTimeLeft);
             _tradeView.Timer.text = timeLeft.ToString("mm' : 'ss");
             _tradeView.TradeSlider.value = _currentTradeValue;
+        }
+
+        private int GetRewardValue()
+        {
+            int basicCost = _currentOrder.BasicCost * 50;
+            float tradeMultipler = 0;
+            if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.TradeSpeechcraft))
+            {
+                tradeMultipler = _upgradesMetaData.Upgrades[UpgradeName.TradeSpeechcraft].GetUpgradeData();
+            }
+            int addingCost = (int)(basicCost * _currentMultipler) + 
+                             (int)Mathf.Ceil((basicCost * _currentMultipler) * tradeMultipler);
+            return _currentOrder.Reward + addingCost;
         }
     }
 }
