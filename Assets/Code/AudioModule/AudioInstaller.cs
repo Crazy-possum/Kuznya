@@ -15,6 +15,7 @@ namespace Audio
             Container.Bind<AudioContainer>().FromInstance(_audioContainer).AsSingle();
             
             Container.Bind<AudioOperator>().AsSingle();
+            Container.Bind<GameAudioActions>().AsSingle();
         }
     }
 }

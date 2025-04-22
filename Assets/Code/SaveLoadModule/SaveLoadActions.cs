@@ -29,6 +29,7 @@ namespace SaveLoad
             //_saveLoadEventBus.OnSavableDataChanged += SaveAllDataToPlayerPrefs;
             _saveLoadEventBus.OnSaveData += SaveAllDataToPlayerPrefs;
             _saveLoadEventBus.OnLoadData += LoadAllDataFromPlayerPrefs;
+            _saveLoadEventBus.OnClearData += ClearDataFromPlayerPrefs;
             _saveLoadEventBus.OnLoadData?.Invoke();
         }
 
@@ -43,6 +44,12 @@ namespace SaveLoad
             //_saveLoadEventBus.OnSavableDataChanged -= SaveAllDataToPlayerPrefs;
             _saveLoadEventBus.OnSaveData -= SaveAllDataToPlayerPrefs;
             _saveLoadEventBus.OnLoadData -= LoadAllDataFromPlayerPrefs;
+            _saveLoadEventBus.OnClearData -= ClearDataFromPlayerPrefs;
+        }
+        
+        private void ClearDataFromPlayerPrefs()
+        {
+            PlayerPrefs.DeleteAll();
         }
 
         public void SaveAllDataToPlayerPrefs()
@@ -80,7 +87,6 @@ namespace SaveLoad
                 if (PlayerPrefs.HasKey(key.ToString()))
                 {
                     _savableDataContainer.SaveData(key, PlayerPrefs.GetFloat(key.ToString()));
-                    Debug.Log(PlayerPrefs.GetFloat(key.ToString()));
                 }
             }
             saveDataKeys = _saveDataKeysContainer.GetSavableStringKeys();

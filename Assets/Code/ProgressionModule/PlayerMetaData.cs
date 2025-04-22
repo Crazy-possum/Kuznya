@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using GameCoreModule;
 using MAEngine.Extention;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Progression
 {
@@ -24,17 +23,17 @@ namespace Progression
         public float MaterialAddingDeltaTime { get => _materialAddingDeltaTime; set => _materialAddingDeltaTime = value; }
         public StorageMaterialsConfig StorageMaterialsConfig { get => _storageMaterialsConfig; set => _storageMaterialsConfig = value; }
 
-        public void Initialize()
+        public void Initialize(SaveLoadEventBus saveLoadEventBus)
         {
-            
+            LoadData(saveLoadEventBus);
         }
-        
+
         public void InitializeMaterials(StorageMaterialsConfig config)
         {
             _storageMaterialsConfig = config;
             if (_currentMaximumMaterial == MaterialName.NONE)
             {
-                _currentMaximumMaterial = MaterialName.Tin;
+                _currentMaximumMaterial = MaterialName.Metal;
             }
             if (_materials == null)
             {
@@ -80,6 +79,87 @@ namespace Progression
             {
                 _currentMaxMaterialStorage = 0;
                 _materialAddingDeltaTime = 0;
+            }
+        }
+
+        public void SaveData(SaveLoadEventBus saveLoadEventBus)
+        {
+            saveLoadEventBus.OnSaveString?.Invoke(SaveDataKey.CurrentMaximumMaterial, _currentMaximumMaterial.ToString());
+            saveLoadEventBus.OnSaveInt?.Invoke(SaveDataKey.CurrentMoney, _currentMoney);
+            saveLoadEventBus.OnSaveString?.Invoke(SaveDataKey.Materials, _materials.ToString());
+            saveLoadEventBus.OnSaveInt?.Invoke(SaveDataKey.CurrentMaxMaterialStorage, _currentMaxMaterialStorage);
+            saveLoadEventBus.OnSaveFloat?.Invoke(SaveDataKey.MaterialAddingDeltaTime, _materialAddingDeltaTime);
+        }
+        
+        private void LoadData(SaveLoadEventBus saveLoadEventBus)
+        {
+            SavableString savableString = new SavableString();
+            saveLoadEventBus.OnGetString?.Invoke(SaveDataKey.CurrentMaximumMaterial, savableString);
+            if (savableString.IsLoaded)
+            {
+                string currentMaximumMaterialString = savableString.Value;
+                _currentMaximumMaterial = currentMaximumMaterialString.ParseEnum<MaterialName>();
+            }
+            else
+            {
+                _currentMaximumMaterial = MaterialName.Metal;
+            }
+            SavableInt savableInt = new SavableInt();
+            saveLoadEventBus.OnGetInt?.Invoke(SaveDataKey.CurrentMoney, savableInt);
+            if (savableInt.IsLoaded)
+            {
+                _currentMoney = savableInt.Value;
+            }
+            else
+            {
+                _currentMoney = 0;
+            }
+            savableString = new SavableString();
+            saveLoadEventBus.OnGetString?.Invoke(SaveDataKey.Materials, savableString);
+            if (savableString.IsLoaded)
+            {
+                string materialsString = savableString.Value;
+                SetupMaterials(materialsString);
+            }
+            else
+            {
+                _materials = new SerializableDictionary<MaterialName, int>();
+            }
+            savableInt = new SavableInt();
+            saveLoadEventBus.OnGetInt?.Invoke(SaveDataKey.CurrentMaxMaterialStorage, savableInt);
+            if (savableInt.IsLoaded)
+            {
+                _currentMaxMaterialStorage = savableInt.Value;
+            }
+            else
+            {
+                _currentMaxMaterialStorage = 0;
+            }
+            SavableFloat savableFloat = new SavableFloat();
+            saveLoadEventBus.OnGetFloat(SaveDataKey.MaterialAddingDeltaTime, savableFloat);
+            if (savableFloat.IsLoaded)
+            {
+                _materialAddingDeltaTime = savableFloat.Value;
+            }
+            else
+            {
+                _materialAddingDeltaTime = 0;
+            }
+        }
+
+        private void SetupMaterials(string materialsString)
+        {
+            string[] materialsArray = materialsString.Split("],[", StringSplitOptions.RemoveEmptyEntries);
+            _materials = new SerializableDictionary<MaterialName, int>();
+            foreach (string materialString in materialsArray)
+            {
+                string[] items = materialString.Split(" : ", StringSplitOptions.RemoveEmptyEntries);
+                if (items.Length == 2)
+                {
+                    MaterialName materialName = (MaterialName)Enum.Parse(typeof(MaterialName), items[0]);
+                    int materialAmount = int.Parse(items[1]);
+                    _materials.Add(materialName, materialAmount);
+                }
             }
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System;
 using Orders;
 using System.Collections.Generic;
+using GameCoreModule;
+using MAEngine.Extention;
 using UnityEngine;
 
 namespace Progression
@@ -16,10 +18,9 @@ namespace Progression
         public List<ActiveOrder> ActiveOrders { get => _activeOrders; set => _activeOrders = value; }
         public ClientConfig ActiveClient { get => _activeClient; set => _activeClient = value; }
 
-        public void Initialize()
+        public void Initialize(SaveLoadEventBus saveLoadEventBus, ClientsPoolConfig clientsPoolConfig)
         {
-            _activeClients = new List<ClientConfig>();
-            _activeOrders = new List<ActiveOrder>();
+            LoadData(saveLoadEventBus, clientsPoolConfig);
         }
 
         public void Initialize(List<ClientConfig> activeClients,
@@ -91,6 +92,106 @@ namespace Progression
             }
         }
 
+        public void SaveData(SaveLoadEventBus saveLoadEventBus)
+        {
+            string activeClientsString = "";
+            foreach (ClientConfig client in _activeClients)
+            {
+                activeClientsString += $"],[{client.ToString()}";
+            }
+            saveLoadEventBus.OnSaveString?.Invoke(SaveDataKey.ActiveClients, activeClientsString);
+            string activeOrdersString = "";
+            foreach (ActiveOrder order in _activeOrders)
+            {
+                activeOrdersString += $"],[{order.ToString()}";
+            }
+            saveLoadEventBus.OnSaveString?.Invoke(SaveDataKey.ActiveOrders, activeOrdersString);
+            if (_activeClient != null)
+            {
+                saveLoadEventBus.OnSaveString?.Invoke(SaveDataKey.ActiveClient, _activeClient.ToString());
+            }
+            
+        }
+
+        public void LoadData(SaveLoadEventBus saveLoadEventBus, ClientsPoolConfig clientsPoolConfig)
+        {
+            SavableString savableString = new SavableString();
+            saveLoadEventBus.OnGetString?.Invoke(SaveDataKey.ActiveClients, savableString);
+            if (savableString.IsLoaded)
+            {
+                string activeClientsString = savableString.Value;
+                SetupActiveClients(activeClientsString, clientsPoolConfig);
+            }
+            else
+            {
+                _activeClients = new List<ClientConfig>();
+            }
+            savableString = new SavableString();
+            saveLoadEventBus.OnGetString?.Invoke(SaveDataKey.ActiveOrders, savableString);
+            if (savableString.IsLoaded)
+            {
+                string activeOrdersString = savableString.Value;
+                SetupActiveOrders(activeOrdersString, clientsPoolConfig);
+            }
+            else
+            {
+                _activeOrders = new List<ActiveOrder>();
+            }
+            savableString = new SavableString();
+            saveLoadEventBus.OnGetString?.Invoke(SaveDataKey.ActiveClient, savableString);
+            if (savableString.IsLoaded)
+            {
+                string activeClientString = savableString.Value;
+                SetupActiveClient(activeClientString, clientsPoolConfig);
+            }
+            else
+            {
+                _activeClient = null;
+            }
+        }
+        
+        private void SetupActiveClients(string activeClientsString, ClientsPoolConfig clientsPoolConfig)
+        {
+            string[] activeClientsArray =
+                activeClientsString.Split(new string[] { "],[" }, StringSplitOptions.RemoveEmptyEntries);
+            _activeClients = new List<ClientConfig>();
+            foreach (string clientString in activeClientsArray)
+            {
+                foreach (ClientConfig clientConfig in clientsPoolConfig.Clients)
+                {
+                    if (clientConfig.name == clientString)
+                    {
+                        _activeClients.Add(clientConfig);
+                        break;
+                    }
+                }
+            }
+        }
+        
+        private void SetupActiveOrders(string activeOrdersString, ClientsPoolConfig clientsPoolConfig)
+        {
+            string[] activeOrdersArray =
+                activeOrdersString.Split(new string[] { "],[" }, StringSplitOptions.RemoveEmptyEntries);
+            _activeOrders = new List<ActiveOrder>();
+            foreach (string orderString in activeOrdersArray)
+            {
+                ActiveOrder order = new ActiveOrder(clientsPoolConfig);
+                order.LoadOrder(orderString);
+                _activeOrders.Add(order);
+            }
+        }
+        
+        private void SetupActiveClient(string activeClientString, ClientsPoolConfig clientsPoolConfig)
+        {
+            foreach (ClientConfig clientConfig in clientsPoolConfig.Clients)
+            {
+                if (clientConfig.name == activeClientString)
+                {
+                    _activeClient = clientConfig;
+                    break;
+                }
+            }
+        }
     }
 }
 
