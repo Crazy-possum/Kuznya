@@ -25,7 +25,7 @@ namespace GameCoreModule
             _stateEventsBus.OnShopStateActivate += ShowShopScreen;
             _stateEventsBus.OnMaterialsStateActivate += ShowMaterialsScreen;
             _stateEventsBus.OnForgingStateActivate += ShowForgingScreen;
-            _stateEventsBus.OnHardeningStateActivate += ShowHardeningScreen;
+            _stateEventsBus.OnSharpeningStateActivate += ShowHardeningScreen;
             _stateEventsBus.OnResultsStateActivate += ShowResultsScreen;
             _stateEventsBus.OnTradeStateActivate += ShowTradeScreen;
             _stateEventsBus.OnSmeltingStateActivate += ShowSmeltingScreen;
@@ -39,7 +39,7 @@ namespace GameCoreModule
             _stateEventsBus.OnShopStateActivate -= ShowShopScreen;
             _stateEventsBus.OnMaterialsStateActivate -= ShowMaterialsScreen;
             _stateEventsBus.OnForgingStateActivate -= ShowForgingScreen;
-            _stateEventsBus.OnHardeningStateActivate -= ShowHardeningScreen;
+            _stateEventsBus.OnSharpeningStateActivate -= ShowHardeningScreen;
             _stateEventsBus.OnResultsStateActivate -= ShowResultsScreen;
             _stateEventsBus.OnTradeStateActivate -= ShowTradeScreen;
             _stateEventsBus.OnSmeltingStateActivate -= ShowSmeltingScreen;

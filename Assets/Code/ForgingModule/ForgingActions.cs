@@ -290,7 +290,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         _currentView = zoneView;
         _currentAddingScore = score;
         GameObjectSpawnCallback callback = new GameObjectSpawnCallback();
-        _gameEventBus.OnSpawnObjectFromPool?.Invoke(PrefabID.UIForgingScoreText, Vector3.zero, callback);
+        _gameEventBus.OnSpawnObjectWithoutRoot?.Invoke(PrefabID.UIForgingScoreText, Vector3.zero, callback);
         InitializeTextObject(callback.SpawnedObject);
         UpdateUI();
     }
@@ -299,6 +299,8 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     {
         textObject.transform.SetParent(_currentView.ScoreRoot);
         ScoreTextView textView = textObject.GetComponent<ScoreTextView>();
+        
+        textView.TextRectTransform.anchoredPosition = _currentView.ScoreRoot.rect.center;
         textView.InitializeView(_currentView, LIFETIME);
         textView.Text.text = _currentAddingScore.ToString();
         _currentView.AddTextToList(textView);
@@ -347,7 +349,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     {
         _eventBus.OnForgingFinished?.Invoke(_currentScore);
         ClearProgress();
-        _stateEventsBus.OnHardeningStateActivate?.Invoke();
+        _stateEventsBus.OnSharpeningStateActivate?.Invoke();
         _uiView.gameObject.SetActive(false);
     }
     

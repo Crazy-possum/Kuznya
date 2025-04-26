@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HardeningUIView : MonoBehaviour
+public class SharpeningUIView : MonoBehaviour
 {
     [SerializeField] private Slider _hardeningSlider;
     [SerializeField] private RectTransform _sliderCheckZone;

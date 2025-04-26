@@ -6,13 +6,13 @@ using Orders;
 using UnityEngine;
 using Zenject;
 
-public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecute
+public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecute
 {
     private const int ZONE_SIZE_DELTA = 20;
     private const int MAX_PROGRESS = 5;
     private const int COST_MULTIPLER = 50;
     
-    private HardeningUIView _uiView;
+    private SharpeningUIView _uiView;
     private ForgingEventBus _eventBus;
     private StateEventsBus _stateEventsBus;
     private OrdersEventBus _ordersEventBus;
@@ -27,7 +27,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     private Vector2 _yellowZoneInitialSize;
     
     [Inject]
-    public void Construct(HardeningUIView uiView, ForgingEventBus forgingEventBus,
+    public void Construct(SharpeningUIView uiView, ForgingEventBus forgingEventBus,
         StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus)
     {
         _uiView = uiView;
@@ -156,7 +156,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     
     private void EndProcess()
     {
-        _eventBus.OnHardeningFinished?.Invoke(_currentScore);
+        _eventBus.OnSharpeningFinished?.Invoke(_currentScore);
         ClearProgress();
         _stateEventsBus.OnResultsStateActivate?.Invoke();
         _uiView.gameObject.SetActive(false);

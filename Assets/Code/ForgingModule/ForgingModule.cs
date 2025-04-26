@@ -44,8 +44,8 @@ public class ForgingModule : BasicModule
     
     private void InitializeHardeningActions()
     {
-        HardeningActions hardeningActions =
-            _di.Resolve<HardeningActions>();
-        _actions.Add(hardeningActions);
+        SharpeningActions sharpeningActions =
+            _di.Resolve<SharpeningActions>();
+        _actions.Add(sharpeningActions);
     }
 }
