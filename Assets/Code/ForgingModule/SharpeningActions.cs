@@ -39,10 +39,11 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     
     public void Initialisation()
     {
-        _eventBus.OnForgingFinished += StartHardening;
+        _eventBus.OnHardeningFinished += StartSharpening;
+        
         _ordersEventBus.OnOrderStarted += StartOrder;
         _ordersEventBus.OnOrderEnded += StopProcess;
-        _uiView.HardeningButton.onClick.AddListener(ActHardening);
+        _uiView.HardeningButton.onClick.AddListener(ActSharpening);
         _greenZoneInitialSize = _uiView.TargetZoneGreen.sizeDelta;
         _yellowZoneInitialSize = _uiView.TargetZoneYellow.sizeDelta;
     }
@@ -58,10 +59,10 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
 
     public void Cleanup()
     {
-        _eventBus.OnForgingFinished -= StartHardening;
+        _eventBus.OnForgingFinished -= StartSharpening;
         _ordersEventBus.OnOrderStarted -= StartOrder;
         _ordersEventBus.OnOrderEnded -= StopProcess;
-        _uiView.HardeningButton.onClick.RemoveListener(ActHardening);
+        _uiView.HardeningButton.onClick.RemoveListener(ActSharpening);
     }
     
     private void MoveSlider()
@@ -96,7 +97,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         _uiView.gameObject.SetActive(false);
     }
     
-    private void ActHardening()
+    private void ActSharpening()
     {
         if (_isRunning)
         {
@@ -147,7 +148,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
             _uiView.SliderCheckZone);
     }
 
-    private void StartHardening(int score)
+    private void StartSharpening(int score)
     {
         _currentScore = score;
         _currentProgress = 0;

@@ -5,7 +5,9 @@ namespace GameCoreModule
     public class AudioEventBus
     {
         private Action<AudioResourceID> _onPlaySound;
+        private Action<AudioResourceID> _onPlaySoundLoop;
         private Action<AudioResourceID> _onPlayMusic;
+        private Action _onStopSound;
         private Action<AudioResourceID, float> _onPlayMusicOneShot;
         private Action<AudioResourceID> _onPlayMusicWithPauseCurrent;
         private Action<AudioCallback> _onGetAudioSettings;
@@ -14,8 +16,12 @@ namespace GameCoreModule
         
         public Action<AudioResourceID> OnPlaySound
         { get => _onPlaySound; set => _onPlaySound = value; }
+        public Action<AudioResourceID> OnPlaySoundLoop
+        { get => _onPlaySoundLoop; set => _onPlaySoundLoop = value; }
         public Action<AudioResourceID> OnPlayMusic
         { get => _onPlayMusic; set => _onPlayMusic = value; }
+        public Action OnStopSound
+        { get => _onStopSound; set => _onStopSound = value; }
         public Action<AudioResourceID, float> OnPlayMusicOneShot
         { get => _onPlayMusicOneShot; set => _onPlayMusicOneShot = value; }
         public Action<AudioResourceID> OnPlayMusicWithPauseCurrent

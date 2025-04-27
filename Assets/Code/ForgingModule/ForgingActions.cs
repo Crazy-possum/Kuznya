@@ -349,7 +349,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     {
         _eventBus.OnForgingFinished?.Invoke(_currentScore);
         ClearProgress();
-        _stateEventsBus.OnSharpeningStateActivate?.Invoke();
+        _stateEventsBus.OnHardeningStateActivate?.Invoke();
         _uiView.gameObject.SetActive(false);
     }
     

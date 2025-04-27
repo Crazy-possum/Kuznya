@@ -648,6 +648,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1103943706}
   m_CullTransparentMesh: 1
+--- !u!1 &1124415579 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5575328769809915422, guid: f9ac5ea822c1c92419974ad8ae6b24c4, type: 3}
+  m_PrefabInstance: {fileID: 7053409460242968617}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1124415580 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 245248975029859583, guid: f9ac5ea822c1c92419974ad8ae6b24c4, type: 3}
+  m_PrefabInstance: {fileID: 7053409460242968617}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124415579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd00124caca4c8e9dd0fc4387defc76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1167335131 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7386480291470839016, guid: 21e5a26314f80e040affff35bc926dd6, type: 3}
@@ -1588,6 +1604,10 @@ PrefabInstance:
     - target: {fileID: 4762195954417408171, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
       propertyPath: _hardeningView
       value: 
+      objectReference: {fileID: 1124415580}
+    - target: {fileID: 4762195954417408171, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
+      propertyPath: _sharpeningView
+      value: 
       objectReference: {fileID: 2076399479650643765}
     - target: {fileID: 5310458550469782052, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
       propertyPath: _guiView
@@ -1628,11 +1648,15 @@ PrefabInstance:
     - target: {fileID: 8111679376960137017, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
       propertyPath: _hardeningCanvas
       value: 
-      objectReference: {fileID: 277649866}
+      objectReference: {fileID: 1124415579}
     - target: {fileID: 8111679376960137017, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
       propertyPath: _materialsCanvas
       value: 
       objectReference: {fileID: 6943403724229885428}
+    - target: {fileID: 8111679376960137017, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
+      propertyPath: _sharpeningCanvas
+      value: 
+      objectReference: {fileID: 277649866}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2325,6 +2349,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 259996930888413758, guid: f9ac5ea822c1c92419974ad8ae6b24c4, type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 315235985512295364, guid: f9ac5ea822c1c92419974ad8ae6b24c4, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -2586,8 +2614,8 @@ SceneRoots:
   - {fileID: 1826322153492941783}
   - {fileID: 5496050183197574242}
   - {fileID: 5619618649099136225}
-  - {fileID: 2076399479650643764}
   - {fileID: 7053409460242968617}
-  - {fileID: 744736094}
+  - {fileID: 2076399479650643764}
   - {fileID: 1837597611}
+  - {fileID: 744736094}
   - {fileID: 5820155543499615148}
