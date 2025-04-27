@@ -12,6 +12,7 @@ public class OrderConfig : ScriptableObject
     [SerializeField] private int _orderTime;
     [SerializeField] private int _basicCost;
     [SerializeField] private OrderType _orderType;
+    [SerializeField] private int _orderCount;
 
     public string Name { get => _name; }
     public List<OrderText> Descriptions { get => _descriptions; }
@@ -20,4 +21,5 @@ public class OrderConfig : ScriptableObject
     public int OrderTime { get => _orderTime; }
     public int BasicCost { get => _basicCost; }
     public OrderType OrderType { get => _orderType; }
+    public int OrderCount { get => _orderCount; } 
 }
