@@ -240,6 +240,8 @@ namespace Orders
                 $"{activeOrder.Materials[0].Count} шт.";
             orderPanelView.OrderTimeSlider.value = 1f;
             orderPanelView.ActiveOrder = activeOrder;
+            orderPanelView.SetInitialCompletionState(activeOrder.IsCompleted);
+            
         }
 
         private void UpdateOrderSlider(OrderPanelView orderPanelView, ActiveOrder activeOrder)
@@ -352,7 +354,7 @@ namespace Orders
             {
                 if (score != 0)
                 {
-                    _currentActiveOrder.ActiveOrder.Reward = score;
+                    _currentActiveOrder.ActiveOrder.Reward += score;
                     _currentActiveOrder.SetCompletionState(true);
                 }
                 _currentActiveOrder = null;

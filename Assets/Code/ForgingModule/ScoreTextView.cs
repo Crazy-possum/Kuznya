@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class ScoreTextView : MonoBehaviour
 {
+    [SerializeField] private RectTransform _textRectTransform;
     [SerializeField] private TMP_Text _text;
     private WorkZoneUIView _workZoneUIView;
     private Timer _lifeTimer;
 
+    public RectTransform TextRectTransform { get => _textRectTransform; }
     public TMP_Text Text { get => _text; }
     public Timer LifeTimer { get => _lifeTimer; }
 

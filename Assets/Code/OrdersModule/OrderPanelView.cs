@@ -13,6 +13,8 @@ public class OrderPanelView : MonoBehaviour
     [SerializeField] private Image _completedIndicator;
     [SerializeField] private Image _orderIcon;
 
+    [SerializeField] private TMP_Text _orderCountText;
+
     [SerializeField] private OrderMaterialView _orderMaterial1View;
     [SerializeField] private OrderMaterialView _orderMaterial2View;
     [SerializeField] private OrderMaterialView _orderMaterial3View;
@@ -37,13 +39,14 @@ public class OrderPanelView : MonoBehaviour
     {
         _activeOrderPanel.SetActive(isActive);
 
-        SetCompletionState(false);
+        SetInitialCompletionState(false);
     }
 
-    public void SetCompletionState(bool isCompleted)
+    public void SetInitialCompletionState(bool isCompleted)
     {
         if (_activeOrder != null)
         {
+            SetupOrderCount(_activeOrder.OrderCount, _activeOrder.CurrentOrderCount);
             _activeOrder.IsCompleted = isCompleted;
         }
         
@@ -54,6 +57,39 @@ public class OrderPanelView : MonoBehaviour
         else
         {
             _completedIndicator.sprite = _inProcessSprite;
+        }
+    }
+
+    public void SetCompletionState(bool isCompleted)
+    {
+        if (_activeOrder != null)
+        {
+            if (_activeOrder.CheckIsOrderCountCompleted())
+            {
+                _activeOrder.IsCompleted = isCompleted;
+            }
+            SetupOrderCount(_activeOrder.OrderCount, _activeOrder.CurrentOrderCount);
+            if (_activeOrder.IsCompleted)
+            {
+                _completedIndicator.sprite = _comletedSprite;
+            }
+            else
+            {
+                _completedIndicator.sprite = _inProcessSprite;
+            }
+        }
+    }
+    
+    public void SetupOrderCount(int count, int currentCount)
+    {
+        if (count > 0)
+        {
+            _orderCountText.text = $" {currentCount} / {count} шт.";
+            _orderCountText.gameObject.SetActive(true);
+        }
+        else
+        {
+            _orderCountText.gameObject.SetActive(false);
         }
     }
 }

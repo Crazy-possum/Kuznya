@@ -32,7 +32,9 @@ namespace Audio
         {
             _audioEventBus.OnPlayMusic += PlayMusic;
             _audioEventBus.OnPlaySound += PlaySound;
+            _audioEventBus.OnPlaySoundLoop += PlaySoundLoop;
             _audioEventBus.OnPlayMusicOneShot += PlayMusicOneShot;
+            _audioEventBus.OnStopSound += StopSound;
             _audioEventBus.OnPlayMusicWithPauseCurrent += PlayMusicWithPauseCurrent;
             _audioEventBus.OnGetAudioSettings += GetAudioSettings;
             _audioEventBus.OnSetMusicVolume += SetMusicVolume;
@@ -91,6 +93,18 @@ namespace Audio
         private void PlaySound(AudioResourceID id)
         {
             _sourceView.SoundSource.PlayOneShot(_audioContainer.GetAudioClip(id));
+        }
+        
+        private void PlaySoundLoop(AudioResourceID id)
+        {
+            _sourceView.SoundSource.clip = _audioContainer.GetAudioClip(id);
+            _sourceView.SoundSource.Play();
+        }
+        
+        private void StopSound()
+        {
+            _sourceView.SoundSource.clip = null;
+            _sourceView.SoundSource.Stop();
         }
 
         private void PlayMusic(AudioResourceID id)

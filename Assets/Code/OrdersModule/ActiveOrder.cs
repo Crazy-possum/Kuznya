@@ -19,6 +19,8 @@ namespace Orders
         private float _orderTime;
         private Timer _orderTimer;
         private bool _isCompleted;
+        private int _orderCount;
+        private int _currentOrderCount;
         private int _reward;
         private OrderType _orderType;
         private float _remainingTime;
@@ -37,6 +39,8 @@ namespace Orders
         public float OrderTime { get => _orderTime; }
         public Timer OrderTimer { get => _orderTimer; set => _orderTimer = value; }
         public bool IsCompleted { get => _isCompleted; set => _isCompleted = value; }
+        public int OrderCount { get => _orderCount; set => _orderCount = value; }
+        public int CurrentOrderCount { get => _currentOrderCount; set => _currentOrderCount = value; }
         public int Reward { get => _reward; set => _reward = value; }
         public OrderType OrderType { get => _orderType; }
         public float RemainingTime { get => _remainingTime; }
@@ -72,6 +76,8 @@ namespace Orders
             _orderTime = orderConfig.OrderTime;
             _basicCost = orderConfig.BasicCost;
             _orderType = orderConfig.OrderType;
+            _orderCount = orderConfig.OrderCount;
+            _currentOrderCount = 0;
             _orderTimer = new Timer(orderConfig.OrderTime);
             _isCompleted = false;
             _orderID = orderConfig.name;
@@ -147,6 +153,19 @@ namespace Orders
             }
             Debug.LogError($"Client with ID {clientID} not found");
             return null;
+        }
+        
+        public bool CheckIsOrderCountCompleted()
+        {
+            _currentOrderCount++;
+            if (_currentOrderCount >= _orderCount)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
