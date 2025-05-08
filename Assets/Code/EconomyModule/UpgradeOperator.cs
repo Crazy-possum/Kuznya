@@ -112,12 +112,14 @@ namespace Economy
                 case UpgradeName.SmeltingHeat:
                     SetSmeltingHeatUpgrade(upgradeView);
                     break;
-                case UpgradeName.HardeningSpeed:
+                case UpgradeName.HardeningAutomation:
+                    SetHardeningAutomation(upgradeView);
                     break;
                 case UpgradeName.SharpeningSpeed:
                     SetSharpeningSpeedUpgrade(upgradeView);
                     break;
                 case UpgradeName.SharpeningZoneValue:
+                    SetSharpeningZonesActions(upgradeView);
                     break;
                 case UpgradeName.AdditionalSteps:
                     SetAdditionalStepsUpgrade(upgradeView);
@@ -599,6 +601,60 @@ namespace Economy
                     break;
                 case 3 :
                     value = 3f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        
+        private void SetSharpeningZonesActions(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1 :
+                    value = 10f;
+                    break;
+                case 2 :
+                    value = 20f;
+                    break;
+                case 3 :
+                    value = 30f;
+                    break;
+                case 4 :
+                    value = 40f;
+                    break;
+                case 5 :
+                    value = 50f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        
+        private void SetHardeningAutomation(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1 :
+                    value = 0.001f;
+                    break;
+                case 2 :
+                    value = 0.002f;
+                    break;
+                case 3 :
+                    value = 0.003f;
+                    break;
+                case 4 :
+                    value = 0.007f;
+                    break;
+                case 5 :
+                    value = 0.01f;
                     break;
                 default:
                     Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");

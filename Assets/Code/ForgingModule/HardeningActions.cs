@@ -91,6 +91,11 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
                         _isInCorrectZone = true;
                     }
                 }
+
+                if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.HardeningAutomation))
+                {
+                    MoveToTargetPoint();
+                }
             }
 
             if (_stateTimer != null)
@@ -101,6 +106,36 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
                     ChangeZoneIndex();
                 }
             }
+        }
+    }
+
+    private void MoveToTargetPoint()
+    {
+        float currentTarget = 0;
+        if (_currentZoneIndex == 0)
+        {
+            currentTarget = STATE1_ZONE_START;
+        }
+        else if(_currentZoneIndex == 1)
+        {
+            currentTarget = STATE2_ZONE_START;
+        }
+        else if (_currentZoneIndex == 2)
+        {
+            currentTarget = STATE3_ZONE_START;
+        }
+        if (Mathf.Abs(_hardeningUIView.HardeningSlider.value - currentTarget) < 0.05f)
+        {
+            return;
+        }
+        float movingDelta = _upgradesMetaData.Upgrades[UpgradeName.HardeningAutomation].GetUpgradeData();
+        if (_hardeningUIView.HardeningSlider.value < currentTarget)
+        {
+            _hardeningUIView.HardeningSlider.value += movingDelta;
+        }
+        else
+        {
+            _hardeningUIView.HardeningSlider.value -= movingDelta;
         }
     }
 
@@ -143,7 +178,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
         {
             additionalGoodScoreMultipler = _upgradesMetaData.Upgrades[UpgradeName.ForgingScore].GetUpgradeData();
         }
-        _basicAddingScore = ((_currentBasicCost * COST_MULTIPLER) / timerTicks) * 
+        _basicAddingScore = ((_currentBasicCost * COST_MULTIPLER) / timerTicks) + 
                             (((_currentBasicCost * COST_MULTIPLER) / timerTicks) * additionalGoodScoreMultipler);
     }
         

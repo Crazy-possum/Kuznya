@@ -104,6 +104,11 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         {
             _currentMaxProgress -= (int)_upgradesMetaData.Upgrades[UpgradeName.SharpeningSpeed].GetUpgradeData();
         }
+
+        if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.SharpeningZoneValue))
+        {
+            ChangeStartZonesSize(_upgradesMetaData.Upgrades[UpgradeName.SharpeningZoneValue].GetUpgradeData());
+        }
         
         _basicAddingScore = (int)((_currentBasicCost * COST_MULTIPLER) + ((_currentBasicCost * COST_MULTIPLER) 
                                                                           * additionalGoodScoreMultipler)) / _currentMaxProgress;
@@ -151,6 +156,14 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         _uiView.TargetZoneGreen.sizeDelta = new Vector2(_uiView.TargetZoneGreen.sizeDelta.x - ZONE_SIZE_DELTA,
             _uiView.TargetZoneGreen.sizeDelta.y);
         _uiView.TargetZoneYellow.sizeDelta = new Vector2(_uiView.TargetZoneYellow.sizeDelta.x - ZONE_SIZE_DELTA,
+            _uiView.TargetZoneYellow.sizeDelta.y);
+    }
+    
+    private void ChangeStartZonesSize(float sizeDelta)
+    {
+        _uiView.TargetZoneGreen.sizeDelta = new Vector2(_uiView.TargetZoneGreen.sizeDelta.x + sizeDelta,
+            _uiView.TargetZoneGreen.sizeDelta.y);
+        _uiView.TargetZoneYellow.sizeDelta = new Vector2(_uiView.TargetZoneYellow.sizeDelta.x + sizeDelta,
             _uiView.TargetZoneYellow.sizeDelta.y);
     }
 

@@ -20,7 +20,7 @@ public enum UpgradeName
     AutomaticWholesale = 17,
     WholesaleFrequency = 18,
     SmeltingHeat = 19,
-    HardeningSpeed = 20,
+    HardeningAutomation = 20,
     SharpeningSpeed = 21,
     SharpeningZoneValue = 22,
     AdditionalSteps = 23
