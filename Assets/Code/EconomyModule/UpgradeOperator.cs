@@ -98,6 +98,7 @@ namespace Economy
                     SetLargeRoomUpgrade(upgradeView);
                     break;
                 case UpgradeName.ClientsHolydays:
+                    SetClientsHolydaysUpgrade(upgradeView);
                     break;
                 case UpgradeName.ClientsSign:
                     SetClientSignUpgrade(upgradeView);
@@ -655,6 +656,27 @@ namespace Economy
                     break;
                 case 5 :
                     value = 0.01f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        
+        private void SetClientsHolydaysUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1 :
+                    value = 0.46f;
+                    break;
+                case 2 :
+                    value = 0.42f;
+                    break;
+                case 3 :
+                    value = 0.38f;
                     break;
                 default:
                     Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");

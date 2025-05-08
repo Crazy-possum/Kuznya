@@ -199,7 +199,48 @@ namespace Orders
                 }
             }
             int orderIndex = _random.Next(0, selectedOrders.Count);
+            int probabilityOfFirstMaterial = 50;
+            if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.ClientsHolydays))
+            {
+                float probabilityOfFirst = _upgradesMetaData.Upgrades[UpgradeName.ClientsHolydays].GetUpgradeData();
+                probabilityOfFirstMaterial = (int)probabilityOfFirst * 100;
+            }
+            int materialIndex = _random.Next(0, 100) < probabilityOfFirstMaterial ? 0 : 1;
+            MaterialName firstMaterial = MaterialName.NONE;
+            MaterialName secondMaterial = MaterialName.NONE;
+            foreach (OrderConfig selectedOrder in selectedOrders)
+            {
+                if (firstMaterial == MaterialName.NONE)
+                {
+                    firstMaterial = selectedOrder.Materials[0].Config.MaterialName;
+                }
+                else if(firstMaterial != selectedOrder.Materials[0].Config.MaterialName)
+                {
+                    secondMaterial = selectedOrder.Materials[0].Config.MaterialName;
+                    break;
+                }
+            }
             OrderConfig orderConfig = selectedOrders[orderIndex];
+            if (materialIndex == 0)
+            {
+                int attempts = 0;
+                while (orderConfig.Materials[0].Config.MaterialName != firstMaterial && attempts < 10)
+                {
+                    attempts++;
+                    orderIndex = _random.Next(0, selectedOrders.Count);
+                    orderConfig = selectedOrders[orderIndex];
+                }
+            }
+            if (materialIndex == 1)
+            {
+                int attempts = 0;
+                while (orderConfig.Materials[0].Config.MaterialName != secondMaterial && attempts < 10)
+                {
+                    attempts++;
+                    orderIndex = _random.Next(0, selectedOrders.Count);
+                    orderConfig = selectedOrders[orderIndex];
+                }
+            }
             int descriptionID = _random.Next(0, orderConfig.Descriptions.Count);
             _currentActiveOrder = new ActiveOrder(client, orderConfig, descriptionID);
             _currentActiveOrder.BasicCost = orderConfig.BasicCost;
