@@ -60,6 +60,7 @@ namespace Orders
             _ordersEvents.OnClientRemoved += RemoveClientIconFromQueue;
             _ordersEvents.OnClientActivated += SetClientDialogue;
             _ordersEvents.OnOrderRemoved += CheckOrdersCount;
+            _ordersEvents.OnOrdersBoardSpaceChanged += ChangeApplyButtonState;
             _dialogueView.AcceptButton.onClick.AddListener(() => AcceptOrder());
             _dialogueView.RejectButton.onClick.AddListener(() => RejectOrder());
             _dialogueView.DialogueStartButton.onClick.AddListener(() => StartDialogue());
@@ -87,6 +88,7 @@ namespace Orders
             _ordersEvents.OnClientRemoved -= RemoveClientIconFromQueue;
             _ordersEvents.OnClientActivated -= SetClientDialogue;
             _ordersEvents.OnOrderRemoved -= CheckOrdersCount;
+            _ordersEvents.OnOrdersBoardSpaceChanged -= ChangeApplyButtonState;
             _dialogueView.AcceptButton.onClick.RemoveListener(() => AcceptOrder());
             _dialogueView.RejectButton.onClick.RemoveListener(() => RejectOrder());
             _dialogueView.DialogueStartButton.onClick.RemoveListener(() => StartDialogue());
@@ -109,6 +111,11 @@ namespace Orders
                     _dialogueEndTimer = null;
                 }
             }
+        }
+        
+        private void ChangeApplyButtonState(bool isInteractable)
+        {
+            _dialogueView.AcceptButton.interactable = isInteractable;
         }
         
         private void LoadDialogue()

@@ -4,6 +4,7 @@ using GameCoreModule;
 using MAEngine;
 using MAEngine.Extention;
 using Orders;
+using Progression;
 using UnityEngine;
 using Zenject;
 
@@ -25,7 +26,9 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     private GameEventBus _gameEventBus;
     private StateEventsBus _stateEvents;
     private OrdersEventBus _ordersEventBus;
-    
+    private ProgressionData _progressionData;
+
+    private UpgradesMetaData _upgradesMetaData;
     private Timer _smeltingTimer;
     private bool _isSmelting;
     private Timer _temperatureTimer;
@@ -40,12 +43,13 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
 
     [Inject]
     public void Construct(SmeltingView smeltingView, GameEventBus gameEventBus, StateEventsBus stateEvents,
-        OrdersEventBus ordersEventBus)
+        OrdersEventBus ordersEventBus, ProgressionData progressionData)
     {
         _smeltingView = smeltingView;
         _gameEventBus = gameEventBus;
         _stateEvents = stateEvents;
         _ordersEventBus = ordersEventBus;
+        _progressionData = progressionData;
     }
     
     public void Initialisation()
@@ -55,6 +59,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
         _smeltingView.BellowsButton.onClick.AddListener(BellowsAction);
         _isSmelting = false;
         _random = new System.Random();
+        _upgradesMetaData = _progressionData.UpgradesMeta;
     }
 
     public void Cleanup()
@@ -264,7 +269,15 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
 
     private void SetupSignalTimer()
     {
-        int randomSmeltingPerMinute = _random.Next(SMELTING_PER_MINUTE_MIN, SMELTING_PER_MINUTE_MAX);
+        int minimalTime = SMELTING_PER_MINUTE_MIN;
+        int maximalTime = SMELTING_PER_MINUTE_MAX;
+        if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.SmeltingHeat))
+        {
+            float upgradeMultipler = _upgradesMetaData.Upgrades[UpgradeName.SmeltingHeat].GetUpgradeData();
+            minimalTime += 2 * (int)upgradeMultipler;
+            maximalTime += 12 * (int)upgradeMultipler;
+        }
+        int randomSmeltingPerMinute = _random.Next(minimalTime, maximalTime);
         float cooldown = MINUTE / randomSmeltingPerMinute;
         _smeltingTimer = new Timer(cooldown);
     }

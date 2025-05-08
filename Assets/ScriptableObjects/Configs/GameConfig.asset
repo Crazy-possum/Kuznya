@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a8c1d17d96a93478f0a12ee27c7170, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  _maxClients: 5
+  _maxClients: 1
   _minTimeBetweenClients: 5
   _maxTimeBetweenClients: 10
   _maxOrders: 8

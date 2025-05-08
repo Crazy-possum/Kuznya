@@ -28,6 +28,9 @@ namespace Orders
         private OrderPanelView _currentActiveOrder;
         private Timer _orderStartDelayTimer;
         private UpgradesMetaData _upgradesMetaData;
+        private int _activeOrdersCount;
+        private int _maxOrdersCount;
+        
 
         [Inject]
         public void Construct(ProgressionData progressionData,
@@ -53,7 +56,9 @@ namespace Orders
             _resultsEventBus.OnResultsFinished += ActiveOrderFinished;
             _ordersToRemove = new Dictionary<OrderPanelView, Timer>();
             _activeOrders = new Dictionary<OrderPanelView, ActiveOrder>();
+            _activeOrdersCount = 0;
             InitializeOrderPanels();
+            SetOrdersCount();
             AddInitialOrders();
         }
 
@@ -86,6 +91,15 @@ namespace Orders
                     _ordersEventBus.OnOrderStarted?.Invoke(_activeOrders[_currentActiveOrder]);
                     _orderStartDelayTimer = null;
                 }
+            }
+        }
+        
+        private void SetOrdersCount()
+        {
+            _maxOrdersCount = 1;
+            if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.MultiTask))
+            {
+                _maxOrdersCount += (int)_upgradesMetaData.Upgrades[UpgradeName.MultiTask].GetUpgradeData();
             }
         }
         
@@ -197,10 +211,15 @@ namespace Orders
         private void AddOrder(ActiveOrder activeOrder)
         {
             OrderPanelView orderPanelView = null;
-            if (_emptyOrderPanels.Count > 0)
+            if (_emptyOrderPanels.Count > 0 && _maxOrdersCount > _activeOrdersCount)
             {
                 orderPanelView = _emptyOrderPanels[0];
                 _emptyOrderPanels.Remove(orderPanelView);
+                _activeOrdersCount++;
+                if (_maxOrdersCount == _activeOrdersCount)
+                {
+                    _ordersEventBus.OnOrdersBoardSpaceChanged?.Invoke(false);
+                }
             }
             else
             {
@@ -224,6 +243,8 @@ namespace Orders
             _ordersMetaData.ActiveOrders.Remove(activeOrder);
             _activeOrders.Remove(orderPanelView);
             _emptyOrderPanels.Insert(0, orderPanelView);
+            _activeOrdersCount--;
+            _ordersEventBus.OnOrdersBoardSpaceChanged?.Invoke(true);
             _ordersEventBus.OnOrderRemoved?.Invoke();
         }
 

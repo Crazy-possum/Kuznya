@@ -49,70 +49,88 @@ namespace Economy
         {
             _economyEventBus.OnUpgradeBought -= AddUpgrade;
         }
-        
+
         private void AddUpgrade(UpgradeName upgradeName, UpgradeView upgradeView, int upgradePrice)
         {
             if (upgradeView.CurrentLevel == 0)
             {
                 return;
             }
+
             switch (upgradeName)
             {
-                case UpgradeName.Ore :
+                case UpgradeName.Ore:
                     SetProgressionMaterial(upgradeView);
                     break;
-                case UpgradeName.Economy :
+                case UpgradeName.Economy:
                     SetEconomyUpgrade(upgradeView);
                     break;
-                case UpgradeName.Cost :
+                case UpgradeName.Cost:
                     SetCostUpgrade(upgradeView);
                     break;
-                case UpgradeName.FastMaterialIncome :
+                case UpgradeName.FastMaterialIncome:
                     SetFastMaterialIncomeUpgrade(upgradeView);
                     break;
-                case UpgradeName.ExtraDelivery :
+                case UpgradeName.ExtraDelivery:
                     SetExtraDeliveryUpgrade(upgradeView);
                     break;
-                case UpgradeName.TradeSpeechcraft :
+                case UpgradeName.TradeSpeechcraft:
                     SetTradeSpeechcraftUpgrade(upgradeView);
                     break;
-                case UpgradeName.TradeDiplomacy :
+                case UpgradeName.TradeDiplomacy:
                     SetTradeDiplomacyUpgrade(upgradeView);
                     break;
-                case UpgradeName.ForgingEfficiency :
+                case UpgradeName.ForgingEfficiency:
                     SetForgingEfficiencyUpgrade(upgradeView);
                     break;
-                case UpgradeName.ForgingMastersExp :
+                case UpgradeName.ForgingMastersExp:
                     break;
-                case UpgradeName.ForgingScore :
+                case UpgradeName.ForgingScore:
                     SetForgingScoreUpgrade(upgradeView);
                     break;
-                case UpgradeName.ForgingMistakeScore :
+                case UpgradeName.ForgingMistakeScore:
                     SetForgingMistakeScoreUpgrade(upgradeView);
                     break;
-                case UpgradeName.MultiTask :
+                case UpgradeName.MultiTask:
+                    SetMultiTaskUpgrade(upgradeView);
                     break;
-                case UpgradeName.LargeRoom :
+                case UpgradeName.LargeRoom:
+                    SetLargeRoomUpgrade(upgradeView);
                     break;
-                case UpgradeName.ClientsHolydays :
+                case UpgradeName.ClientsHolydays:
                     break;
-                case UpgradeName.ClientsSign :
+                case UpgradeName.ClientsSign:
                     SetClientSignUpgrade(upgradeView);
                     break;
-                case UpgradeName.ClientsPrestige :
+                case UpgradeName.ClientsPrestige:
+                    SetClientsPrestigeUpgrade(upgradeView);
                     break;
-                case UpgradeName.AutomaticWholesale :
+                case UpgradeName.AutomaticWholesale:
                     break;
-                case UpgradeName.WholesaleFrequency :
+                case UpgradeName.WholesaleFrequency:
                     break;
-                default :
+                case UpgradeName.SmeltingHeat:
+                    SetSmeltingHeatUpgrade(upgradeView);
+                    break;
+                case UpgradeName.HardeningSpeed:
+                    break;
+                case UpgradeName.SharpeningSpeed:
+                    SetSharpeningSpeedUpgrade(upgradeView);
+                    break;
+                case UpgradeName.SharpeningZoneValue:
+                    break;
+                case UpgradeName.AdditionalSteps:
+                    SetAdditionalStepsUpgrade(upgradeView);
+                    break;
+                default:
                     Debug.Log("Upgrade in development");
                     break;
             }
+
             _upgradesMetaData.SetUpgradeLevel(upgradeName, upgradeView.CurrentLevel);
             _progressionEvents.OnProgressionDataChanged?.Invoke(_progressionData);
         }
-        
+
         private void SetUpgradeValue(UpgradeView upgradeView, float value)
         {
             //Debug.Log($"level {upgradeView.CurrentLevel}");
@@ -414,22 +432,173 @@ namespace Economy
             switch (upgradeView.CurrentLevel)
             {
                 case 1:
-                    value = 0.1f;
+                    value = 5f;
                     break;
                 case 2:
-                    value = 0.2f;
+                    value = 10f;
                     break;
                 case 3:
-                    value = 0.3f;
+                    value = 15f;
                     break;
                 case 4:
-                    value = 0.4f;
+                    value = 20f;
                     break;
                 case 5:
-                    value = 0.5f;
+                    value = 25f;
                     break;
-                case 6:
-                    value = 0.6f;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        
+        private void SetLargeRoomUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1 :
+                    value = 1f;
+                    break;
+                case 2 :
+                    value = 2f;
+                    break;
+                case 3 :
+                    value = 3f;
+                    break;
+                case 4 :
+                    value = 4f;
+                    break;
+                case 5 :
+                    value = 5f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        
+        
+        private void SetMultiTaskUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1 :
+                    value = 1f;
+                    break;
+                case 2 :
+                    value = 2f;
+                    break;
+                case 3 :
+                    value = 3f;
+                    break;
+                case 4 :
+                    value = 4f;
+                    break;
+                case 5 :
+                    value = 5f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        
+        private void SetClientsPrestigeUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1 :
+                    value = 1f;
+                    break;
+                case 2 :
+                    value = 2f;
+                    break;
+                case 3 :
+                    value = 3f;
+                    break;
+                case 4 :
+                    value = 4f;
+                    break;
+                case 5 :
+                    value = 5f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        
+        private void SetSmeltingHeatUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1 :
+                    value = 1f;
+                    break;
+                case 2 :
+                    value = 2f;
+                    break;
+                case 3 :
+                    value = 3f;
+                    break;
+                case 4 :
+                    value = 4f;
+                    break;
+                case 5 :
+                    value = 5f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        
+        private void SetSharpeningSpeedUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1 :
+                    value = 1f;
+                    break;
+                case 2 :
+                    value = 2f;
+                    break;
+                case 3 :
+                    value = 3f;
+                    break;
+                case 4 :
+                    value = 4f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        
+        private void SetAdditionalStepsUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1 :
+                    value = 1f;
+                    break;
+                case 2 :
+                    value = 2f;
+                    break;
+                case 3 :
+                    value = 3f;
                     break;
                 default:
                     Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");

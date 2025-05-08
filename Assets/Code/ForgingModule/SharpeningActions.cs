@@ -3,6 +3,7 @@ using GameCoreModule;
 using MAEngine;
 using MAEngine.Extention;
 using Orders;
+using Progression;
 using UnityEngine;
 using Zenject;
 
@@ -16,7 +17,9 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private ForgingEventBus _eventBus;
     private StateEventsBus _stateEventsBus;
     private OrdersEventBus _ordersEventBus;
+    private ProgressionData _progressionData;
 
+    private UpgradesMetaData _upgradesMetaData;
     private int _currentProgress;
     private int _currentScore;
     private bool _isRunning;
@@ -25,27 +28,29 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private bool _isMovingRight;
     private Vector2 _greenZoneInitialSize;
     private Vector2 _yellowZoneInitialSize;
+    private int _currentMaxProgress;
     
     [Inject]
     public void Construct(SharpeningUIView uiView, ForgingEventBus forgingEventBus,
-        StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus)
+        StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus, ProgressionData progressionData)
     {
         _uiView = uiView;
         _eventBus = forgingEventBus;
         _stateEventsBus = stateEventsBus;
         _ordersEventBus = ordersEventBus;
+        _progressionData = progressionData;
     }
     
     
     public void Initialisation()
     {
         _eventBus.OnHardeningFinished += StartSharpening;
-        
         _ordersEventBus.OnOrderStarted += StartOrder;
         _ordersEventBus.OnOrderEnded += StopProcess;
         _uiView.HardeningButton.onClick.AddListener(ActSharpening);
         _greenZoneInitialSize = _uiView.TargetZoneGreen.sizeDelta;
         _yellowZoneInitialSize = _uiView.TargetZoneYellow.sizeDelta;
+        _upgradesMetaData = _progressionData.UpgradesMeta;
     }
     
     public void FixedExecute(float fixedDeltaTime)
@@ -88,7 +93,20 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private void StartOrder(ActiveOrder order)
     {
         _currentBasicCost = order.BasicCost;
-        _basicAddingScore = (_currentBasicCost * COST_MULTIPLER) / MAX_PROGRESS;
+        float additionalGoodScoreMultipler = 0;
+        if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.ForgingScore))
+        {
+            additionalGoodScoreMultipler = _upgradesMetaData.Upgrades[UpgradeName.ForgingScore].GetUpgradeData();
+        }
+
+        _currentMaxProgress = MAX_PROGRESS;
+        if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.SharpeningSpeed))
+        {
+            _currentMaxProgress -= (int)_upgradesMetaData.Upgrades[UpgradeName.SharpeningSpeed].GetUpgradeData();
+        }
+        
+        _basicAddingScore = (int)((_currentBasicCost * COST_MULTIPLER) + ((_currentBasicCost * COST_MULTIPLER) 
+                                                                          * additionalGoodScoreMultipler)) / _currentMaxProgress;
     }
     
     private void StopProcess(ActiveOrder order)
@@ -118,7 +136,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
             {
                 //Debug.Log($"Nothing added to score");
             }
-            if (_currentProgress >= MAX_PROGRESS)
+            if (_currentProgress >= _currentMaxProgress)
             {
                 EndProcess();
                 return;
