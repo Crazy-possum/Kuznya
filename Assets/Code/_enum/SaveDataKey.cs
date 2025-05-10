@@ -12,5 +12,7 @@ public enum SaveDataKey
     CurrentMoney = 10,
     Materials = 11,
     CurrentMaxMaterialStorage = 12,
-    MaterialAddingDeltaTime = 13
+    MaterialAddingDeltaTime = 13,
+    WhoresaleOrder = 14,
+    WhoresaleTime = 15
 }

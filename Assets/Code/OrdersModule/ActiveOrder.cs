@@ -65,12 +65,12 @@ namespace Orders
             _isCompleted = isCompleted;
         }
 
-        public ActiveOrder(ClientConfig client, OrderConfig orderConfig, int DecriptionID)
+        public ActiveOrder(ClientConfig client, OrderConfig orderConfig, int decriptionID)
         {
             _clientName = client.Name;
             _clientIcon = client.ClientSprite;
             _name = orderConfig.Name;
-            _description = orderConfig.Descriptions[DecriptionID];
+            _description = orderConfig.Descriptions[decriptionID];
             _orderIcon = orderConfig.OrderIcon;
             _materials = orderConfig.Materials;
             _orderTime = orderConfig.OrderTime;
@@ -82,7 +82,24 @@ namespace Orders
             _isCompleted = false;
             _orderID = orderConfig.name;
             _clientID = client.name;
-            _descriptionID = DecriptionID;
+            _descriptionID = decriptionID;
+        }
+        
+        public ActiveOrder(OrderConfig orderConfig)
+        {
+            _name = orderConfig.Name;
+            _description = orderConfig.Descriptions[0];
+            _orderIcon = orderConfig.OrderIcon;
+            _materials = orderConfig.Materials;
+            _orderTime = orderConfig.OrderTime;
+            _basicCost = orderConfig.BasicCost;
+            _orderType = orderConfig.OrderType;
+            _orderCount = orderConfig.OrderCount;
+            _currentOrderCount = 0;
+            _orderTimer = new Timer(orderConfig.OrderTime);
+            _isCompleted = false;
+            _orderID = orderConfig.name;
+            _descriptionID = 0;
         }
 
         public void PreSaveOrder()
@@ -99,30 +116,49 @@ namespace Orders
 
         public override string ToString()
         {
-            return $"{_orderID}|_|{_clientID}|_|{_orderTimer.GetRemainingTime()}|_|{_descriptionID}";
+            if (_orderCount == 0)
+            {
+                return $"{_orderID}|_|{_clientID}|_|{_orderTimer.GetRemainingTime()}|_|{_descriptionID}|_|{_isCompleted}|_|{_reward}";
+            }
+            else
+            {
+                return $"{_orderID}|_|{_clientID}|_|{_orderTimer.GetRemainingTime()}|_|{_orderCount}|_|{_isCompleted}|_|{_reward}";
+            }
+            
         }
 
         public void LoadOrder(string savedData)
         {
             string[] items = savedData.Split(new string[] { "|_|" }, StringSplitOptions.RemoveEmptyEntries);
-            if (items.Length < 4)
+            if (items.Length < 6)
             {
-                Debug.LogError("Invalid saved data format");
+                Debug.Log("Invalid saved data format");
                 return;
             }
             else
             {
                 _orderID = items[0];
                 _clientID = items[1];
-                _descriptionID = int.Parse(items[3]);
+                
                 ClientConfig client = SetupClientData(_clientID);
-                SetupOrderData(client, _orderID, _descriptionID);
+                if (client.ClientType == ClientType.Whoresale)
+                {
+                    _descriptionID = 0;
+                    _orderCount = _descriptionID;
+                }
+                else
+                {
+                    _descriptionID = int.Parse(items[3]);
+                }
+                _isCompleted = bool.Parse(items[4]);
+                _reward = int.Parse(items[5]);
+                SetupOrderData(client, _orderID, _descriptionID, _isCompleted);
                 _remainingTime = float.Parse(items[2]);
                 PreLoadOrder();
             }
         }
 
-        private void SetupOrderData(ClientConfig client, string orderID, int descriptionID)
+        private void SetupOrderData(ClientConfig client, string orderID, int descriptionID, bool isCompleted)
         {
             foreach (OrderConfig order in client.Orders.GetOrders())
             {
@@ -135,7 +171,7 @@ namespace Orders
                     _orderTime = order.OrderTime;
                     _basicCost = order.BasicCost;
                     _orderType = order.OrderType;
-                    _isCompleted = false;
+                    _isCompleted = isCompleted;
                 }
             }
         }

@@ -8,6 +8,7 @@ namespace GameCoreModule
         private Action<UpgradeName, UpgradeView> _onTryBuyUpgrade;
         private Action _onBuyUpgradeCanceled;
         private Action<UpgradeName, UpgradeView, int> _onUpgradeBought;
+        private Action<UpgradeName> _onUpgradeApplied;
         private Action<int> _onAddMoney;
         private Action<int> _onMoneyAdded;
         private Action<int> _onMoneyRemoved;
@@ -25,6 +26,8 @@ namespace GameCoreModule
         { get => _onBuyUpgradeCanceled; set => _onBuyUpgradeCanceled = value; }
         public Action<UpgradeName, UpgradeView, int> OnUpgradeBought 
         { get => _onUpgradeBought; set => _onUpgradeBought = value; }
+        public Action<UpgradeName> OnUpgradeApplied
+        { get => _onUpgradeApplied; set => _onUpgradeApplied = value; }
         public Action<int> OnAddMoney
         { get => _onAddMoney; set => _onAddMoney = value; }
         public Action<int> OnMoneyAdded

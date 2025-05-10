@@ -2,6 +2,7 @@ using GameCoreModule;
 using MAEngine;
 using MAEngine.Extention;
 using Orders;
+using Progression;
 using UnityEngine;
 using Zenject;
 using Random = System.Random;
@@ -20,7 +21,9 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     private StateEventsBus _stateEventsBus;
     private OrdersEventBus _ordersEventBus;
     private AudioEventBus _audioEventBus;
+    private ProgressionData _progressionData;
 
+    private UpgradesMetaData _upgradesMetaData;
     private float _currentScore;
     private bool _isRunning;
     private bool _isInCorrectZone;
@@ -33,13 +36,15 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     
     [Inject]
     public void Initialize(HardeningUIView hardeningUIView, ForgingEventBus forgingEventBus,
-        StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus, AudioEventBus audioEventBus)
+        StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus, AudioEventBus audioEventBus,
+        ProgressionData progressionData)
     {
         _hardeningUIView = hardeningUIView;
         _forgingEventBus = forgingEventBus;
         _stateEventsBus = stateEventsBus;
         _ordersEventBus = ordersEventBus;
         _audioEventBus = audioEventBus;
+        _progressionData = progressionData;
     }
     
     public void Initialisation()
@@ -47,6 +52,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
         _forgingEventBus.OnForgingFinished += StartHardening;
         _ordersEventBus.OnOrderStarted += StartOrder;
         _ordersEventBus.OnOrderEnded += StopProcess;
+        _upgradesMetaData = _progressionData.UpgradesMeta;
         _random = new System.Random();
     }
 
@@ -85,6 +91,11 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
                         _isInCorrectZone = true;
                     }
                 }
+
+                if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.HardeningAutomation))
+                {
+                    MoveToTargetPoint();
+                }
             }
 
             if (_stateTimer != null)
@@ -95,6 +106,36 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
                     ChangeZoneIndex();
                 }
             }
+        }
+    }
+
+    private void MoveToTargetPoint()
+    {
+        float currentTarget = 0;
+        if (_currentZoneIndex == 0)
+        {
+            currentTarget = STATE1_ZONE_START;
+        }
+        else if(_currentZoneIndex == 1)
+        {
+            currentTarget = STATE2_ZONE_START;
+        }
+        else if (_currentZoneIndex == 2)
+        {
+            currentTarget = STATE3_ZONE_START;
+        }
+        if (Mathf.Abs(_hardeningUIView.HardeningSlider.value - currentTarget) < 0.05f)
+        {
+            return;
+        }
+        float movingDelta = _upgradesMetaData.Upgrades[UpgradeName.HardeningAutomation].GetUpgradeData();
+        if (_hardeningUIView.HardeningSlider.value < currentTarget)
+        {
+            _hardeningUIView.HardeningSlider.value += movingDelta;
+        }
+        else
+        {
+            _hardeningUIView.HardeningSlider.value -= movingDelta;
         }
     }
 
@@ -132,7 +173,13 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     {
         _currentBasicCost = order.BasicCost;
         float timerTicks = HARDENING_TIME / Time.fixedDeltaTime;
-        _basicAddingScore = (_currentBasicCost * COST_MULTIPLER) / timerTicks;
+        float additionalGoodScoreMultipler = 0;
+        if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.ForgingScore))
+        {
+            additionalGoodScoreMultipler = _upgradesMetaData.Upgrades[UpgradeName.ForgingScore].GetUpgradeData();
+        }
+        _basicAddingScore = ((_currentBasicCost * COST_MULTIPLER) / timerTicks) + 
+                            (((_currentBasicCost * COST_MULTIPLER) / timerTicks) * additionalGoodScoreMultipler);
     }
         
     public void StartHardening(int score)

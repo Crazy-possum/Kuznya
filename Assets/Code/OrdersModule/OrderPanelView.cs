@@ -38,8 +38,10 @@ public class OrderPanelView : MonoBehaviour
     public void SetOrderPanelState(bool isActive)
     {
         _activeOrderPanel.SetActive(isActive);
-
-        SetInitialCompletionState(false);
+        if (_activeOrder == null)
+        {
+            SetInitialCompletionState(false);
+        }
     }
 
     public void SetInitialCompletionState(bool isCompleted)
@@ -62,6 +64,7 @@ public class OrderPanelView : MonoBehaviour
 
     public void SetCompletionState(bool isCompleted)
     {
+        Debug.Log(isCompleted);
         if (_activeOrder != null)
         {
             if (_activeOrder.CheckIsOrderCountCompleted())

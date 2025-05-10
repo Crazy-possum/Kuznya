@@ -13,10 +13,15 @@ namespace Progression
         [SerializeField] private List<ClientConfig> _activeClients;
         [SerializeField] private List<ActiveOrder> _activeOrders;
         [SerializeField] private ClientConfig _activeClient;
+        [SerializeField] private ActiveOrder _whoresaleOrder;
+        [SerializeField] private float _whoresaleOrderTime;
         
         public List<ClientConfig> ActiveClients { get => _activeClients; set => _activeClients = value; }
         public List<ActiveOrder> ActiveOrders { get => _activeOrders; set => _activeOrders = value; }
         public ClientConfig ActiveClient { get => _activeClient; set => _activeClient = value; }
+        public ActiveOrder WhoresaleOrder { get => _whoresaleOrder; set => _whoresaleOrder = value; }
+        public float WhoresaleOrderTime {get => _whoresaleOrderTime; set => _whoresaleOrderTime = value; }
+        
 
         public void Initialize(SaveLoadEventBus saveLoadEventBus, ClientsPoolConfig clientsPoolConfig)
         {
@@ -110,6 +115,13 @@ namespace Progression
             {
                 saveLoadEventBus.OnSaveString?.Invoke(SaveDataKey.ActiveClient, _activeClient.ToString());
             }
+            string whoresaleOrderString = "";
+            if (_whoresaleOrder != null && _whoresaleOrder.OrderTimer != null)
+            {
+                whoresaleOrderString = _whoresaleOrder.ToString();
+            }
+            saveLoadEventBus.OnSaveString?.Invoke(SaveDataKey.WhoresaleOrder, whoresaleOrderString);
+            saveLoadEventBus.OnSaveFloat?.Invoke(SaveDataKey.WhoresaleTime, _whoresaleOrderTime);
             
         }
 
@@ -147,6 +159,28 @@ namespace Progression
             else
             {
                 _activeClient = null;
+            }
+            savableString = new SavableString();
+            saveLoadEventBus.OnGetString?.Invoke(SaveDataKey.WhoresaleOrder, savableString);
+            if (savableString.IsLoaded)
+            {
+                string whoresaleOrderString = savableString.Value;
+                _whoresaleOrder = new ActiveOrder(clientsPoolConfig);
+                _whoresaleOrder.LoadOrder(whoresaleOrderString);
+            }
+            else
+            {
+                _whoresaleOrder = null;
+            }
+            SavableFloat savableFloat = new SavableFloat();
+            saveLoadEventBus.OnGetFloat?.Invoke(SaveDataKey.WhoresaleTime, savableFloat);
+            if (savableFloat.IsLoaded)
+            {
+                _whoresaleOrderTime = savableFloat.Value;
+            }
+            else
+            {
+                _whoresaleOrderTime = 0;
             }
         }
         
@@ -191,6 +225,11 @@ namespace Progression
                     break;
                 }
             }
+        }
+
+        public void SaveWhoresaleOrder(ActiveOrder whoresaleActiveOrder)
+        {
+            _whoresaleOrder = whoresaleActiveOrder;
         }
     }
 }

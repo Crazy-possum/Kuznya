@@ -18,5 +18,10 @@ public enum UpgradeName
     ClientsSign = 15,
     ClientsPrestige = 16,
     AutomaticWholesale = 17,
-    WholesaleFrequency = 18
+    WholesaleFrequency = 18,
+    SmeltingHeat = 19,
+    HardeningAutomation = 20,
+    SharpeningSpeed = 21,
+    SharpeningZoneValue = 22,
+    AdditionalSteps = 23
 }
