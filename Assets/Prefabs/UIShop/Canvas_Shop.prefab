@@ -584,6 +584,8 @@ MonoBehaviour:
       Value: {fileID: 252575799855870397}
     - Key: 23
       Value: {fileID: 8917911641361692142}
+    - Key: 18
+      Value: {fileID: 5997645674155755088}
 --- !u!1 &5667078932550945778
 GameObject:
   m_ObjectHideFlags: 0
@@ -5561,7 +5563,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2224706000813041596, guid: d8fa33021567426438be97102d8d07c0, type: 3}
       propertyPath: m_Name
-      value: P-OptUpgrades
+      value: P-WhoresaleUpgrades
       objectReference: {fileID: 0}
     - target: {fileID: 2224706000813041596, guid: d8fa33021567426438be97102d8d07c0, type: 3}
       propertyPath: m_IsActive
@@ -6085,7 +6087,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 398873847147953478, guid: d91b1709497acac41bda610174a8fc97, type: 3}
       propertyPath: m_Name
-      value: P-UpgradeAutomaticOpt
+      value: P-UpgradeAutomaticWhoresale
       objectReference: {fileID: 0}
     - target: {fileID: 1013716496975998732, guid: d91b1709497acac41bda610174a8fc97, type: 3}
       propertyPath: m_AnchorMax.y
@@ -8978,7 +8980,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 398873847147953478, guid: d91b1709497acac41bda610174a8fc97, type: 3}
       propertyPath: m_Name
-      value: P-UpgradeOptFrequency
+      value: P-UpgradeWhoresaleFrequency
       objectReference: {fileID: 0}
     - target: {fileID: 1013716496975998732, guid: d91b1709497acac41bda610174a8fc97, type: 3}
       propertyPath: m_AnchorMax.y
@@ -9246,6 +9248,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d91b1709497acac41bda610174a8fc97, type: 3}
+--- !u!114 &5997645674155755088 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4006079374346467855, guid: d91b1709497acac41bda610174a8fc97, type: 3}
+  m_PrefabInstance: {fileID: 7251808058752826463}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53bcf007e380b640857507110363fdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8249000643484624945 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1646575152883324014, guid: d91b1709497acac41bda610174a8fc97, type: 3}

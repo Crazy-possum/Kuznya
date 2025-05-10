@@ -119,7 +119,10 @@ namespace Orders
                 {
                     if (client.MaterialName <= _progressionData.PlayerMetaData.CurrentMaximumMaterial)
                     {
-                        clients.Add(client);
+                        if (client.MaterialName != MaterialName.NONE)
+                        {
+                            clients.Add(client);
+                        }
                     }
                 }
                 int clientIndex = 0;

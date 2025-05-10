@@ -5,6 +5,7 @@ using Progression;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using Random = System.Random;
 
 namespace Orders
 {
@@ -12,6 +13,10 @@ namespace Orders
     {
         private const float REMOVE_TIME = 2f;
         private const float ORDER_START_DELAY = 2f;
+        private const float WHORESALE_ORDER_DELAY = 11f;
+        private const float MINUTE_MULTIPLER = 60f;
+        private const int WHORESALE_COUNT = 10;
+        private const int OPENED_STAGES = 4;
 
         private ProgressionData _progressionData;
         private OrdersView _ordersView;
@@ -19,6 +24,7 @@ namespace Orders
         private ResultsEventBus _resultsEventBus;
         private EconomyEventBus _economyEventBus;
         private UIEventBus _uiEventBus;
+        private ClientsPoolConfig _clientsPoolConfig;
 
         private OrdersMetaData _ordersMetaData;
         private PlayerMetaData _playerMetaData;
@@ -30,13 +36,25 @@ namespace Orders
         private UpgradesMetaData _upgradesMetaData;
         private int _activeOrdersCount;
         private int _maxOrdersCount;
+
+        private ClientConfig _whoresaleClient;
+        private OrdersPoolConfig _whoresaleConfig;
+        private Timer _whoresaleTimer;
+        private Timer _whoresaleAutomationTimer;
+        private OrderPanelView _whoresalePanel;
+        private float _whoresaleDelay;
+        private float _whoresaleAutomationDelay;
+        private bool _isWhoresaleOrderReadyToRecive;
+        private System.Random _random;
+        private ActiveOrder _whoresaleActiveOrder;
+        
         
 
         [Inject]
         public void Construct(ProgressionData progressionData,
             OrdersView ordersView, OrdersEventBus ordersEventBus,
             ResultsEventBus resultsEventBus, EconomyEventBus economyEventBus,
-            UIEventBus uiEventBus)
+            UIEventBus uiEventBus, ClientsPoolConfig clientsPoolConfig)
         {
             _progressionData = progressionData;
             _ordersView = ordersView;
@@ -44,6 +62,7 @@ namespace Orders
             _resultsEventBus = resultsEventBus;
             _economyEventBus = economyEventBus;
             _uiEventBus = uiEventBus;
+            _clientsPoolConfig = clientsPoolConfig;
         }
 
 
@@ -56,10 +75,76 @@ namespace Orders
             _resultsEventBus.OnResultsFinished += ActiveOrderFinished;
             _ordersToRemove = new Dictionary<OrderPanelView, Timer>();
             _activeOrders = new Dictionary<OrderPanelView, ActiveOrder>();
+            _economyEventBus.OnUpgradeApplied += CheckIsWhoresaleUpgradesChanged;
             _activeOrdersCount = 0;
+            _random = new Random();
             InitializeOrderPanels();
             SetOrdersCount();
             AddInitialOrders();
+            InitializeWhoresale();
+        }
+
+        private void CheckIsWhoresaleUpgradesChanged(UpgradeName upgradeName)
+        {
+            if (upgradeName == UpgradeName.WholesaleFrequency || upgradeName == UpgradeName.AutomaticWholesale)
+            {
+                SetupWhoresaleTimer();
+            }
+        }
+
+        private void InitializeWhoresale()
+        {
+            foreach (ClientConfig clientConfig in _clientsPoolConfig.Clients)
+            {
+                if (clientConfig.ClientType == ClientType.Whoresale)
+                {
+                    _whoresaleClient = clientConfig;
+                    _whoresaleConfig = clientConfig.Orders;
+                    break;
+                }
+            }
+            _whoresalePanel = _emptyOrderPanels[_emptyOrderPanels.Count - 1];
+            _emptyOrderPanels.Remove(_whoresalePanel);
+            SetupWhoresaleTimer();
+            if (_whoresaleTimer != null)
+            {
+                _whoresaleTimer.SetRemainigTime(_ordersMetaData.WhoresaleOrderTime);
+                if (_ordersMetaData.WhoresaleOrder != null)
+                {
+                    if (_ordersMetaData.WhoresaleOrder.Name != null)
+                    {
+                        Debug.Log(_ordersMetaData.WhoresaleOrder.Name);
+                        SetupOrderView(_whoresalePanel, _ordersMetaData.WhoresaleOrder);
+                        _whoresaleActiveOrder = _ordersMetaData.WhoresaleOrder;
+                        _whoresalePanel.SetOrderPanelState(true);
+                    }
+                }
+            }
+        }
+
+        private void SetupWhoresaleTimer()
+        {
+            _whoresaleDelay = 0;
+            if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.WholesaleFrequency))
+            {
+                _whoresaleDelay = _upgradesMetaData.Upgrades[UpgradeName.WholesaleFrequency].GetUpgradeData();
+            }
+            _whoresaleDelay *= MINUTE_MULTIPLER;
+            if (_whoresaleDelay > 0)
+            {
+                _whoresaleTimer = new Timer(_whoresaleDelay);
+            }
+
+            _whoresaleAutomationDelay = 0;
+            if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.AutomaticWholesale))
+            {
+                _whoresaleAutomationDelay = _upgradesMetaData.Upgrades[UpgradeName.AutomaticWholesale].GetUpgradeData();
+            }
+            _whoresaleAutomationDelay *= MINUTE_MULTIPLER;
+            if (_whoresaleAutomationDelay > 0)
+            {
+                _whoresaleAutomationTimer = new Timer(_whoresaleAutomationDelay);
+            }
         }
 
         public void Cleanup()
@@ -88,12 +173,85 @@ namespace Orders
                 if (_orderStartDelayTimer.Wait())
                 {
                     _uiEventBus.OnUnfreezeUI?.Invoke();
-                    _ordersEventBus.OnOrderStarted?.Invoke(_activeOrders[_currentActiveOrder]);
+                    if (_activeOrders.ContainsKey(_currentActiveOrder))
+                    {
+                        _ordersEventBus.OnOrderStarted?.Invoke(_activeOrders[_currentActiveOrder]);
+                    }
+                    else
+                    {
+                        _ordersEventBus.OnOrderStarted?.Invoke(_whoresaleActiveOrder);
+                    }
+                    
                     _orderStartDelayTimer = null;
                 }
+                
+            }
+
+            if (_whoresaleTimer != null)
+            {
+                if (_whoresaleTimer.Wait())
+                {
+                    _isWhoresaleOrderReadyToRecive = true;
+                }
+                _ordersMetaData.WhoresaleOrderTime = _whoresaleTimer.GetRemainingTime();
+            }
+
+            if (_isWhoresaleOrderReadyToRecive)
+            {
+                if (_whoresalePanel.ActiveOrder == null)
+                {
+                    SetupNewWhoresaleOrder();
+                    _whoresaleTimer = new Timer(_whoresaleDelay);
+                    _isWhoresaleOrderReadyToRecive = false;
+                }
+            }
+
+            if (_whoresaleAutomationTimer != null)
+            {
+                if (_whoresaleAutomationTimer.Wait())
+                {
+                    if (_whoresaleActiveOrder != null)
+                    {
+                        if (_whoresaleActiveOrder.CurrentOrderCount < _whoresaleActiveOrder.OrderCount)
+                        {
+                            _whoresaleActiveOrder.CurrentOrderCount++;
+                            _whoresalePanel.SetupOrderCount(_whoresaleActiveOrder.OrderCount,
+                                _whoresaleActiveOrder.CurrentOrderCount);
+                            _whoresaleActiveOrder.Reward += _whoresaleActiveOrder.BasicCost * 50 * OPENED_STAGES;
+                            if (_whoresaleActiveOrder.CurrentOrderCount == _whoresaleActiveOrder.OrderCount)
+                            {
+                                _whoresaleActiveOrder.IsCompleted = true;
+                                _whoresalePanel.SetCompletionState(true);
+                            }
+                        }
+                    }
+                }
+                
             }
         }
-        
+
+        private void SetupNewWhoresaleOrder()
+        {
+            List<OrderConfig> whoresaleOrders = new List<OrderConfig>();
+            foreach (OrderConfig order in _whoresaleConfig.GetOrders())
+            {
+                if (order.Materials[0].Config.MaterialName <= _playerMetaData.CurrentMaximumMaterial)
+                {
+                    whoresaleOrders.Add(order);
+                }
+            }
+            
+            int orderIndex = _random.Next(whoresaleOrders.Count);
+            ActiveOrder activeWhoresaleOrder = new ActiveOrder(_whoresaleClient,
+                whoresaleOrders[orderIndex], 0);
+            activeWhoresaleOrder.OrderCount = WHORESALE_COUNT;
+            SetupOrderView(_whoresalePanel, activeWhoresaleOrder);
+            _whoresalePanel.SetOrderPanelState(true);
+            _whoresaleActiveOrder = activeWhoresaleOrder;
+            _ordersMetaData.SaveWhoresaleOrder(_whoresaleActiveOrder);
+
+        }
+
         private void SetOrdersCount()
         {
             _maxOrdersCount = 1;
@@ -134,6 +292,23 @@ namespace Orders
                         keyValuePair.Value.OrderTimer = null;
                         RemoveOrder(keyValuePair.Key, REMOVE_TIME);
                     }
+                }
+            }
+
+            if (_whoresaleActiveOrder != null)
+            {
+                UpdateOrderSlider(_whoresalePanel, _whoresaleActiveOrder);
+                if (_whoresaleActiveOrder.OrderTimer.Wait())
+                {
+                    if (_currentActiveOrder != null)
+                    {
+                        if (_currentActiveOrder == _whoresalePanel)
+                        {
+                            _ordersEventBus.OnOrderEnded?.Invoke(_whoresaleActiveOrder);
+                        }
+                    }
+                    _whoresaleActiveOrder.OrderTimer = null;
+                    _whoresalePanel.ActiveOrder = null;
                 }
             }
         }
@@ -239,17 +414,26 @@ namespace Orders
         private void RemoveOrder(OrderPanelView orderPanelView)
         {
             orderPanelView.SetOrderPanelState(false);
-            ActiveOrder activeOrder = _activeOrders[orderPanelView];
-            _ordersMetaData.ActiveOrders.Remove(activeOrder);
-            _activeOrders.Remove(orderPanelView);
-            _emptyOrderPanels.Insert(0, orderPanelView);
-            _activeOrdersCount--;
+            ActiveOrder activeOrder;
+            if (_activeOrders.ContainsKey(orderPanelView))
+            {
+                activeOrder = _activeOrders[orderPanelView];
+                _ordersMetaData.ActiveOrders.Remove(activeOrder);
+                _activeOrders.Remove(orderPanelView);
+                _emptyOrderPanels.Insert(0, orderPanelView);
+                _activeOrdersCount--;
+            }
+            else
+            {
+                activeOrder = _whoresaleActiveOrder;
+            }
             _ordersEventBus.OnOrdersBoardSpaceChanged?.Invoke(true);
             _ordersEventBus.OnOrderRemoved?.Invoke();
         }
 
         private void SetupOrderView(OrderPanelView orderPanelView, ActiveOrder activeOrder)
         {
+            //PlayerPrefs.DeleteAll();
             orderPanelView.OrderName.text = activeOrder.Name;
             orderPanelView.OrderDesc.text = activeOrder.Description.Description;
             orderPanelView.OrderIcon.sprite = activeOrder.OrderIcon;

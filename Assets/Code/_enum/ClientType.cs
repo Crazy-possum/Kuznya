@@ -5,5 +5,6 @@ public enum ClientType
     Craftsman = 2,
     Warrior = 3,
     Trader = 4,
-    Rich = 5
+    Rich = 5,
+    Whoresale = 6
 }

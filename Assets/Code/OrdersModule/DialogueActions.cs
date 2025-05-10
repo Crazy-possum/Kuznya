@@ -292,6 +292,7 @@ namespace Orders
         private void AcceptOrder()
         {
             _dialogueView.HighlightComfirmObject.SetActive(true);
+            _currentActiveOrder.OrderTimer = new Timer(_currentActiveOrder.OrderTime);
             _ordersMetaData.SaveActiveOrder(_currentActiveOrder);
             _ordersEvents.OnOrderAdded?.Invoke();
             StartDialogueEndDelay();

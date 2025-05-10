@@ -63,5 +63,10 @@ namespace MAEngine.Extention
         {
             return (float)Math.Round(GetRemainingTime(), numbersAfterDot);
         }
+
+        public void SetRemainigTime(float remainingTime)
+        {
+            _startWaitTime = Time.time + remainingTime - _duration;
+        }
     }
 }

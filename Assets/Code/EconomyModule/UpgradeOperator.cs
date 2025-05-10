@@ -107,8 +107,10 @@ namespace Economy
                     SetClientsPrestigeUpgrade(upgradeView);
                     break;
                 case UpgradeName.AutomaticWholesale:
+                    SetWhoresaleAutomationUpgrade(upgradeView);
                     break;
                 case UpgradeName.WholesaleFrequency:
+                    SetupWhoresaleFrequencyUpgrade(upgradeView);
                     break;
                 case UpgradeName.SmeltingHeat:
                     SetSmeltingHeatUpgrade(upgradeView);
@@ -129,7 +131,7 @@ namespace Economy
                     Debug.Log("Upgrade in development");
                     break;
             }
-
+            _economyEventBus.OnUpgradeApplied?.Invoke(upgradeName);
             _upgradesMetaData.SetUpgradeLevel(upgradeName, upgradeView.CurrentLevel);
             _progressionEvents.OnProgressionDataChanged?.Invoke(_progressionData);
         }
@@ -677,6 +679,66 @@ namespace Economy
                     break;
                 case 3 :
                     value = 0.38f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        
+        private void SetupWhoresaleFrequencyUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1 :
+                    value = 11f;
+                    break;
+                case 2 :
+                    value = 10f;
+                    break;
+                case 3 :
+                    value = 9f;
+                    break;
+                case 4 :
+                    value = 8f;
+                    break;
+                case 5 :
+                    value = 7f;
+                    break;
+                case 6 :
+                    value = 6f;
+                    break;
+                default:
+                    Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
+                    break;
+            }
+            SetUpgradeValue(upgradeView, value);
+        }
+        
+        private void SetWhoresaleAutomationUpgrade(UpgradeView upgradeView)
+        {
+            float value = 0;
+            switch (upgradeView.CurrentLevel)
+            {
+                case 1 :
+                    value = 1.5f;
+                    break;
+                case 2 :
+                    value = 1.3f;
+                    break;
+                case 3 :
+                    value = 1.1f;
+                    break;
+                case 4 :
+                    value = 0.9f;
+                    break;
+                case 5 :
+                    value = 0.7f;
+                    break;
+                case 6 :
+                    value = 0.5f;
                     break;
                 default:
                     Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
