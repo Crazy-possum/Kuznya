@@ -14,7 +14,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     private const float STATE1_ZONE_START = 0.16f;
     private const float STATE2_ZONE_START = 0.5f;
     private const float STATE3_ZONE_START = 0.84f;
-    private const float ZONE_HALF_SIZE = 0.10f;
+    private const float ZONE_HALF_SIZE = 0.20f;
     
     private HardeningUIView _hardeningUIView;
     private ForgingEventBus _forgingEventBus;
@@ -171,6 +171,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
 
     private void StartOrder(ActiveOrder order)
     {
+        _hardeningUIView.HardeningSlider.value = 0;
         _currentBasicCost = order.BasicCost;
         float timerTicks = HARDENING_TIME / Time.fixedDeltaTime;
         float additionalGoodScoreMultipler = 0;
