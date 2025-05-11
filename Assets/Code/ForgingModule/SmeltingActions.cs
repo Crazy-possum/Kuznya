@@ -27,6 +27,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     private StateEventsBus _stateEvents;
     private OrdersEventBus _ordersEventBus;
     private ProgressionData _progressionData;
+    private AudioEventBus _audioEventBus;
 
     private UpgradesMetaData _upgradesMetaData;
     private Timer _smeltingTimer;
@@ -43,13 +44,14 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
 
     [Inject]
     public void Construct(SmeltingView smeltingView, GameEventBus gameEventBus, StateEventsBus stateEvents,
-        OrdersEventBus ordersEventBus, ProgressionData progressionData)
+        OrdersEventBus ordersEventBus, ProgressionData progressionData, AudioEventBus audioEventBus)
     {
         _smeltingView = smeltingView;
         _gameEventBus = gameEventBus;
         _stateEvents = stateEvents;
         _ordersEventBus = ordersEventBus;
         _progressionData = progressionData;
+        _audioEventBus = audioEventBus;
     }
     
     public void Initialisation()
@@ -116,6 +118,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     
     private void BellowsAction()
     {
+        _audioEventBus.OnPlaySound?.Invoke(AudioResourceID.Sound_Bellows);
         if (_triggeredSignalRect != null)
         {
             _temperature += TEMPERATURE_ADD_STEP;

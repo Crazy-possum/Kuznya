@@ -31,6 +31,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private StateEventsBus _stateEventsBus;
     private OrdersEventBus _ordersEventBus;
     private OrderSpritesContainer _orderSpritesContainer;
+    private AudioEventBus _audioEventBus;
 
     private float _currentProgress;
     private int _currentScore;
@@ -54,7 +55,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     public void Construct(ForgingUIView uiView, ForgingEventBus eventBus,
         GameEventBus gameEventBus, StateEventsBus stateEventsBus,
         OrdersEventBus ordersEventBus, OrderSpritesContainer orderSpritesContainer,
-        ProgressionData progressionData)
+        ProgressionData progressionData, AudioEventBus audioEventBus)
     {
         _uiView = uiView;
         _eventBus = eventBus;
@@ -63,6 +64,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         _ordersEventBus = ordersEventBus;
         _orderSpritesContainer = orderSpritesContainer;
         _progressionData = progressionData;
+        _audioEventBus = audioEventBus;
     }
 
 
@@ -237,9 +239,14 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
 
     private void ZoneTiggered(WorkZoneUIView zoneView)
     {
+        
         if (_isHeated)
         {
             ZoneActions(zoneView);
+        }
+        else
+        {
+            _audioEventBus.OnPlaySound?.Invoke(AudioResourceID.Sound_ForgingHit_Cold);
         }
     }
     
@@ -273,6 +280,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
             score = score + (int)((score + additionalGoodScore) * _currentSmeltingBonus);
             _currentScore += score;
             _currentProgress += (PROGRESS_VALUE + additionalProgerss) * PROGRESS_MULTIPLER;
+            _audioEventBus.OnPlaySound?.Invoke(AudioResourceID.Sound_ForgingHit);
         }
         else
         {
@@ -280,6 +288,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
             score = score + (int)((score + additionalBadScore) * _currentSmeltingBonus);
             _currentScore += score;
             _currentProgress += (PROGRESS_VALUE + additionalProgerss) * PROGRESS_MULTIPLER;
+            _audioEventBus.OnPlaySound?.Invoke(AudioResourceID.Sound_ForgingHit_Miss);
         }
         if (_currentProgress >= 1)
         {

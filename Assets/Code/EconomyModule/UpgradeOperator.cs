@@ -107,10 +107,10 @@ namespace Economy
                     SetClientsPrestigeUpgrade(upgradeView);
                     break;
                 case UpgradeName.AutomaticWholesale:
-                    SetWhoresaleAutomationUpgrade(upgradeView);
+                    SetWholesaleAutomationUpgrade(upgradeView);
                     break;
                 case UpgradeName.WholesaleFrequency:
-                    SetupWhoresaleFrequencyUpgrade(upgradeView);
+                    SetupWholesaleFrequencyUpgrade(upgradeView);
                     break;
                 case UpgradeName.SmeltingHeat:
                     SetSmeltingHeatUpgrade(upgradeView);
@@ -687,7 +687,7 @@ namespace Economy
             SetUpgradeValue(upgradeView, value);
         }
         
-        private void SetupWhoresaleFrequencyUpgrade(UpgradeView upgradeView)
+        private void SetupWholesaleFrequencyUpgrade(UpgradeView upgradeView)
         {
             float value = 0;
             switch (upgradeView.CurrentLevel)
@@ -717,7 +717,7 @@ namespace Economy
             SetUpgradeValue(upgradeView, value);
         }
         
-        private void SetWhoresaleAutomationUpgrade(UpgradeView upgradeView)
+        private void SetWholesaleAutomationUpgrade(UpgradeView upgradeView)
         {
             float value = 0;
             switch (upgradeView.CurrentLevel)
