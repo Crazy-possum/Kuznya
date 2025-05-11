@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7a258b61e1349546b7237b514938ac6, type: 3}
-  m_Name: PostmanKnightConfig
+  m_Name: PoorMan_2Config
   m_EditorClassIdentifier: 
-  _name: "\u041F\u043E\u0447\u0442\u043E\u0432\u044B\u0439 \u0440\u044B\u0446\u0430\u0440\u044C"
-  _materialName: 4
-  _clientSprite: {fileID: 21300000, guid: 08265e96ef15eb4418f4e1a65865362b, type: 3}
-  _orders: {fileID: 11400000, guid: fe408699cf3b1ed4cb81e4c7e37a1e8b, type: 2}
-  _clientType: 3
+  _name: "\u041A\u0440\u0435\u0441\u0442\u044C\u044F\u043D\u0438\u043D \u0436\u0435\u043D\u0449\u0438\u043D\u0430"
+  _materialName: 1
+  _clientSprite: {fileID: 21300000, guid: 8d574de5d00038c45b4e311c9ea7c1a7, type: 3}
+  _orders: {fileID: 11400000, guid: d31afdae70a56bf4f873ee68397ae454, type: 2}
+  _clientType: 1
