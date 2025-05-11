@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Sprites/Characters/nps_poorMan_2.png.meta
 guid: 8d574de5d00038c45b4e311c9ea7c1a7
+========
+guid: ef19a2612d86d5f4ca85d2aa52f28089
+>>>>>>>> 164e89b (AddDagger&MatalIcon):Assets/Sprites/Items/Dagger/1_dagger_1.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -95,19 +99,6 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
