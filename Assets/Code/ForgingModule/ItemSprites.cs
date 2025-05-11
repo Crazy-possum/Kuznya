@@ -9,6 +9,7 @@ public class ItemSprites
     [SerializeField] private Sprite _stage2Sprite;
     [SerializeField] private Sprite _stage3Sprite;
     [SerializeField] private Sprite _stage4Sprite;
+    [SerializeField] private Sprite _orderSprite;
 
     public Sprite Stage0Sprite => _stage0Sprite;
 
@@ -19,4 +20,5 @@ public class ItemSprites
     public Sprite Stage3Sprite => _stage3Sprite;
 
     public Sprite Stage4Sprite => _stage4Sprite;
+    public Sprite OrderSprite => _orderSprite;
 }
