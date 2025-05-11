@@ -11,8 +11,8 @@ using Zenject;
 public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute, ICleanUp
 {
     private const float MINUTE = 60f;
-    private const int SMELTING_PER_MINUTE_MIN = 60;
-    private const int SMELTING_PER_MINUTE_MAX = 140;
+    private const int SMELTING_PER_MINUTE_MIN = 45;
+    private const int SMELTING_PER_MINUTE_MAX = 60;
     private const float MAX_TEMPERATURE = 100f;
     private const float TARGET_TEMPERATURE = 85f;
     private const float TEMPERATURE_TIME = 5f;
