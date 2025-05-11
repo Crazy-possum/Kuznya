@@ -140,7 +140,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private void StartOrder(ActiveOrder order)
     {
         _currentBasicCost = order.BasicCost;
-        _itemSprites = _orderSpritesContainer.OrderSpritesDict[order.OrderType];
+        _itemSprites = _orderSpritesContainer.OrderSpritesDict[order.OrderType].ItemSpritesDict[order.Materials[0].Config.MaterialName];
         _uiView.ItemImage.sprite = _itemSprites.Stage0Sprite;
         _currentForgingSteps = _uiView.StepsDict[order.OrderType];
         _uiView.ItemImage.SetNativeSize();

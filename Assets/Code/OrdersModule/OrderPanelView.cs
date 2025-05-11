@@ -64,7 +64,6 @@ public class OrderPanelView : MonoBehaviour
 
     public void SetCompletionState(bool isCompleted)
     {
-        Debug.Log(isCompleted);
         if (_activeOrder != null)
         {
             if (_activeOrder.CheckIsOrderCountCompleted())

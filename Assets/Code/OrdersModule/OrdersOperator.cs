@@ -25,6 +25,7 @@ namespace Orders
         private EconomyEventBus _economyEventBus;
         private UIEventBus _uiEventBus;
         private ClientsPoolConfig _clientsPoolConfig;
+        private OrderSpritesContainer _orderSpritesContainer;
 
         private OrdersMetaData _ordersMetaData;
         private PlayerMetaData _playerMetaData;
@@ -54,7 +55,8 @@ namespace Orders
         public void Construct(ProgressionData progressionData,
             OrdersView ordersView, OrdersEventBus ordersEventBus,
             ResultsEventBus resultsEventBus, EconomyEventBus economyEventBus,
-            UIEventBus uiEventBus, ClientsPoolConfig clientsPoolConfig)
+            UIEventBus uiEventBus, ClientsPoolConfig clientsPoolConfig,
+            OrderSpritesContainer orderSpritesContainer)
         {
             _progressionData = progressionData;
             _ordersView = ordersView;
@@ -63,6 +65,7 @@ namespace Orders
             _economyEventBus = economyEventBus;
             _uiEventBus = uiEventBus;
             _clientsPoolConfig = clientsPoolConfig;
+            _orderSpritesContainer = orderSpritesContainer;
         }
 
 
@@ -436,7 +439,8 @@ namespace Orders
             //PlayerPrefs.DeleteAll();
             orderPanelView.OrderName.text = activeOrder.Name;
             orderPanelView.OrderDesc.text = activeOrder.Description.Description;
-            orderPanelView.OrderIcon.sprite = activeOrder.OrderIcon;
+            orderPanelView.OrderIcon.sprite = _orderSpritesContainer.OrderSpritesDict[activeOrder.OrderType].
+                ItemSpritesDict[activeOrder.Materials[0].Config.MaterialName].Stage4Sprite;
             orderPanelView.OrderMaterial1View.MaterialName.text =
                 activeOrder.Materials[0].Config.Name;
             orderPanelView.OrderMaterial1View.MaterialImage.sprite =

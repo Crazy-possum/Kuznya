@@ -8,8 +8,8 @@ using Random = UnityEngine.Random;
 public class SoreTextAnim : MonoBehaviour
 {
     [SerializeField] private RectTransform _textRectTransform;
-    [SerializeField] private float _flyUpSpeed = 100f;
-    [SerializeField] private float _fallSpeed = 50f;
+    //[SerializeField] private float _flyUpSpeed = 100f;
+    //[SerializeField] private float _fallSpeed = 50f;
     [SerializeField] private float _xOffset = 30f;
     [SerializeField] private float _lifetime = 1f;
 
