@@ -15,5 +15,5 @@ MonoBehaviour:
   _name: Whoresale
   _materialName: 0
   _clientSprite: {fileID: 21300000, guid: 379fca9c1023e9d4cb6cd706e7d7378b, type: 3}
-  _orders: {fileID: 11400000, guid: d31afdae70a56bf4f873ee68397ae454, type: 2}
+  _orders: {fileID: 11400000, guid: 1ab81c7af58d45f4b82620e04474cbb0, type: 2}
   _clientType: 6

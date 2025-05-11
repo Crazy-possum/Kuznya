@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 569b809d6bf644b69087e638a39047b7, type: 3}
+  m_Name: SikcleMaterialsContainer
+  m_EditorClassIdentifier: 
+  _itemSpritesDict:
+    Dictionary:
+    - Key: 1
+      Value:
+        _stage0Sprite: {fileID: 21300000, guid: c8a593a635698fe4e808c4052cb5c5b5, type: 3}
+        _stage1Sprite: {fileID: 21300000, guid: f6bf796598d60124a97c991689961d7f, type: 3}
+        _stage2Sprite: {fileID: 21300000, guid: 27367a69e2ec7ce438012c096776dcf2, type: 3}
+        _stage3Sprite: {fileID: 21300000, guid: d4b89befb19024c46b665b26bd8d89d7, type: 3}
+        _stage4Sprite: {fileID: 21300000, guid: e46f941b8126c084da369a5b0a393cd7, type: 3}
+        _orderSprite: {fileID: 21300000, guid: 1f07d5f3146632d4a9090137e7798c3d, type: 3}
+    - Key: 2
+      Value:
+        _stage0Sprite: {fileID: 21300000, guid: c8a593a635698fe4e808c4052cb5c5b5, type: 3}
+        _stage1Sprite: {fileID: 21300000, guid: f6bf796598d60124a97c991689961d7f, type: 3}
+        _stage2Sprite: {fileID: 21300000, guid: 27367a69e2ec7ce438012c096776dcf2, type: 3}
+        _stage3Sprite: {fileID: 21300000, guid: cbcdc09bab40da74a813952696759592, type: 3}
+        _stage4Sprite: {fileID: 21300000, guid: 6afc8d0462d10244d95ccb31a1398301, type: 3}
+        _orderSprite: {fileID: 21300000, guid: 1f07d5f3146632d4a9090137e7798c3d, type: 3}
+    - Key: 3
+      Value:
+        _stage0Sprite: {fileID: 21300000, guid: c8a593a635698fe4e808c4052cb5c5b5, type: 3}
+        _stage1Sprite: {fileID: 21300000, guid: f6bf796598d60124a97c991689961d7f, type: 3}
+        _stage2Sprite: {fileID: 21300000, guid: c01e233d7f18b93458cf15800f092b05, type: 3}
+        _stage3Sprite: {fileID: 21300000, guid: c7bd5ec4dea3cb04da807f8d551ba084, type: 3}
+        _stage4Sprite: {fileID: 21300000, guid: 41703ad2a6886694397b38d8be973bd1, type: 3}
+        _orderSprite: {fileID: 21300000, guid: 1f07d5f3146632d4a9090137e7798c3d, type: 3}
+    - Key: 4
+      Value:
+        _stage0Sprite: {fileID: 21300000, guid: c8a593a635698fe4e808c4052cb5c5b5, type: 3}
+        _stage1Sprite: {fileID: 21300000, guid: f6bf796598d60124a97c991689961d7f, type: 3}
+        _stage2Sprite: {fileID: 21300000, guid: 27367a69e2ec7ce438012c096776dcf2, type: 3}
+        _stage3Sprite: {fileID: 21300000, guid: 20b57bce6e30ade46b3477be7a03f500, type: 3}
+        _stage4Sprite: {fileID: 21300000, guid: 9c98c2b09cbeb624c8eed4056ba1bca4, type: 3}
+        _orderSprite: {fileID: 21300000, guid: 1f07d5f3146632d4a9090137e7798c3d, type: 3}
+    - Key: 5
+      Value:
+        _stage0Sprite: {fileID: 21300000, guid: c8a593a635698fe4e808c4052cb5c5b5, type: 3}
+        _stage1Sprite: {fileID: 21300000, guid: f6bf796598d60124a97c991689961d7f, type: 3}
+        _stage2Sprite: {fileID: 21300000, guid: 27367a69e2ec7ce438012c096776dcf2, type: 3}
+        _stage3Sprite: {fileID: 21300000, guid: afa230b14e8aff142ae5ac0fb89b8d8a, type: 3}
+        _stage4Sprite: {fileID: 21300000, guid: aa72f1f26f3a5a34f809721375aff807, type: 3}
+        _orderSprite: {fileID: 21300000, guid: 1f07d5f3146632d4a9090137e7798c3d, type: 3}
+    - Key: 6
+      Value:
+        _stage0Sprite: {fileID: 21300000, guid: f212035cb0f3aee4886c8b31467a4b54, type: 3}
+        _stage1Sprite: {fileID: 21300000, guid: 222cb3d8279b34448b1d8d7cc1e1f0e4, type: 3}
+        _stage2Sprite: {fileID: 21300000, guid: 9cd6765d9246e1f438b9538232234feb, type: 3}
+        _stage3Sprite: {fileID: 21300000, guid: 944654e235fdc3f488b58d5ad2b2fdd1, type: 3}
+        _stage4Sprite: {fileID: 21300000, guid: 94fc2ea083031ec4d8d7099e170efbeb, type: 3}
+        _orderSprite: {fileID: 21300000, guid: 1f07d5f3146632d4a9090137e7798c3d, type: 3}
