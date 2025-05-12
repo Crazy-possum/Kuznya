@@ -74,7 +74,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     {
         if (_isMovingRight)
         {
-            _uiView.HardeningSlider.value += 1;
+            _uiView.HardeningSlider.value += 1.8f;
             if(_uiView.HardeningSlider.value >= _uiView.HardeningSlider.maxValue)
             {
                 _isMovingRight = false;
@@ -82,7 +82,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         }
         else
         {
-            _uiView.HardeningSlider.value -= 1;
+            _uiView.HardeningSlider.value -= 1.8f;
             if(_uiView.HardeningSlider.value <= _uiView.HardeningSlider.minValue)
             {
                 _isMovingRight = true;

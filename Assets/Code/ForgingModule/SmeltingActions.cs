@@ -19,7 +19,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     private const float TEMPERATURE_ADD_STEP = 10f;
     private const float TEMPERATURE_REMOVE_STEP = 15f;
     private const float TEMPERATURE_REMOVE_COOLING_STEP = 8f;
-    private const float COOLING_TIME = 0.5f;
+    private const float COOLING_TIME = 1.6f;
     private const float SIGNAL_SPEED = 10f;
     
     private SmeltingView _smeltingView;
