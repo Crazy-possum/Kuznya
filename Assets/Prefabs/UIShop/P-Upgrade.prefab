@@ -711,8 +711,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1.000.000
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 849d8e5cb94ff214fb2957d1980b06e4, type: 2}
-  m_sharedMaterial: {fileID: -1817630771259951494, guid: 849d8e5cb94ff214fb2957d1980b06e4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f9f91fc13fb1d504cb04bab3da031f1e, type: 2}
+  m_sharedMaterial: {fileID: 5366964401342571148, guid: f9f91fc13fb1d504cb04bab3da031f1e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1031,8 +1031,8 @@ MonoBehaviour:
     \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 \u043A\u043E\u0440\u043E\u0442\u043A\u043E\u0435
     \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u0435\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 849d8e5cb94ff214fb2957d1980b06e4, type: 2}
-  m_sharedMaterial: {fileID: -1817630771259951494, guid: 849d8e5cb94ff214fb2957d1980b06e4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f9f91fc13fb1d504cb04bab3da031f1e, type: 2}
+  m_sharedMaterial: {fileID: 5366964401342571148, guid: f9f91fc13fb1d504cb04bab3da031f1e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1056,8 +1056,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1348,8 +1348,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 849d8e5cb94ff214fb2957d1980b06e4, type: 2}
-  m_sharedMaterial: {fileID: -1817630771259951494, guid: 849d8e5cb94ff214fb2957d1980b06e4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 03aede32be3a8f34eb25191caffbc7a4, type: 2}
+  m_sharedMaterial: {fileID: -2219212416439933903, guid: 03aede32be3a8f34eb25191caffbc7a4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
