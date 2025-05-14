@@ -300,18 +300,26 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         _currentAddingScore = score;
         GameObjectSpawnCallback callback = new GameObjectSpawnCallback();
         _gameEventBus.OnSpawnObjectWithoutRoot?.Invoke(PrefabID.UIForgingScoreText, Vector3.zero, callback);
-        InitializeTextObject(callback.SpawnedObject);
+        InitializeTextObject(callback.SpawnedObject, zoneView);
         UpdateUI();
     }
 
-    private void InitializeTextObject(GameObject textObject)
+    private void InitializeTextObject(GameObject textObject, WorkZoneUIView zoneView)
     {
-        textObject.transform.SetParent(_currentView.ScoreRoot);
+        textObject.transform.SetParent(_uiView.ScoreRoot);
         ScoreTextView textView = textObject.GetComponent<ScoreTextView>();
         
         textView.TextRectTransform.anchoredPosition = _currentView.ScoreRoot.rect.center;
         textView.InitializeView(_currentView, LIFETIME);
         textView.Text.text = _currentAddingScore.ToString();
+        if (zoneView == _currentWorkZoneViews[0])
+        {
+            textView.SetTextColor(textView.GoodTextColor);
+        }
+        else
+        {
+            textView.SetTextColor(textView.TextColor);
+        }
         _currentView.AddTextToList(textView);
         _currentView = null;
         _currentAddingScore = 0;

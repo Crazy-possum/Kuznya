@@ -94,6 +94,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textRectTransform: {fileID: 9134634637354655862}
   _text: {fileID: 2774885273101492091}
+  _textColor: {r: 0, g: 1, b: 0.6039216, a: 1}
+  _goodTextColor: {r: 0.18680914, g: 0.735849, b: 0.14231041, a: 1}
 --- !u!114 &5028626118260816662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,8 +257,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190335
-  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
+    rgba: 4288347904
+  m_fontColor: {r: 0, g: 1, b: 0.6052079, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

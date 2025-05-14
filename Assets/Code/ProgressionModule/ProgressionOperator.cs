@@ -32,7 +32,7 @@ namespace Progression
         {
             _progressionEvents.OnProgressionDataChanged += UpdateProgressData;
             _progressionEvents.OnProgressionDataCleared += ClearProgressData;
-            _saveTimer = new Timer(3f);
+            _saveTimer = new Timer(1f);
             LoadData();
 
         }

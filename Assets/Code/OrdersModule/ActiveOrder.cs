@@ -116,15 +116,22 @@ namespace Orders
 
         public override string ToString()
         {
-            if (_orderCount == 0)
+            if (_orderTimer != null)
             {
-                return $"{_orderID}|_|{_clientID}|_|{_orderTimer.GetRemainingTime()}|_|{_descriptionID}|_|{_isCompleted}|_|{_reward}";
+                if (_orderCount == 0)
+                {
+                    return $"{_orderID}|_|{_clientID}|_|{_orderTimer.GetRemainingTime()}|_|{_descriptionID}|_|{_isCompleted}|_|{_reward}";
+                }
+                else
+                {
+                    return $"{_orderID}|_|{_clientID}|_|{_orderTimer.GetRemainingTime()}|_|{_orderCount}|_|{_isCompleted}|_|{_reward}";
+                }
             }
             else
             {
-                return $"{_orderID}|_|{_clientID}|_|{_orderTimer.GetRemainingTime()}|_|{_orderCount}|_|{_isCompleted}|_|{_reward}";
+                //Debug.LogWarning("Timer is null");
+                return null;
             }
-            
         }
 
         public void LoadOrder(string savedData)

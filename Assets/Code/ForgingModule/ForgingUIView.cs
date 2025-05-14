@@ -12,6 +12,7 @@ public class ForgingUIView : MonoBehaviour
     [SerializeField] private TMP_Text _smeltingBonusText;
     [SerializeField] private SerializableDictionary<OrderType, ForgingStepsView> _stepsDict;
     [SerializeField] private Image _itemImage;
+    [SerializeField] private RectTransform _scoreRoot;
 
     public TMP_Text ScoreText { get => _scoreText; }
     public Slider ProgressSlider { get => _progressSlider; }
@@ -19,4 +20,5 @@ public class ForgingUIView : MonoBehaviour
     public TMP_Text SmeltingBonusText { get => _smeltingBonusText; }
     public SerializableDictionary<OrderType, ForgingStepsView> StepsDict => _stepsDict;
     public Image ItemImage { get => _itemImage; }
+    public RectTransform ScoreRoot { get => _scoreRoot; }
 }
