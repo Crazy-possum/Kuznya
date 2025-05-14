@@ -148,7 +148,7 @@ namespace Orders
                 _clientID = items[1];
                 
                 ClientConfig client = SetupClientData(_clientID);
-                if (client.ClientType == ClientType.Whoresale)
+                if (client.ClientType == ClientType.Wholesale)
                 {
                     _descriptionID = 0;
                     _orderCount = _descriptionID;

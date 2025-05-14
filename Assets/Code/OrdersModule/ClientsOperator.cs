@@ -172,35 +172,30 @@ namespace Orders
                         tier2Probability = 0.285f;
                         tier3Probability = 0.2f;
                         tier4Probability = 0.215f;
-                        //tier5Probability = 0.115f;
                         break;
                     case 2f:
                         tier1Probability = 0.17f;
                         tier2Probability = 0.27f;
                         tier3Probability = 0.2f;
                         tier4Probability = 0.23f;
-                        //tier5Probability = 0.13f;
                         break;
                     case 3f:
                         tier1Probability = 0.155f;
                         tier2Probability = 0.255f;
                         tier3Probability = 0.2f;
                         tier4Probability = 0.245f;
-                        //tier5Probability = 0.145f;
                         break;
                     case 4f:
                         tier1Probability = 0.14f;
                         tier2Probability = 0.24f;
                         tier3Probability = 0.2f;
                         tier4Probability = 0.27f;
-                        //tier5Probability = 0.17f;
                         break;
                     case 5f:
                         tier1Probability = 0.125f;
                         tier2Probability = 0.225f;
                         tier3Probability = 0.2f;
                         tier4Probability = 0.285f;
-                        //tier5Probability = 0.185f;
                         break;
                 }
             }

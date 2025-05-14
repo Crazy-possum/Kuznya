@@ -99,7 +99,7 @@ namespace Orders
         {
             foreach (ClientConfig clientConfig in _clientsPoolConfig.Clients)
             {
-                if (clientConfig.ClientType == ClientType.Whoresale)
+                if (clientConfig.ClientType == ClientType.Wholesale)
                 {
                     _whoresaleClient = clientConfig;
                     _whoresaleConfig = clientConfig.Orders;

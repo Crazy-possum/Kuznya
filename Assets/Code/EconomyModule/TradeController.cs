@@ -162,6 +162,8 @@ namespace Economy
             int reward = GetRewardValue();
             _economyEventBus.OnAddMoney?.Invoke((int)(reward));
             _stateEventsBus.OnOrdersStateActivate?.Invoke();
+            _tradeView.AdditionRewardText.gameObject.SetActive(false);
+            _tradeView.RewardText.gameObject.SetActive(false);
         }
 
         private void StartTrading()
@@ -172,6 +174,8 @@ namespace Economy
             _tradeState = TradeState.WhiteZone;
             _currentTradeValue = 0;
             _tradeView.ShowTradePanel();
+            _tradeView.AdditionRewardText.gameObject.SetActive(true);
+            _tradeView.RewardText.gameObject.SetActive(true);
         }
         
         private void SetCurrentOrder(ActiveOrder order)
@@ -197,10 +201,24 @@ namespace Economy
             {
                 tradeMultipler = _upgradesMetaData.Upgrades[UpgradeName.TradeSpeechcraft].GetUpgradeData();
             }
-            int addingCost = (int)(basicCost * _currentMultipler) + 
+
+            int addingCost = (int)(basicCost * _currentMultipler) +
                              (int)Mathf.Ceil((basicCost * _currentMultipler) * tradeMultipler);
             int reward = _currentOrder.Reward + addingCost;
-            _tradeView.RewardText.text = reward.ToString();
+            _tradeView.FullRewardText.text = reward.ToString();
+            _tradeView.RewardText.text = _currentOrder.Reward.ToString();
+            string addingCostString = ""; 
+            if (addingCost >= 0)
+            {
+                addingCostString = $" + {addingCost}";
+                _tradeView.AdditionRewardText.color = _tradeView.GoodColor;
+            }
+            else
+            {
+                addingCostString = $" - {Mathf.Abs(addingCost)}";
+                _tradeView.AdditionRewardText.color = _tradeView.BadColor;
+            }
+            _tradeView.AdditionRewardText.text = addingCostString;
             if (addingCost > 0)
             {
                 _tradeView.Multipler.text = $"+ {addingCost}";

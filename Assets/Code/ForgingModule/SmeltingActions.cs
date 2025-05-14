@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using GameCoreModule;
@@ -308,10 +309,19 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     {
         if (_temperatureTimer != null && _isSmelting)
         {
+            _smeltingView.TimerText.gameObject.SetActive(true);
+             _temperatureTimer.GetRemainingTime().ToString();
+            float secondsRemaining = _temperatureTimer.GetRoundedRemainingTime(2);
+            TimeSpan time = TimeSpan.FromSeconds(secondsRemaining);
+            _smeltingView.TimerText.text = time.ToString("mm':'ss");
             if (_temperatureTimer.Wait())
             {
                 EndProcess();
             }
+        }
+        else
+        {
+            _smeltingView.TimerText.gameObject.SetActive(false);
         }
     }
     

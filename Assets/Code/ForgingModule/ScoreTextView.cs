@@ -23,10 +23,18 @@ public class ScoreTextView : MonoBehaviour
         _workZoneUIView = workZoneUIView;
         _lifeTimer = new Timer(lifetime);
     }
+    
+    public void InitializeView(float lifetime)
+    {
+        _lifeTimer = new Timer(lifetime);
+    }
 
     public void RemoveText()
     {
-        _workZoneUIView.ScoreTextList.Remove(this);
+        if (_workZoneUIView != null)
+        {
+            _workZoneUIView.ScoreTextList.Remove(this);
+        }
         Destroy(gameObject);
     }
     

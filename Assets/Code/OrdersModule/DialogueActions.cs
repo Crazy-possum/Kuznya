@@ -16,6 +16,7 @@ namespace Orders
         private const string ACCEPT_TEXT = "Принять";
         private const string NOT_ENOUTH_TEXT = "Нет места";
         private const float DIALOGUE_END_DELAY = 1f;
+        private const float WARNING_DELAY = 2f;
 
         private DialogueView _dialogueView;
         private ProgressionData _progressionData;
@@ -37,6 +38,7 @@ namespace Orders
         private ClientConfig _currentClientConfig;
         private Timer _dialogueEndTimer;
         private UpgradesMetaData _upgradesMetaData;
+        private Timer _warningTimer;
 
         [Inject]
         public void Construct(DialogueView dialogueView, ProgressionData progressionData,
@@ -91,7 +93,7 @@ namespace Orders
             _ordersEvents.OnOrdersBoardSpaceChanged -= ChangeApplyButtonState;
             _dialogueView.AcceptButton.onClick.RemoveListener(() => AcceptOrder());
             _dialogueView.RejectButton.onClick.RemoveListener(() => RejectOrder());
-            _dialogueView.DialogueStartButton.onClick.RemoveListener(() => StartDialogue());
+            _dialogueView.DialogueStartButton.onClick.RemoveAllListeners();
             _dialogueView.NextButton.onClick.RemoveListener(() => ShowDescriptionText());
             _dialogueView.PrevButton.onClick.RemoveListener(() => ShowDefaultText());
         }
@@ -111,13 +113,43 @@ namespace Orders
                     _dialogueEndTimer = null;
                 }
             }
+
+            if (_warningTimer != null)
+            {
+                if (_warningTimer.Wait())
+                {
+                    _warningTimer = null;
+                    _dialogueView.OrdersFullWarningPanel.SetActive(false);
+                }
+            }
         }
         
         private void ChangeApplyButtonState(bool isInteractable)
         {
-            _dialogueView.AcceptButton.interactable = isInteractable;
+            //_dialogueView.AcceptButton.interactable = isInteractable;
+            _dialogueView.DialogueStartButton.onClick.RemoveAllListeners();
+            if (isInteractable)
+            {
+                _dialogueView.DialogueStartButton.onClick.AddListener(() => StartDialogue());
+                _dialogueView.OrdersFullWarningPanel.gameObject.SetActive(false);
+                _warningTimer = null;
+            }
+            else
+            {
+                _dialogueView.DialogueStartButton.onClick.AddListener(() => ShowOrdersFullWarning());
+            }
         }
-        
+
+        private void ShowOrdersFullWarning()
+        {
+            if (_warningTimer == null)
+            {
+                _dialogueView.OrdersFullWarningPanel.gameObject.SetActive(true);
+                _warningTimer = new Timer(WARNING_DELAY);
+                //Debug.LogWarning("Orders full warning");
+            }
+        }
+
         private void LoadDialogue()
         {
             if (_ordersMetaData.ActiveClient != null)

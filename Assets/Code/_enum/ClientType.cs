@@ -6,5 +6,5 @@ public enum ClientType
     Warrior = 3,
     Trader = 4,
     Rich = 5,
-    Whoresale = 6
+    Wholesale = 6
 }

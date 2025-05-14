@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7a258b61e1349546b7237b514938ac6, type: 3}
-  m_Name: Whoresale_ClientConfig
+  m_Name: Wholesale_ClientConfig
   m_EditorClassIdentifier: 
-  _name: Whoresale
+  _name: "\u041E\u043F\u0442\u043E\u0432\u044B\u0439 \u0437\u0430\u043A\u0430\u0437"
   _materialName: 0
-  _clientSprite: {fileID: 21300000, guid: 379fca9c1023e9d4cb6cd706e7d7378b, type: 3}
+  _clientSprite: {fileID: 21300000, guid: 08265e96ef15eb4418f4e1a65865362b, type: 3}
   _orders: {fileID: 11400000, guid: 1ab81c7af58d45f4b82620e04474cbb0, type: 2}
   _clientType: 6
