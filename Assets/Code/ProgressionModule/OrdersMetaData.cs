@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using GameCoreModule;
 using MAEngine.Extention;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Progression
 {
@@ -13,14 +14,14 @@ namespace Progression
         [SerializeField] private List<ClientConfig> _activeClients;
         [SerializeField] private List<ActiveOrder> _activeOrders;
         [SerializeField] private ClientConfig _activeClient;
-        [SerializeField] private ActiveOrder _whoresaleOrder;
-        [SerializeField] private float _whoresaleOrderTime;
+        [FormerlySerializedAs("_whoresaleOrder")] [SerializeField] private ActiveOrder _wholesaleOrder;
+        [SerializeField] private float _wholesaleOrderTime;
         
         public List<ClientConfig> ActiveClients { get => _activeClients; set => _activeClients = value; }
         public List<ActiveOrder> ActiveOrders { get => _activeOrders; set => _activeOrders = value; }
         public ClientConfig ActiveClient { get => _activeClient; set => _activeClient = value; }
-        public ActiveOrder WhoresaleOrder { get => _whoresaleOrder; set => _whoresaleOrder = value; }
-        public float WhoresaleOrderTime {get => _whoresaleOrderTime; set => _whoresaleOrderTime = value; }
+        public ActiveOrder WholesaleOrder { get => _wholesaleOrder; set => _wholesaleOrder = value; }
+        public float WholesaleOrderTime {get => _wholesaleOrderTime; set => _wholesaleOrderTime = value; }
         
 
         public void Initialize(SaveLoadEventBus saveLoadEventBus, ClientsPoolConfig clientsPoolConfig)
@@ -116,12 +117,12 @@ namespace Progression
                 saveLoadEventBus.OnSaveString?.Invoke(SaveDataKey.ActiveClient, _activeClient.ToString());
             }
             string whoresaleOrderString = "";
-            if (_whoresaleOrder != null && _whoresaleOrder.OrderTimer != null)
+            if (_wholesaleOrder != null && _wholesaleOrder.OrderTimer != null)
             {
-                whoresaleOrderString = _whoresaleOrder.ToString();
+                whoresaleOrderString = _wholesaleOrder.ToString();
             }
             saveLoadEventBus.OnSaveString?.Invoke(SaveDataKey.WhoresaleOrder, whoresaleOrderString);
-            saveLoadEventBus.OnSaveFloat?.Invoke(SaveDataKey.WhoresaleTime, _whoresaleOrderTime);
+            saveLoadEventBus.OnSaveFloat?.Invoke(SaveDataKey.WhoresaleTime, _wholesaleOrderTime);
             
         }
 
@@ -165,22 +166,22 @@ namespace Progression
             if (savableString.IsLoaded)
             {
                 string whoresaleOrderString = savableString.Value;
-                _whoresaleOrder = new ActiveOrder(clientsPoolConfig);
-                _whoresaleOrder.LoadOrder(whoresaleOrderString);
+                _wholesaleOrder = new ActiveOrder(clientsPoolConfig);
+                _wholesaleOrder.LoadOrder(whoresaleOrderString);
             }
             else
             {
-                _whoresaleOrder = null;
+                _wholesaleOrder = null;
             }
             SavableFloat savableFloat = new SavableFloat();
             saveLoadEventBus.OnGetFloat?.Invoke(SaveDataKey.WhoresaleTime, savableFloat);
             if (savableFloat.IsLoaded)
             {
-                _whoresaleOrderTime = savableFloat.Value;
+                _wholesaleOrderTime = savableFloat.Value;
             }
             else
             {
-                _whoresaleOrderTime = 0;
+                _wholesaleOrderTime = 0;
             }
         }
         
@@ -227,9 +228,10 @@ namespace Progression
             }
         }
 
-        public void SaveWhoresaleOrder(ActiveOrder whoresaleActiveOrder)
+        public void SaveWholesaleOrder(ActiveOrder whoresaleActiveOrder)
         {
-            _whoresaleOrder = whoresaleActiveOrder;
+            //Debug.Log("WholesaleSaving");
+            _wholesaleOrder = whoresaleActiveOrder;
         }
     }
 }

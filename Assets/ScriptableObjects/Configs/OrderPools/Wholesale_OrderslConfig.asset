@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e577a03c648cca54d90abb3015000bfb, type: 3}
-  m_Name: Whoresale_OrderslConfig
+  m_Name: Wholesale_OrderslConfig
   m_EditorClassIdentifier: 
   _orders:
   - {fileID: 11400000, guid: 9a40a74e41b73a7499ccee5187190e5b, type: 2}

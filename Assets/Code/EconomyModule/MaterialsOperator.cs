@@ -178,7 +178,10 @@ namespace Economy
                 _playerMetaData.Materials[currentlyCollectabeMaterial.MaterialName]++;
                 GameObjectSpawnCallback callback = new GameObjectSpawnCallback();
                 _gameEventBus.OnSpawnObjectWithoutRoot?.Invoke(PrefabID.UIAddingMaterialText, Vector3.zero, callback);
-                InitializeTextObject(callback.SpawnedObject);
+                if (callback.SpawnedObject != null)
+                {
+                    InitializeTextObject(callback.SpawnedObject);
+                }
             }
         }
 

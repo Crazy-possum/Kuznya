@@ -35,7 +35,11 @@ public class ScoreTextView : MonoBehaviour
         {
             _workZoneUIView.ScoreTextList.Remove(this);
         }
-        Destroy(gameObject);
+
+        if (gameObject != null)
+        {
+            Destroy(gameObject);
+        }
     }
     
     public void SetTextColor(Color color)

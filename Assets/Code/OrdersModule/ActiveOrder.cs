@@ -124,7 +124,7 @@ namespace Orders
                 }
                 else
                 {
-                    return $"{_orderID}|_|{_clientID}|_|{_orderTimer.GetRemainingTime()}|_|{_orderCount}|_|{_isCompleted}|_|{_reward}";
+                    return $"{_orderID}|_|{_clientID}|_|{_orderTimer.GetRemainingTime()}|_|{_currentOrderCount}|_|{_isCompleted}|_|{_reward}";
                 }
             }
             else
@@ -151,7 +151,8 @@ namespace Orders
                 if (client.ClientType == ClientType.Wholesale)
                 {
                     _descriptionID = 0;
-                    _orderCount = _descriptionID;
+                    _orderCount = 10;
+                    _currentOrderCount = int.Parse(items[3]);
                 }
                 else
                 {

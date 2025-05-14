@@ -450,17 +450,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 536608862}
   m_CullTransparentMesh: 1
---- !u!114 &573815808 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6072878902568838960, guid: 8d8558ef131bb704f825f9311e93eef3, type: 3}
-  m_PrefabInstance: {fileID: 162372530350121250}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 157bf47b4e7662d48a303f89d9dd33b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &744736090
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,10 +1028,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9065242033976656081, guid: 8d8558ef131bb704f825f9311e93eef3, type: 3}
-      propertyPath: _upgradeConfirmView
-      value: 
-      objectReference: {fileID: 573815808}
     - target: {fileID: 9168873300117173198, guid: 8d8558ef131bb704f825f9311e93eef3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
