@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class SharpeningUIView : MonoBehaviour
@@ -11,6 +10,7 @@ public class SharpeningUIView : MonoBehaviour
     [SerializeField] private RectTransform _targetZoneYellow;
     [SerializeField] private Button _hardeningButton;
     [SerializeField] private TMP_Text _scoreText;
+    [SerializeField] private RectTransform _scoreRoot;
     
     public Slider HardeningSlider => _hardeningSlider;
     public RectTransform SliderCheckZone => _sliderCheckZone;
@@ -18,4 +18,5 @@ public class SharpeningUIView : MonoBehaviour
     public RectTransform TargetZoneYellow => _targetZoneYellow;
     public Button HardeningButton => _hardeningButton;
     public TMP_Text ScoreText => _scoreText;
+    public RectTransform ScoreRoot => _scoreRoot;
 }

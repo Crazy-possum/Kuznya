@@ -497,9 +497,12 @@ namespace Orders
 
         private void UpdateOrderSlider(OrderPanelView orderPanelView, ActiveOrder activeOrder)
         {
-            orderPanelView.OrderTimeSlider.value =
-                activeOrder.OrderTimer.GetRemainingTime() /
-                activeOrder.OrderTime;
+            if (activeOrder.OrderTimer != null)
+            {
+                orderPanelView.OrderTimeSlider.value =
+                    activeOrder.OrderTimer.GetRemainingTime() /
+                    activeOrder.OrderTime;
+            }
         }
 
         private void ConfirmOrSubmitOrder(OrderPanelView orderPanelView)

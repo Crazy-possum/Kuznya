@@ -12,12 +12,14 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private const int ZONE_SIZE_DELTA = 20;
     private const int MAX_PROGRESS = 5;
     private const int COST_MULTIPLER = 50;
+    private const float SCORE_TEXT_LIFETIME = 2f;
     
     private SharpeningUIView _uiView;
     private ForgingEventBus _eventBus;
     private StateEventsBus _stateEventsBus;
     private OrdersEventBus _ordersEventBus;
     private ProgressionData _progressionData;
+    private GameEventBus _gameEventBus;
 
     private UpgradesMetaData _upgradesMetaData;
     private int _currentProgress;
@@ -29,16 +31,19 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private Vector2 _greenZoneInitialSize;
     private Vector2 _yellowZoneInitialSize;
     private int _currentMaxProgress;
+    private ScoreTextView _currentAddingScoreTextView;
     
     [Inject]
     public void Construct(SharpeningUIView uiView, ForgingEventBus forgingEventBus,
-        StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus, ProgressionData progressionData)
+        StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus, ProgressionData progressionData,
+        GameEventBus gameEventBus)
     {
         _uiView = uiView;
         _eventBus = forgingEventBus;
         _stateEventsBus = stateEventsBus;
         _ordersEventBus = ordersEventBus;
         _progressionData = progressionData;
+        _gameEventBus = gameEventBus;
     }
     
     
@@ -127,15 +132,18 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
             _currentProgress++;
             bool isInGreenZone = CheckGreenZone();
             bool isInYellowZone = CheckYellowZone();
+            int addingScore = 0;
             if (isInGreenZone)
             {
                 _currentScore += _basicAddingScore;
                 //Debug.Log($"{_basicAddingScore} added to score");
+                addingScore = _basicAddingScore;
             }
             else if (isInYellowZone)
             {
                 _currentScore += _basicAddingScore / 2;
                 //Debug.Log($"{_basicAddingScore / 2} added to score");
+                addingScore = _basicAddingScore / 2;
             }
             else
             {
@@ -147,8 +155,36 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
                 return;
             }
             ChangeZonesSize();
+            SpawnAddingScoreObject(addingScore);
             UpdateUI();
         }
+    }
+
+    private void SpawnAddingScoreObject(int addingScore)
+    {
+        SpawnScoreTextView();
+        _currentAddingScoreTextView.Text.text = $"+ {addingScore}";
+    }
+    
+    private void SpawnScoreTextView()
+    {
+        if (_currentAddingScoreTextView != null)
+        {
+            _currentAddingScoreTextView = null;
+        }
+        GameObjectSpawnCallback callback = new GameObjectSpawnCallback();
+        _gameEventBus.OnSpawnObjectWithoutRoot?.Invoke(PrefabID.UIForgingScoreText, Vector3.zero, callback);
+        InitializeTextObject(callback.SpawnedObject);
+    }
+    
+    private void InitializeTextObject(GameObject textObject)
+    {
+        textObject.transform.SetParent(_uiView.ScoreRoot);
+        ScoreTextView textView = textObject.GetComponent<ScoreTextView>();
+        textView.TextRectTransform.anchoredPosition = _uiView.ScoreRoot.rect.center;
+        textView.InitializeView(SCORE_TEXT_LIFETIME);
+        _currentAddingScoreTextView = textView;
+
     }
 
     private void ChangeZonesSize()
