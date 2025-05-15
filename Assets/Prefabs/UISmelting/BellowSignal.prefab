@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 45}
+  m_SizeDelta: {x: 180, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2727365936287312387
 CanvasRenderer:
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 95d5ea98e5b850a42afe197fbaf7558e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 03b556e2d374ca949b52da9546409c62, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -166,9 +166,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _signalImage: {fileID: 6192509999972019855}
-  _goodSprite: {fileID: 21300000, guid: 018f9950e7f5a064a8a1e16880b574ca, type: 3}
-  _badSprite: {fileID: 21300000, guid: 9ed7ced7cd448a348b69d2a4558bed03, type: 3}
-  _activeSptrite: {fileID: 21300000, guid: 7b343a18a7f328d449e66f15867851d0, type: 3}
+  _goodSprite: {fileID: 21300000, guid: 41a94f815cf53e14a8a7f39059d581c1, type: 3}
+  _badSprite: {fileID: 21300000, guid: 03b556e2d374ca949b52da9546409c62, type: 3}
+  _activeSptrite: {fileID: 21300000, guid: 06b9988a4fcdd8e4f9364aa4bdc94513, type: 3}
 --- !u!61 &2930324531974370254
 BoxCollider2D:
   m_ObjectHideFlags: 0
