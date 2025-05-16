@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7a258b61e1349546b7237b514938ac6, type: 3}
   m_Name: TraderMan_1Config
   m_EditorClassIdentifier: 
-  _name: "\u0422\u043E\u0440\u0433\u043E\u0432\u0435\u0446"
+  _name: "\u0411\u0435\u0441\u043F\u0440\u0438\u043D\u0446\u0438\u043F\u043D\u044B\u0439
+    \u041F\u0430\u0443\u043B\u044C"
   _materialName: 3
-  _clientSprite: {fileID: 21300000, guid: 7cfa203d6fce6a64fb8edf32b4641e4a, type: 3}
+  _clientSprite: {fileID: 21300000, guid: b03f228d501a024429a7c37fb70578f5, type: 3}
   _orders: {fileID: 11400000, guid: 6be9ffd9f27e04542983aa5206ec648f, type: 2}
   _clientType: 4

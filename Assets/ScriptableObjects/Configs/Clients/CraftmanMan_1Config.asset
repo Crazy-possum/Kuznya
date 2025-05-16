@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7a258b61e1349546b7237b514938ac6, type: 3}
   m_Name: CraftmanMan_1Config
   m_EditorClassIdentifier: 
-  _name: "\u0411\u0440\u043E\u043D\u043D\u0438\u043A"
+  _name: "\u0411\u0440\u043E\u043D\u043D\u0438\u043A \u0422\u044E\u0440"
   _materialName: 2
   _clientSprite: {fileID: 21300000, guid: d069b452885959349997687845fc145f, type: 3}
   _orders: {fileID: 11400000, guid: eba7f72073fc0af4994bfbe21c2c8342, type: 2}
