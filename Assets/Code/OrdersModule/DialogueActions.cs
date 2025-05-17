@@ -26,6 +26,7 @@ namespace Orders
         private GameConfig _gameConfig;
         private ClientsSpritesContainer _clientsSpritesContainer;
         private UIEventBus _uiEventBus;
+        private TutorialEventBus _tutorialEventBus;
 
         private OrdersMetaData _ordersMetaData;
         private PlayerMetaData _playerMetaData;
@@ -44,7 +45,7 @@ namespace Orders
         public void Construct(DialogueView dialogueView, ProgressionData progressionData,
             OrdersEventBus ordersEvents, GameEventBus gameEventBus, GUIView guiView,
             GameConfig gameConfig, ClientsSpritesContainer clientsSpritesContainer,
-            UIEventBus uiEventBus)
+            UIEventBus uiEventBus, TutorialEventBus tutorialEventBus)
         {
             _dialogueView = dialogueView;
             _progressionData = progressionData;
@@ -54,6 +55,7 @@ namespace Orders
             _gameConfig = gameConfig;
             _clientsSpritesContainer = clientsSpritesContainer;
             _uiEventBus = uiEventBus;
+            _tutorialEventBus = tutorialEventBus;
         }
         
         public void PreInitialisation()
@@ -307,6 +309,7 @@ namespace Orders
             _dialogueView.DialoguePanel.SetActive(true);
             _dialogueView.DialogueIcon.gameObject.SetActive(false);
             _guiView.NavigationPanel.SetActive(false);
+            _tutorialEventBus.OnDialogueStarted?.Invoke(_currentActiveOrder);
         }
 
         private void StartDialogueEndDelay()
@@ -327,6 +330,7 @@ namespace Orders
             _currentActiveOrder.OrderTimer = new Timer(_currentActiveOrder.OrderTime);
             _ordersMetaData.SaveActiveOrder(_currentActiveOrder);
             _ordersEvents.OnOrderAdded?.Invoke();
+            _tutorialEventBus.OnOrderApplied?.Invoke();
             StartDialogueEndDelay();
         }
 

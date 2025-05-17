@@ -8,7 +8,7 @@ namespace Progression
     {
         private ProgressionData _data;
         private EconomyEventBus _economyEventBus;
-        
+
         private PlayerMetaData _playerMetaData;
         private UpgradesMetaData _upgradesMetaData;
 
@@ -17,7 +17,7 @@ namespace Progression
             _data = data;
             _economyEventBus = economyEventBus;
         }
-        
+
         public void Initialisation()
         {
             _playerMetaData = _data.PlayerMetaData;
@@ -25,7 +25,7 @@ namespace Progression
             CheckUnlockedStages();
             _economyEventBus.OnUpgradeApplied += CheckNewUpgrade;
         }
-        
+
         public void Cleanup()
         {
             _economyEventBus.OnUpgradeApplied -= CheckNewUpgrade;

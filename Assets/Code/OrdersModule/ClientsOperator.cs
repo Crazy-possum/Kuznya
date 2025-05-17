@@ -16,6 +16,7 @@ namespace Orders
         private ProgressionData _progressionData;
         private OrdersEventBus _ordersEventBus;
         private GameConfig _gameConfig;
+        private TutorialEventBus _tutorialEventBus;
 
         private OrdersMetaData _ordersMetaData;
         private UpgradesMetaData _upgradesMetaData;
@@ -29,12 +30,13 @@ namespace Orders
         [Inject]
         public void Construct(ClientsPoolConfig clientsPoolConfig, 
             ProgressionData progressionData,
-            OrdersEventBus ordersEventBus, GameConfig gameConfig)
+            OrdersEventBus ordersEventBus, GameConfig gameConfig, TutorialEventBus tutorialEventBus)
         {
             _clientsPoolConfig = clientsPoolConfig;
             _progressionData = progressionData;
             _ordersEventBus = ordersEventBus;
             _gameConfig = gameConfig;
+            _tutorialEventBus = tutorialEventBus;
         }
 
         public void Initialisation()
@@ -100,6 +102,7 @@ namespace Orders
                 {
                     _isClientActive = true;
                     _ordersEventBus.OnClientActivated?.Invoke();
+                    _tutorialEventBus.OnClientActivated?.Invoke();
                 }
             }
         }

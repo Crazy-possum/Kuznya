@@ -1,5 +1,4 @@
-﻿using MAEngine;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,17 +36,5 @@ namespace GameCoreModule
         { get => _onStateChanged; set => _onStateChanged = value; }
         public Action OnGameOver 
         { get => _onGameOver; set => _onGameOver = value; }
-    }
-
-    public class PoolCallback
-    {
-        private IPool _pool;
-        
-        public IPool Pool => _pool;
-
-        public void SetPool(IPool pool)
-        {
-            _pool = pool;
-        }
     }
 }
