@@ -26,6 +26,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     private GameEventBus _gameEventBus;
 
     private UpgradesMetaData _upgradesMetaData;
+    private PlayerMetaData _playerMetaData;
     private float _currentScore;
     private bool _isRunning;
     private bool _isInCorrectZone;
@@ -56,10 +57,12 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     
     public void Initialisation()
     {
+        _upgradesMetaData = _progressionData.UpgradesMeta;
+        _playerMetaData = _progressionData.PlayerMetaData;
         _forgingEventBus.OnForgingFinished += StartHardening;
         _ordersEventBus.OnOrderStarted += StartOrder;
         _ordersEventBus.OnOrderEnded += StopProcess;
-        _upgradesMetaData = _progressionData.UpgradesMeta;
+        
         _random = new System.Random();
     }
 
@@ -222,13 +225,20 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
         
     public void StartHardening(int score)
     {
-        if (_isRunning) return;
-        _hardeningTimer = new Timer(HARDENING_TIME);
-        _stateTimer = new Timer(HARDENING_TIME / 5);
-        _isRunning = true;
-        _currentScore = score;
-        ChangeZoneIndex();
-        _hardeningUIView.UpdateScore((int)_currentScore);
+        if (_playerMetaData.Unlocks.IsHardeningUnlocked)
+        {
+            if (_isRunning) return;
+            _hardeningTimer = new Timer(HARDENING_TIME);
+            _stateTimer = new Timer(HARDENING_TIME / 5);
+            _isRunning = true;
+            _currentScore = score;
+            ChangeZoneIndex();
+            _hardeningUIView.UpdateScore((int)_currentScore);
+        }
+        else
+        {
+            _forgingEventBus.OnSharpeningFinished?.Invoke(score);
+        }
     }
 
     private void ChangeZoneIndex()
@@ -254,7 +264,14 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     {
         _forgingEventBus.OnHardeningFinished?.Invoke((int)_currentScore);
         ClearProgress();
-        _stateEventsBus.OnSharpeningStateActivate?.Invoke();
+        if (_playerMetaData.Unlocks.IsSharpeningUnlocked)
+        {
+            _stateEventsBus.OnSharpeningStateActivate?.Invoke();
+        }
+        else
+        {
+            _stateEventsBus.OnResultsStateActivate?.Invoke();
+        }
         _hardeningUIView.gameObject.SetActive(false);
     }
     

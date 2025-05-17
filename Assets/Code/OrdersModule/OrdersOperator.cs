@@ -338,17 +338,21 @@ namespace Orders
                 {
                     UpdateOrderSlider(_wholesalePanel, _wholesaleActiveOrder);
                 }
-                if (_wholesaleActiveOrder.OrderTimer.Wait())
+
+                if (_wholesaleActiveOrder.OrderTimer != null)
                 {
-                    if (_currentActiveOrder != null)
+                    if (_wholesaleActiveOrder.OrderTimer.Wait())
                     {
-                        if (_currentActiveOrder == _wholesalePanel)
+                        if (_currentActiveOrder != null)
                         {
-                            _ordersEventBus.OnOrderEnded?.Invoke(_wholesaleActiveOrder);
+                            if (_currentActiveOrder == _wholesalePanel)
+                            {
+                                _ordersEventBus.OnOrderEnded?.Invoke(_wholesaleActiveOrder);
+                            }
                         }
+                        _wholesaleActiveOrder.OrderTimer = null;
+                        _wholesalePanel.ActiveOrder = null;
                     }
-                    _wholesaleActiveOrder.OrderTimer = null;
-                    _wholesalePanel.ActiveOrder = null;
                 }
             }
         }

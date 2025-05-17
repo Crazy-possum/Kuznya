@@ -26,6 +26,7 @@ namespace Economy
         private TradeState _tradeState;
         private Random _random;
         private UpgradesMetaData _upgradesMetaData;
+        private PlayerMetaData _playerMetaData;
         
 
         [Inject]
@@ -41,11 +42,26 @@ namespace Economy
         public void Initialisation()
         {
             _upgradesMetaData = _progressionData.UpgradesMeta;
+            _playerMetaData = _progressionData.PlayerMetaData;
             _tradeView.TradeButton.onClick.AddListener(StartTrading);
             _tradeView.ConfirmButton.onClick.AddListener(SubmitOrder);
             _tradeView.TradeClickerButton.onClick.AddListener(AddTradingScore);
             _economyEventBus.OnOrderSubmited += SetCurrentOrder;
+            _stateEventsBus.OnTradeStateActivate += SetTradeButtonState;
+            _tradeView.TradeButton.gameObject.SetActive(false);
             _random = new Random();
+        }
+
+        private void SetTradeButtonState()
+        {
+            if (_playerMetaData.Unlocks.IsTradeUnlocked)
+            {
+                _tradeView.TradeButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                _tradeView.TradeButton.gameObject.SetActive(false);
+            }
         }
 
         public void Cleanup()

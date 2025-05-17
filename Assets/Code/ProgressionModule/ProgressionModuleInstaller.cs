@@ -14,6 +14,7 @@ namespace Progression
             
             Container.Bind<ProgressionData>().AsSingle();
             Container.Bind<ProgressionOperator>().AsSingle();
+            Container.Bind<StagesCheckActions>().AsSingle();
         }
     }
 }

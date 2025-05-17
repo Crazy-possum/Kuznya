@@ -9,6 +9,7 @@ namespace Progression
         {
             InitializeFields();
             InitializeProgressionOperator();
+            InitializeStagesCheckActions();
         }
 
         private void InitializeFields()
@@ -22,5 +23,13 @@ namespace Progression
                 _di.Resolve<ProgressionOperator>();
             _actions.Add(progressionOperator);
         }
+        
+        private void InitializeStagesCheckActions()
+        {
+            StagesCheckActions stagesCheckActions =
+                _di.Resolve<StagesCheckActions>();
+            _actions.Add(stagesCheckActions);
+        }
+        
     }
 }

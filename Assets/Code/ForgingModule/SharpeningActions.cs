@@ -22,6 +22,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private GameEventBus _gameEventBus;
 
     private UpgradesMetaData _upgradesMetaData;
+    private PlayerMetaData _playerMetaData;
     private int _currentProgress;
     private int _currentScore;
     private bool _isRunning;
@@ -56,6 +57,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         _greenZoneInitialSize = _uiView.TargetZoneGreen.sizeDelta;
         _yellowZoneInitialSize = _uiView.TargetZoneYellow.sizeDelta;
         _upgradesMetaData = _progressionData.UpgradesMeta;
+        _playerMetaData = _progressionData.PlayerMetaData;
     }
     
     public void FixedExecute(float fixedDeltaTime)
@@ -217,9 +219,16 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
 
     private void StartSharpening(int score)
     {
-        _currentScore = score;
-        _currentProgress = 0;
-        _isRunning = true;
+        if (_playerMetaData.Unlocks.IsSharpeningUnlocked)
+        {
+            _currentScore = score;
+            _currentProgress = 0;
+            _isRunning = true;
+        }
+        else
+        {
+            _eventBus.OnSharpeningFinished?.Invoke(score);
+        }
     }
     
     private void EndProcess()

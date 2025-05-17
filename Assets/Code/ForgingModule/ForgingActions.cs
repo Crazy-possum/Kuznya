@@ -49,6 +49,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private Timer _coolingTimer;
     private bool _isHeated;
     private UpgradesMetaData _upgradesMetaData;
+    private PlayerMetaData _playerMetaData;
 
 
     [Inject]
@@ -72,6 +73,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     {
         ClearProgress();
         _upgradesMetaData = _progressionData.UpgradesMeta;
+        _playerMetaData = _progressionData.PlayerMetaData;
         _ordersEventBus.OnOrderStarted += StartOrder;
         _ordersEventBus.OnOrderEnded += StopProcess;
         _stateEventsBus.OnForgingStateActivate += SetForgingBonus;
@@ -115,8 +117,15 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     
     private void SetForgingBonus(float forgingBonus)
     {
-        _currentSmeltingBonus = forgingBonus;
-        _coolingTimer = new Timer(COOLING_STEP_DURATION);
+        if (_playerMetaData.Unlocks.IsSmeltingUnlocked)
+        {
+            _currentSmeltingBonus = forgingBonus;
+            _coolingTimer = new Timer(COOLING_STEP_DURATION);
+        }
+        else
+        {
+            _currentSmeltingBonus = 0;
+        }
         _isHeated = true;
         UpdateUI();
     }
@@ -146,7 +155,16 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         _uiView.ItemImage.sprite = _itemSprites.Stage0Sprite;
         _currentForgingSteps = _uiView.StepsDict[order.OrderType];
         _uiView.ItemImage.SetNativeSize();
-        _stateEventsBus.OnSmeltingStateActivate?.Invoke();
+        if (_playerMetaData.Unlocks.IsSmeltingUnlocked)
+        {
+            _uiView.SmeltingButton.gameObject.SetActive(true);
+            _stateEventsBus.OnSmeltingStateActivate?.Invoke();
+        }
+        else
+        {
+            _uiView.SmeltingButton.gameObject.SetActive(false);
+            _stateEventsBus.OnForgingStateActivate?.Invoke(0);
+        }
         UpdateForgingSteps(0);
     }
 
@@ -366,7 +384,14 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     {
         _eventBus.OnForgingFinished?.Invoke(_currentScore);
         ClearProgress();
-        _stateEventsBus.OnHardeningStateActivate?.Invoke();
+        if (_playerMetaData.Unlocks.IsHardeningUnlocked)
+        {
+            _stateEventsBus.OnHardeningStateActivate?.Invoke();
+        }
+        else
+        {
+            _stateEventsBus.OnResultsStateActivate?.Invoke();
+        }
         _uiView.gameObject.SetActive(false);
     }
     
