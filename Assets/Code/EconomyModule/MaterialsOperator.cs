@@ -14,6 +14,7 @@ namespace Economy
         private GameEventBus _gameEventBus;
         private StorageMaterialsConfig _storageConfig;
         private MaterialsUIView _materialsUIView;
+        private TutorialEventBus _tutorialEventBus;
         
         private PlayerMetaData _playerMetaData;
         private MaterialConfig _currentlyCollectabeMaterial;
@@ -26,13 +27,15 @@ namespace Economy
         [Inject]
         public void Construct(ProgressionData progressionData, EconomyEventBus economyEventBus,
             GameEventBus gameEventBus,
-            StorageMaterialsConfig storageConfig, MaterialsUIView materialsUIView)
+            StorageMaterialsConfig storageConfig, MaterialsUIView materialsUIView,
+            TutorialEventBus tutorialEventBus)
         {
             _progressionData = progressionData;
             _economyEventBus = economyEventBus;
             _gameEventBus = gameEventBus;
             _storageConfig = storageConfig;
             _materialsUIView = materialsUIView;
+            _tutorialEventBus = tutorialEventBus;
         }
         
         public void Initialisation()
@@ -45,6 +48,10 @@ namespace Economy
             _economyEventBus.OnMaterialRemoved += RemoveMaterial;
             _economyEventBus.OnCollectableMaterialChanged += ChangeCollectableMaterial;
             _materialsUIView.MaterialsClickerButton.onClick.AddListener(ClickMaterialAction);
+            if (!_playerMetaData.TutorialInfo.IsTutorialStarted)
+            {
+                _tutorialEventBus.OnTutorialStarted += AddStartMaterials;
+            }
             _clickCooldownTimer = new Timer(1);
             _canClickMaterial = true;
             InitializeUI();
@@ -77,6 +84,15 @@ namespace Economy
             }
 
             UpdateUI();
+        }
+        
+        private void AddStartMaterials()
+        {
+            AddMaterial(_currentlyCollectabeMaterial);
+            AddMaterial(_currentlyCollectabeMaterial);
+            AddMaterial(_currentlyCollectabeMaterial);
+            AddMaterial(_currentlyCollectabeMaterial);
+            _tutorialEventBus.OnTutorialStarted -= AddStartMaterials;
         }
         
         private void SetInitialCollectableMaterial(MaterialName currentMaximumMaterial)
@@ -162,6 +178,7 @@ namespace Economy
         {
             if (_currentlyCollectabeMaterial != materialConfig)
             {
+                _tutorialEventBus.OnMaterialChanged?.Invoke();
                 _currentlyCollectabeMaterial = materialConfig;
             }
             else

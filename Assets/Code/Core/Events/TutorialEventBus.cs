@@ -8,6 +8,7 @@ namespace GameCoreModule
         private Action _onGameStarted;
         private Action _onTutorialStarted;
         private Action _onTutorialSkiped;
+        private Action _onTutorialStartConfirmed;
         private Action _onClientActivated;
         private Action<ActiveOrder> _onDialogueStarted;
         private Action _onOrderApplied;
@@ -35,6 +36,7 @@ namespace GameCoreModule
         public Action OnGameStarted { get => _onGameStarted; set => _onGameStarted = value; }
         public Action OnTutorialStarted { get => _onTutorialStarted; set => _onTutorialStarted = value; }
         public Action OnTutorialSkiped { get => _onTutorialSkiped; set => _onTutorialSkiped = value; }
+        public Action OnTutorialStartConfirmed { get => _onTutorialStartConfirmed; set => _onTutorialStartConfirmed = value; }
         public Action OnClientActivated { get => _onClientActivated; set => _onClientActivated = value; }
         public Action<ActiveOrder> OnDialogueStarted { get => _onDialogueStarted; set => _onDialogueStarted = value; }
         public Action OnOrderApplied { get => _onOrderApplied; set => _onOrderApplied = value; }

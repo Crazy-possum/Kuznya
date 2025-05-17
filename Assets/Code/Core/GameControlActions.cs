@@ -81,11 +81,13 @@ namespace GameCoreModule
 
         private void ShowShopScreen()
         {
+            _tutorialEventBus.OnShopScreenOpened?.Invoke();
             ShowCurrentScreen(_canvasList.ShopCanvas);
         }
 
         private void ShowMaterialsScreen()
         {
+            _tutorialEventBus.OnMaterialScreenOpened?.Invoke();
             ShowCurrentScreen(_canvasList.MaterialsCanvas);
         }
 

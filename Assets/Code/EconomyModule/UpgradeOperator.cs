@@ -13,18 +13,21 @@ namespace Economy
         private ProgressionEvents _progressionEvents;
         private ShopView _shopView;
         private UpgradesPool _upgradesPool;
+        private TutorialEventBus _tutorialEventBus;
         
         private UpgradesMetaData _upgradesMetaData;
         
         [Inject]
         public void Construct(EconomyEventBus economyEventBus, ProgressionData progressionData,
-            ProgressionEvents progressionEvents, ShopView shopView, UpgradesPool upgradesPool)
+            ProgressionEvents progressionEvents, ShopView shopView, UpgradesPool upgradesPool,
+            TutorialEventBus tutorialEventBus)
         {
             _economyEventBus = economyEventBus;
             _progressionData = progressionData;
             _progressionEvents = progressionEvents;
             _shopView = shopView;
             _upgradesPool = upgradesPool;
+            _tutorialEventBus = tutorialEventBus;
         }
         
         public void Initialisation()
@@ -56,6 +59,8 @@ namespace Economy
             {
                 return;
             }
+            
+            _tutorialEventBus.OnUpgradeBought?.Invoke();
 
             switch (upgradeName)
             {

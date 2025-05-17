@@ -58,6 +58,7 @@ namespace Progression
 
         private void ContinueTutorial()
         {
+            _tutorialEventBus.OnTutorialStartConfirmed?.Invoke();
             Time.timeScale = 1;
             _tutorialView.TutorialStartedPanel.SetActive(false);
             _tutorialView.TutorialContinueButton.Button.onClick.RemoveAllListeners();
@@ -194,6 +195,8 @@ namespace Progression
         
         private void ClientActivated()
         {
+            _tutorialView.TutorialStartedPanel.SetActive(false);
+            _tutorialView.TutorialContinueButton.Button.onClick.RemoveAllListeners();
             Time.timeScale = 0;
             _playerMetaData.TutorialInfo.IsClientActivated = true;
             _tutorialEventBus.OnClientActivated -= ClientActivated;
@@ -284,47 +287,106 @@ namespace Progression
 
         private void OrderSubmitStarted()
         {
-            throw new System.NotImplementedException();
+            _tutorialEventBus.OnOrderSubmitStarted -= OrderSubmitStarted;
+            _playerMetaData.TutorialInfo.IsOrderSubmitStarted = true;
+            _tutorialView.OrderSubmitOrderTutorialPanel.SetActive(true);
         }
 
         private void MoneyAdded()
         {
-            throw new System.NotImplementedException();
+            _tutorialView.OrderSubmitOrderTutorialPanel.SetActive(false);
+            _tutorialEventBus.OnMoneyAdded -= MoneyAdded;
+            _playerMetaData.TutorialInfo.IsMoneyAdded = true;
+            _tutorialView.FristMoneyTutorialPanel.SetActive(true);
+            SetBlocker(_tutorialView.Blocker3);
         }
 
         private void ShopScreenOpened()
         {
-            throw new System.NotImplementedException();
+            _tutorialView.OrderSubmitOrderTutorialPanel.SetActive(false);
+            _tutorialView.FirstMoney2TutorialPanel.SetActive(false);
+            _tutorialEventBus.OnShopScreenOpened -= ShopScreenOpened;
+            _playerMetaData.TutorialInfo.IsShopScreenOpened = true;
+            _tutorialView.ShopTutorialPanel.SetActive(true);
+            _tutorialView.ShopTutorialContinueButton.Button.onClick.AddListener(StartFreeSection);
+        }
+
+        private void StartFreeSection()
+        {
+            SetBlocker(_tutorialView.Blocker5);
+            _tutorialView.ShopTutorialContinueButton.Button.onClick.RemoveAllListeners();
         }
 
         private void MoneyAccumulated()
         {
-            throw new System.NotImplementedException();
+            SetBlocker(_tutorialView.Blocker3);
+            _tutorialView.MoneyAccumulatedTutorialPanel.SetActive(true);
+            _tutorialEventBus.OnMoneyAccumulated -= MoneyAccumulated;
+            _playerMetaData.TutorialInfo.IsMoneyAccumulated = true;
         }
 
         private void UpgradeBought()
         {
-            throw new System.NotImplementedException();
+            _tutorialEventBus.OnUpgradeBought -= UpgradeBought;
+            _playerMetaData.TutorialInfo.IsUpgradeBought = true;
+            _tutorialView.UpgradeBoughtTutorialPanel.SetActive(true);
+            SetBlocker(_tutorialView.Blocker5);
         }
 
         private void OrderMaterialUnavailable()
         {
-            throw new System.NotImplementedException();
+            _tutorialEventBus.OnOrderMaterialUnavaliable -= OrderMaterialUnavailable;
+            _playerMetaData.TutorialInfo.IsOrderMaterialUnavailable = true;
+            _tutorialView.MaterialUnavaliableTutorialPanel.SetActive(true);
+            SetBlocker(_tutorialView.Blocker4);
         }
 
         private void MaterialScreenOpened()
         {
-            throw new System.NotImplementedException();
+            if (_playerMetaData.TutorialInfo.IsOrderMaterialUnavailable)
+            {
+                _tutorialEventBus.OnMaterialScreenOpened -= MaterialScreenOpened;
+                _playerMetaData.TutorialInfo.IsMaterialScreenOpened = true;
+                _tutorialView.MaterialUnavaliableTutorialPanel.SetActive(false);
+                _tutorialView.MaterialsTutorialPanel.SetActive(true);
+            }
         }
 
         private void MaterialChanged()
         {
-            throw new System.NotImplementedException();
+            if (_playerMetaData.TutorialInfo.IsOrderMaterialUnavailable)
+            {
+                _tutorialEventBus.OnMaterialChanged -= MaterialChanged;
+                _playerMetaData.TutorialInfo.IsMaterialChanged = true;
+                _tutorialView.Materials2TutorialPanel.SetActive(false);
+                _tutorialView.MaterialChangingTutorialPanel.SetActive(true);
+                _tutorialEventBus.OnOrdersScreenOpened += ShowOrderInfoTutorial;
+                SetBlocker(_tutorialView.Blocker2);
+            }
+        }
+        
+        private void ShowOrderInfoTutorial()
+        {
+            _tutorialEventBus.OnOrdersScreenOpened -= ShowOrderInfoTutorial;
+            _tutorialView.MaterialChangingTutorialPanel.SetActive(false);
+            _tutorialView.OrderInfoTutorialPanel.SetActive(true);
         }
 
         private void OrdersMaterialOpened()
         {
-            throw new System.NotImplementedException();
+            if (_playerMetaData.TutorialInfo.IsMaterialChanged)
+            {
+                _tutorialEventBus.OnOrdersMaterialOpened -= OrdersMaterialOpened;
+                _playerMetaData.TutorialInfo.IsOrdersMaterialOpened = true;
+                _tutorialView.OrderInfoTutorialPanel.SetActive(false);
+                _tutorialView.OrderMaterialsTutorialPanel.SetActive(true);
+                _tutorialView.BasicTutorialEndButton.Button.onClick.AddListener(EndBasicTutorial);
+            }
+        }
+
+        private void EndBasicTutorial()
+        {
+            SetBlocker(_tutorialView.Blocker5);
         }
 
         private void AdditionalStagesBought()

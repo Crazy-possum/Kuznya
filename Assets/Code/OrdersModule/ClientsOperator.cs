@@ -46,6 +46,10 @@ namespace Orders
             _ordersMetaData = _progressionData.OrdersMeta;
             _upgradesMetaData = _progressionData.UpgradesMeta;
             _playerMetaData = _progressionData.PlayerMetaData;
+            if (!_playerMetaData.TutorialInfo.IsClientActivated)
+            {
+                _tutorialEventBus.OnTutorialStartConfirmed += AddTutorialClient;
+            }
             UpdateTimer();
             LoadClients();
         }
@@ -91,6 +95,12 @@ namespace Orders
                 }
                 UpdateTimer();
             }
+        }
+
+        private void AddTutorialClient()
+        {
+            AddNewClient();
+            _tutorialEventBus.OnTutorialStartConfirmed -= AddTutorialClient;
         }
 
         private void SetActiveClient()

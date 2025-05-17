@@ -14,19 +14,22 @@ namespace Economy
         private OrdersEventBus _ordersEventBus;
         private StateEventsBus _stateEventsBus;
         private ShopView _shopView;
+        private TutorialEventBus _tutorialEventBus;
         
         private PlayerMetaData _playerMetaData;
         
         [Inject]
         public void Construct(EconomyEventBus economyEventBus,
             OrdersEventBus ordersEventBus, ProgressionData progressionData,
-            StateEventsBus stateEventsBus, ShopView shopView)
+            StateEventsBus stateEventsBus, ShopView shopView,
+            TutorialEventBus tutorialEventBus)
         {
             _economyEventBus = economyEventBus;
             _ordersEventBus = ordersEventBus;
             _progressionData = progressionData;
             _stateEventsBus = stateEventsBus;
             _shopView = shopView;
+            _tutorialEventBus = tutorialEventBus;
         }
         
         public void Initialisation()
@@ -73,6 +76,11 @@ namespace Economy
             _economyEventBus.OnMoneyAdded?.Invoke(money);
             _playerMetaData.CurrentMoney += money;
             _economyEventBus.OnMoneyUpdated?.Invoke(_playerMetaData.CurrentMoney);
+            _tutorialEventBus.OnMoneyAdded?.Invoke();
+            if (_playerMetaData.CurrentMoney >= 1500)
+            {
+                _tutorialEventBus.OnMoneyAccumulated?.Invoke();
+            }
         }
         
         private void RemoveMoney(UpgradeName upgradeName, UpgradeView upgradeView, int money)

@@ -534,6 +534,10 @@ namespace Orders
                     if (_playerMetaData.Materials[material.Config.MaterialName] < material.Count)
                     {
                         haveEnoughtMaterials = false;
+                        if (material.Config.MaterialName != MaterialName.Metal)
+                        {
+                            _tutorialEventBus.OnOrderMaterialUnavaliable?.Invoke();
+                        }
                     }
                 }
             }
@@ -606,6 +610,7 @@ namespace Orders
         private void SubmitOrder(OrderPanelView orderPanelView)
         {
             _ordersEventBus.OnOrderFinished?.Invoke(orderPanelView.ActiveOrder);
+            _tutorialEventBus.OnOrderSubmitStarted?.Invoke();
             RemoveOrder(orderPanelView);
         }
         
