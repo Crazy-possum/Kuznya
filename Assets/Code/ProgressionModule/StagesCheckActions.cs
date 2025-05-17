@@ -55,16 +55,16 @@ namespace Progression
                 else if (stagesNumber == 2)
                 {
                     _playerMetaData.Unlocks.IsSmeltingUnlocked = true;
-                    _playerMetaData.Unlocks.IsHardeningUnlocked = true;
+                    _playerMetaData.Unlocks.IsTradeUnlocked = true;
+                    _playerMetaData.Unlocks.IsHardeningUnlocked = false;
                     _playerMetaData.Unlocks.IsSharpeningUnlocked = false;
-                    _playerMetaData.Unlocks.IsTradeUnlocked = false;
                 }
                 else if (stagesNumber == 3)
                 {
                     _playerMetaData.Unlocks.IsSmeltingUnlocked = true;
+                    _playerMetaData.Unlocks.IsTradeUnlocked = true;
                     _playerMetaData.Unlocks.IsHardeningUnlocked = true;
-                    _playerMetaData.Unlocks.IsSharpeningUnlocked = true;
-                    _playerMetaData.Unlocks.IsTradeUnlocked = false;
+                    _playerMetaData.Unlocks.IsSharpeningUnlocked = false;
                 }
                 else if (stagesNumber == 4)
                 {

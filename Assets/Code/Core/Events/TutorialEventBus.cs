@@ -12,6 +12,7 @@ namespace GameCoreModule
         private Action<ActiveOrder> _onDialogueStarted;
         private Action _onOrderApplied;
         private Action _onOrdersScreenOpened;
+        private Action _onOrderSelected;
         private Action _onForgingStarted;
         private Action _onForgingHit;
         private Action _onForgingStageChanged;
@@ -38,6 +39,7 @@ namespace GameCoreModule
         public Action<ActiveOrder> OnDialogueStarted { get => _onDialogueStarted; set => _onDialogueStarted = value; }
         public Action OnOrderApplied { get => _onOrderApplied; set => _onOrderApplied = value; }
         public Action OnOrdersScreenOpened { get => _onOrdersScreenOpened; set => _onOrdersScreenOpened = value; }
+        public Action OnOrderSelected { get => _onOrderSelected; set => _onOrderSelected = value; }
         public Action OnForgingStarted { get => _onForgingStarted; set => _onForgingStarted = value; }
         public Action OnForgingHit { get => _onForgingHit; set => _onForgingHit = value; }
         public Action OnForgingStageChanged { get => _onForgingStageChanged; set => _onForgingStageChanged = value; }

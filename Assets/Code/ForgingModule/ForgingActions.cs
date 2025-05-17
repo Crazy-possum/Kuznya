@@ -32,6 +32,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     private OrdersEventBus _ordersEventBus;
     private OrderSpritesContainer _orderSpritesContainer;
     private AudioEventBus _audioEventBus;
+    private TutorialEventBus _tutorialEventBus;
 
     private float _currentProgress;
     private int _currentScore;
@@ -56,7 +57,8 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
     public void Construct(ForgingUIView uiView, ForgingEventBus eventBus,
         GameEventBus gameEventBus, StateEventsBus stateEventsBus,
         OrdersEventBus ordersEventBus, OrderSpritesContainer orderSpritesContainer,
-        ProgressionData progressionData, AudioEventBus audioEventBus)
+        ProgressionData progressionData, AudioEventBus audioEventBus,
+        TutorialEventBus tutorialEventBus)
     {
         _uiView = uiView;
         _eventBus = eventBus;
@@ -66,6 +68,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         _orderSpritesContainer = orderSpritesContainer;
         _progressionData = progressionData;
         _audioEventBus = audioEventBus;
+        _tutorialEventBus = tutorialEventBus;
     }
 
 
@@ -178,12 +181,15 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
                 break;
             case 1:
                 _currentWorkZoneViews = _currentForgingSteps.Step2WorkZones;
+                _tutorialEventBus.OnForgingStageChanged?.Invoke();
                 break;
             case 2:
                 _currentWorkZoneViews = _currentForgingSteps.Step3WorkZones;
+                _tutorialEventBus.OnForgingStageChanged?.Invoke();
                 break;
             case 3:
                 _currentWorkZoneViews = _currentForgingSteps.Step4WorkZones;
+                _tutorialEventBus.OnForgingStageChanged?.Invoke();
                 break;
             default:
                 return;
@@ -271,6 +277,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
 
     private void ZoneActions(WorkZoneUIView zoneView)
     {
+        _tutorialEventBus.OnForgingHit?.Invoke();
         int score = 0;
         float progressMultipler = 0;
         float additionalGoodScoreMultipler = 0;

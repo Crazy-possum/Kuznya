@@ -10,12 +10,15 @@ namespace GameCoreModule
         private StateEventsBus _stateEventsBus;
         private CanvasList _canvasList;
         private List<GameObject> _screensList;
+        private TutorialEventBus _tutorialEventBus;
 
         [Inject]
-        public void Construct(StateEventsBus stateEventsBus, CanvasList canvasList)
+        public void Construct(StateEventsBus stateEventsBus, CanvasList canvasList,
+            TutorialEventBus tutorialEventBus)
         {
             _stateEventsBus = stateEventsBus;
             _canvasList = canvasList;
+            _tutorialEventBus = tutorialEventBus;
         }
 
         public void Initialisation()
@@ -72,6 +75,7 @@ namespace GameCoreModule
 
         private void ShowOrdersScreen()
         {
+            _tutorialEventBus.OnOrdersScreenOpened?.Invoke();
             ShowCurrentScreen(_canvasList.OrdersCanvas);
         }
 

@@ -12,6 +12,7 @@ namespace Progression
         private TutorialView _tutorialView;
 
         private PlayerMetaData _playerMetaData;
+        private GameObject _activeBlocker;
 
         public TutorialActions(ProgressionData data, TutorialEventBus tutorialEventBus, TutorialView tutorialView)
         {
@@ -23,6 +24,8 @@ namespace Progression
         public void Initialisation()
         {
             _playerMetaData = _data.PlayerMetaData;
+            _activeBlocker = _tutorialView.Blocker1;
+            _activeBlocker.SetActive(true);
             if (!_playerMetaData.TutorialInfo.IsGameStarted)
             {
                 _playerMetaData.TutorialInfo.IsGameStarted = true;
@@ -67,6 +70,13 @@ namespace Progression
             _playerMetaData.TutorialInfo.IsTutorialSkiped = true;
             _tutorialView.gameObject.SetActive(false);
             _tutorialEventBus.OnTutorialSkiped?.Invoke();
+        }
+        
+        private void SetBlocker(GameObject blocker)
+        {
+            _activeBlocker.SetActive(false);
+            _activeBlocker = blocker;
+            _activeBlocker.SetActive(true);
         }
         
         private void SubscribeTutorialEvents()
@@ -216,36 +226,60 @@ namespace Progression
         {
             _tutorialEventBus.OnOrderApplied -= OrderApplied;
             _playerMetaData.TutorialInfo.IsOrderApplied = true;
+            _tutorialView.OrderAcceptedTutorialPanel.SetActive(true);
+            SetBlocker(_tutorialView.Blocker2);
         }
 
         private void OrdersScreenOpened()
         {
-            throw new System.NotImplementedException();
+            _tutorialView.OrderAcceptedTutorialPanel.SetActive(false);
+            _tutorialEventBus.OnOrdersScreenOpened -= OrdersScreenOpened;
+            _playerMetaData.TutorialInfo.IsOrdersScreenOpened = true;
+            _tutorialView.OrdersListTutorialPanel.SetActive(true);
+            _tutorialEventBus.OnOrderSelected += OrderStarted;
+        }
+
+        private void OrderStarted()
+        {
+            _tutorialEventBus.OnOrderSelected -= OrderStarted;
+            _tutorialView.OrdersListTutorialPanel.SetActive(false);
         }
 
         private void ForgingStarted()
         {
-            throw new System.NotImplementedException();
+            _tutorialEventBus.OnForgingStarted -= ForgingStarted;
+            _playerMetaData.TutorialInfo.IsForgingStarted = true;
+            _tutorialView.ForgingStartedTutorialPanel.SetActive(true);
         }
 
         private void ForgingHit()
         {
-            throw new System.NotImplementedException();
+            _tutorialView.ForgingStartedTutorialPanel.SetActive(false);
+            _tutorialEventBus.OnForgingHit -= ForgingHit;
+            _playerMetaData.TutorialInfo.IsForgingHit = true;
+            _tutorialView.ForgingFirstHitTutorialPanel.SetActive(true);
         }
 
         private void ForgingStageChanged()
         {
-            throw new System.NotImplementedException();
+            _tutorialEventBus.OnForgingStageChanged -= ForgingStageChanged;
+            _playerMetaData.TutorialInfo.IsForgingStageChanged = true;
+            _tutorialView.ForgingChangeStageTutorialPanel.SetActive(true);
         }
 
         private void ResultScreenOpened()
         {
-            throw new System.NotImplementedException();
+            _tutorialEventBus.OnResultScreenOpened -= ResultScreenOpened;
+            _playerMetaData.TutorialInfo.IsResultScreenOpened = true;
+            _tutorialView.ResultScreenTutorialPanel.SetActive(true);
         }
 
         private void OrderFinished()
         {
-            throw new System.NotImplementedException();
+            _tutorialView.ResultScreenTutorialPanel.SetActive(false);
+            _tutorialEventBus.OnOrderFinished -= OrderFinished;
+            _playerMetaData.TutorialInfo.IsOrderFinished = true;
+            _tutorialView.OrderFinishedTutorialPanel.SetActive(true);
         }
 
         private void OrderSubmitStarted()

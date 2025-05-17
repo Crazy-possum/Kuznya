@@ -27,6 +27,7 @@ namespace Orders
         private UIEventBus _uiEventBus;
         private ClientsPoolConfig _clientsPoolConfig;
         private OrderSpritesContainer _orderSpritesContainer;
+        private TutorialEventBus _tutorialEventBus;
 
         private OrdersMetaData _ordersMetaData;
         private PlayerMetaData _playerMetaData;
@@ -58,7 +59,7 @@ namespace Orders
             OrdersView ordersView, OrdersEventBus ordersEventBus,
             ResultsEventBus resultsEventBus, EconomyEventBus economyEventBus,
             UIEventBus uiEventBus, ClientsPoolConfig clientsPoolConfig,
-            OrderSpritesContainer orderSpritesContainer)
+            OrderSpritesContainer orderSpritesContainer, TutorialEventBus tutorialEventBus)
         {
             _progressionData = progressionData;
             _ordersView = ordersView;
@@ -68,6 +69,7 @@ namespace Orders
             _uiEventBus = uiEventBus;
             _clientsPoolConfig = clientsPoolConfig;
             _orderSpritesContainer = orderSpritesContainer;
+            _tutorialEventBus = tutorialEventBus;
         }
 
 
@@ -190,6 +192,7 @@ namespace Orders
                 if (_orderStartDelayTimer.Wait())
                 {
                     _uiEventBus.OnUnfreezeUI?.Invoke();
+                    _tutorialEventBus.OnForgingStarted?.Invoke();
                     if (_activeOrders.ContainsKey(_currentActiveOrder))
                     {
                         _ordersEventBus.OnOrderStarted?.Invoke(_activeOrders[_currentActiveOrder]);
@@ -562,6 +565,7 @@ namespace Orders
                 () => AcceptOrder(orderPanelView));
             _ordersView.DenyButton.onClick.AddListener(
                 () => DenyOrder());
+            _tutorialEventBus.OnOrderSelected?.Invoke();
         }
 
         private void HideConfirmPanel()

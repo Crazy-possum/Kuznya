@@ -12,6 +12,7 @@ public class ResultsActions : IAction, IInitialisation, ICleanUp, IFixedExecute
     private ForgingEventBus _eventBus;
     private ResultsEventBus _resultEvents;
     private OrdersEventBus _orderEventBus;
+    private TutorialEventBus _tutorialEventBus;
     private int _score;
     private int _dynamicScore;
     private int _gold;
@@ -21,12 +22,14 @@ public class ResultsActions : IAction, IInitialisation, ICleanUp, IFixedExecute
 
     [Inject]
     public void Construct(ResultsUIView resultsView, ForgingEventBus eventBus,
-        ResultsEventBus resultEvents, OrdersEventBus orderEventBus)
+        ResultsEventBus resultEvents, OrdersEventBus orderEventBus,
+        TutorialEventBus tutorialEventBus)
     {
         _resultsView = resultsView;
         _eventBus = eventBus;
         _resultEvents = resultEvents;
         _orderEventBus = orderEventBus;
+        _tutorialEventBus = tutorialEventBus;
     }
 
     public void Initialisation()
@@ -85,6 +88,7 @@ public class ResultsActions : IAction, IInitialisation, ICleanUp, IFixedExecute
 
     private void StartCountingResult(int score)
     {
+        _tutorialEventBus.OnResultScreenOpened?.Invoke();
         _score = score;
         _dynamicScore = score;
         _gold = 0;
@@ -118,6 +122,7 @@ public class ResultsActions : IAction, IInitialisation, ICleanUp, IFixedExecute
     private void EndProcess()
     {
         StopProcess();
+        _tutorialEventBus.OnOrderFinished?.Invoke();
         _resultEvents.OnResultsFinished?.Invoke(_finalGold);
     }
 
