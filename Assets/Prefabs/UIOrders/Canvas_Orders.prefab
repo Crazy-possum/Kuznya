@@ -102,8 +102,8 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
+  m_characterSpacing: -10
+  m_wordSpacing: 10
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
@@ -2331,6 +2331,30 @@ PrefabInstance:
     - target: {fileID: 2164738688318611354, guid: be1ffbc976ebdd04490cc2868bc67398, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3216824757741973145, guid: be1ffbc976ebdd04490cc2868bc67398, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: f9f91fc13fb1d504cb04bab3da031f1e, type: 2}
+    - target: {fileID: 3216824757741973145, guid: be1ffbc976ebdd04490cc2868bc67398, type: 3}
+      propertyPath: m_wordSpacing
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3216824757741973145, guid: be1ffbc976ebdd04490cc2868bc67398, type: 3}
+      propertyPath: m_characterSpacing
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3216824757741973145, guid: be1ffbc976ebdd04490cc2868bc67398, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015907574285908839, guid: be1ffbc976ebdd04490cc2868bc67398, type: 3}
+      propertyPath: m_wordSpacing
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015907574285908839, guid: be1ffbc976ebdd04490cc2868bc67398, type: 3}
+      propertyPath: m_characterSpacing
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 4019672939280755380, guid: be1ffbc976ebdd04490cc2868bc67398, type: 3}
       propertyPath: m_IsActive
