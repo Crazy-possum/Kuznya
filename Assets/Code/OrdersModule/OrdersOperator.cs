@@ -192,7 +192,6 @@ namespace Orders
                 if (_orderStartDelayTimer.Wait())
                 {
                     _uiEventBus.OnUnfreezeUI?.Invoke();
-                    _tutorialEventBus.OnForgingStarted?.Invoke();
                     if (_activeOrders.ContainsKey(_currentActiveOrder))
                     {
                         _ordersEventBus.OnOrderStarted?.Invoke(_activeOrders[_currentActiveOrder]);

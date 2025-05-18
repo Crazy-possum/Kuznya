@@ -2665,6 +2665,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas_Tutorial
       objectReference: {fileID: 0}
+    - target: {fileID: 5598273007006486889, guid: c5d80da76558dee43ad73c1c14b829b9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

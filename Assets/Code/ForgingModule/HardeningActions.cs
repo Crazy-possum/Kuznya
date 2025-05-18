@@ -24,6 +24,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     private AudioEventBus _audioEventBus;
     private ProgressionData _progressionData;
     private GameEventBus _gameEventBus;
+    private TutorialEventBus _tutorialEventBus;
 
     private UpgradesMetaData _upgradesMetaData;
     private PlayerMetaData _playerMetaData;
@@ -44,7 +45,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     [Inject]
     public void Initialize(HardeningUIView hardeningUIView, ForgingEventBus forgingEventBus,
         StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus, AudioEventBus audioEventBus,
-        ProgressionData progressionData, GameEventBus gameEventBus)
+        ProgressionData progressionData, GameEventBus gameEventBus, TutorialEventBus tutorialEventBus)
     {
         _hardeningUIView = hardeningUIView;
         _forgingEventBus = forgingEventBus;
@@ -53,6 +54,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
         _audioEventBus = audioEventBus;
         _progressionData = progressionData;
         _gameEventBus = gameEventBus;
+        _tutorialEventBus = tutorialEventBus;
     }
     
     public void Initialisation()
@@ -62,7 +64,6 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
         _forgingEventBus.OnForgingFinished += StartHardening;
         _ordersEventBus.OnOrderStarted += StartOrder;
         _ordersEventBus.OnOrderEnded += StopProcess;
-        
         _random = new System.Random();
     }
 
@@ -90,6 +91,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
                         _addingScore += _basicAddingScore;
                         _currentScore += _basicAddingScore;
                         _hardeningUIView.UpdateScore((int)_currentScore);
+                        _tutorialEventBus.OnHardeningGoodHit?.Invoke();
                         if (_currentAddingScoreTextView != null)
                         {
                             _currentAddingScoreTextView.Text.text = $" + {(int)_addingScore}";
@@ -227,6 +229,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     {
         if (_playerMetaData.Unlocks.IsHardeningUnlocked)
         {
+            _tutorialEventBus.OnHardeningStarted?.Invoke();
             if (_isRunning) return;
             _hardeningTimer = new Timer(HARDENING_TIME);
             _stateTimer = new Timer(HARDENING_TIME / 5);
@@ -234,6 +237,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
             _currentScore = score;
             ChangeZoneIndex();
             _hardeningUIView.UpdateScore((int)_currentScore);
+            
         }
         else
         {

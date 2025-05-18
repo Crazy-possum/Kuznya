@@ -130,6 +130,7 @@ namespace Economy
                     SetSharpeningZonesActions(upgradeView);
                     break;
                 case UpgradeName.AdditionalSteps:
+                    _tutorialEventBus.OnAdditionalStagesBought?.Invoke();
                     SetAdditionalStepsUpgrade(upgradeView);
                     break;
                 default:

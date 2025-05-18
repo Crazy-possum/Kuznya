@@ -40,6 +40,31 @@ namespace Progression
         [SerializeField] private GameObject _orderInfoTutorialPanel;
         [SerializeField] private GameObject _orderMaterialsTutorialPanel;
         [SerializeField] private ButtonView _basicTutorialEndButton;
+        [SerializeField] private GameObject _additionalStageAddedTutorialPanel;
+        [SerializeField] private GameObject _smeltingStartedTutorialPanel;
+        [SerializeField] private ButtonView _smeltingContinueButton;
+        [SerializeField] private GameObject _smeltingNearTriggerTutorialPanel;
+        [SerializeField] private GameObject _smeltingGoodHitTutorialPanel;
+        [SerializeField] private ButtonView _smeltingContinueButton2;
+        [SerializeField] private GameObject _forgingAfterSmeltingTutorialPanel;
+        [SerializeField] private GameObject _tradeStartTutorialPanel;
+        [SerializeField] private GameObject _tradeScreenTutorialPanel;
+        [SerializeField] private ButtonView _tradeScreenContinueButton;
+        [SerializeField] private GameObject _tradeGreenZoneTutorialPanel;
+        [SerializeField] private ButtonView _tradeScreenContinueButton2;
+        [SerializeField] private GameObject _tradeFinishTutorialPanel;
+        [SerializeField] private GameObject _hardeningStartTutorialPanel;
+        [SerializeField] private ButtonView _hardeningContinueButton;
+        [SerializeField] private GameObject _hardeningGoodHitTutorialPanel;
+        [SerializeField] private ButtonView _hardeningContinueButton2;
+        [SerializeField] private GameObject _sharpeningStartTutorialPanel;
+        [SerializeField] private ButtonView _sharpeningContinueButton;
+        [SerializeField] private GameObject _sharpeningGoodHitTutorialPanel;
+        [SerializeField] private GameObject _sharpeningBadHitTutorialPanel;
+        [SerializeField] private ButtonView _sharpeningContinue2Button;
+        [SerializeField] private ButtonView _sharpeningContinue3Button;
+        
+        
         
 
         public GameObject Blocker1 => _blocker1;
@@ -77,6 +102,28 @@ namespace Progression
         public GameObject OrderInfoTutorialPanel => _orderInfoTutorialPanel;
         public GameObject OrderMaterialsTutorialPanel => _orderMaterialsTutorialPanel;
         public ButtonView BasicTutorialEndButton => _basicTutorialEndButton;
-        
+        public GameObject AdditionalStageAddedTutorialPanel => _additionalStageAddedTutorialPanel;
+        public GameObject SmeltingStartedTutorialPanel => _smeltingStartedTutorialPanel;
+        public ButtonView SmeltingContinueButton => _smeltingContinueButton;
+        public GameObject SmeltingNearTriggerTutorialPanel => _smeltingNearTriggerTutorialPanel;
+        public GameObject SmeltingGoodHitTutorialPanel => _smeltingGoodHitTutorialPanel;
+        public ButtonView SmeltingContinueButton2 => _smeltingContinueButton2;
+        public GameObject ForgingAfterSmeltingTutorialPanel => _forgingAfterSmeltingTutorialPanel;
+        public GameObject TradeStartTutorialPanel => _tradeStartTutorialPanel;
+        public GameObject TradeScreenTutorialPanel => _tradeScreenTutorialPanel;
+        public ButtonView TradeScreenContinueButton => _tradeScreenContinueButton;
+        public GameObject TradeGreenZoneTutorialPanel => _tradeGreenZoneTutorialPanel;
+        public ButtonView TradeScreenContinueButton2 => _tradeScreenContinueButton2;
+        public GameObject TradeFinishTutorialPanel => _tradeFinishTutorialPanel;
+        public GameObject HardeningStartTutorialPanel => _hardeningStartTutorialPanel;
+        public ButtonView HardeningContinueButton => _hardeningContinueButton;
+        public GameObject HardeningGoodHitTutorialPanel => _hardeningGoodHitTutorialPanel;
+        public ButtonView HardeningContinueButton2 => _hardeningContinueButton2;
+        public GameObject SharpeningStartTutorialPanel => _sharpeningStartTutorialPanel;
+        public ButtonView SharpeningContinueButton => _sharpeningContinueButton;
+        public GameObject SharpeningGoodHitTutorialPanel => _sharpeningGoodHitTutorialPanel;
+        public GameObject SharpeningBadHitTutorialPanel => _sharpeningBadHitTutorialPanel;
+        public ButtonView SharpeningContinue2Button => _sharpeningContinue2Button;
+        public ButtonView SharpeningContinue3Button => _sharpeningContinue3Button;
     }
 }

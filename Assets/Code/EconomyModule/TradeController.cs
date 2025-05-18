@@ -16,6 +16,7 @@ namespace Economy
         private EconomyEventBus _economyEventBus;
         private StateEventsBus _stateEventsBus;
         private ProgressionData _progressionData;
+        private TutorialEventBus _tutorialEventBus;
 
         private ActiveOrder _currentOrder;
         private float _currentMultipler;
@@ -31,12 +32,14 @@ namespace Economy
 
         [Inject]
         public void Construct(TradeView tradeView, EconomyEventBus economyEventBus,
-            StateEventsBus stateEventsBus, ProgressionData progressionData)
+            StateEventsBus stateEventsBus, ProgressionData progressionData,
+            TutorialEventBus tutorialEventBus)
         {
             _tradeView = tradeView;
             _economyEventBus = economyEventBus;
             _stateEventsBus = stateEventsBus;
             _progressionData = progressionData;
+            _tutorialEventBus = tutorialEventBus;
         }
         
         public void Initialisation()
@@ -56,6 +59,7 @@ namespace Economy
         {
             if (_playerMetaData.Unlocks.IsTradeUnlocked)
             {
+                _tutorialEventBus.OnTradeStarted?.Invoke();
                 _tradeView.TradeButton.gameObject.SetActive(true);
             }
             else
@@ -92,6 +96,7 @@ namespace Economy
                     _isTrading = false;
                     SetTradedState(true);
                     _tradeView.HideTradePanel();
+                    _tutorialEventBus.OnTradeFinished?.Invoke();
                 }
                 UpdateUI();
                 
@@ -163,6 +168,7 @@ namespace Economy
             }
             else if (_tradeState == TradeState.GreenZone)
             {
+                _tutorialEventBus.OnTradeGreenZone?.Invoke();
                 _currentTradeValue += 3;
             }
             else if (_tradeState == TradeState.RedZone)
@@ -184,6 +190,7 @@ namespace Economy
 
         private void StartTrading()
         {
+            _tutorialEventBus.OnTradeScreenOpened?.Invoke();
             _isTrading = true;
             _tradingTimeLeft = 20;
             _tradeTickTimer = new Timer(1.5f);

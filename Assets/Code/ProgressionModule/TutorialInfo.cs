@@ -30,7 +30,17 @@ namespace Progression
         private bool _isSmeltingStarted;
         private bool _isSmeltingNearTrigger;
         private bool _isSmeltingGoodHit;
-
+        private bool _isForgingAfterSmelting;
+        private bool _isTradeStarted;
+        private bool _isTradeScreenOpened;
+        private bool _isTradeGreenZone;
+        private bool _isTradeFinished;
+        private bool _isHardeningStarted;
+        private bool _isHardeningGoodHit;
+        private bool _isSharpeningStarted;
+        private bool _isSharpeningGoodHit;
+        private bool _isSharpeningBadHit;
+        
         public bool IsGameStarted { get => _isGameStarted; set => _isGameStarted = value; }
         public bool IsTutorialStarted { get => _isTutorialStarted; set => _isTutorialStarted = value; }
         public bool IsTutorialSkiped { get => _isTutorialSkiped; set => _isTutorialSkiped = value; }
@@ -56,5 +66,15 @@ namespace Progression
         public bool IsSmeltingStarted { get => _isSmeltingStarted; set => _isSmeltingStarted = value; }
         public bool IsSmeltingNearTrigger { get => _isSmeltingNearTrigger; set => _isSmeltingNearTrigger = value; }
         public bool IsSmeltingGoodHit { get => _isSmeltingGoodHit; set => _isSmeltingGoodHit = value; }
+        public bool IsForgingAfterSmelting { get => _isForgingAfterSmelting; set => _isForgingAfterSmelting = value; }
+        public bool IsTradeStarted { get => _isTradeStarted; set => _isTradeStarted = value; }
+        public bool IsTradeScreenOpened { get => _isTradeScreenOpened; set => _isTradeScreenOpened = value; }
+        public bool IsTradeGreenZone { get => _isTradeGreenZone; set => _isTradeGreenZone = value; }
+        public bool IsTradeFinished { get => _isTradeFinished; set => _isTradeFinished = value; }
+        public bool IsHardeningStarted { get => _isHardeningStarted; set => _isHardeningStarted = value; }
+        public bool IsHardeningGoodHit { get => _isHardeningGoodHit; set => _isHardeningGoodHit = value; }
+        public bool IsSharpeningStarted { get => _isSharpeningStarted; set => _isSharpeningStarted = value; }
+        public bool IsSharpeningGoodHit { get => _isSharpeningGoodHit; set => _isSharpeningGoodHit = value; }
+        public bool IsSharpeningBadHit { get => _isSharpeningBadHit; set => _isSharpeningBadHit = value; }
     }
 }

@@ -191,8 +191,58 @@ namespace Progression
             {
                 _tutorialEventBus.OnSmeltingGoodHit += SmeltingGoodHit;
             }
+            
+            if (!_playerMetaData.TutorialInfo.IsForgingAfterSmelting)
+            {
+                _tutorialEventBus.OnForgingStarted += StartForgingAfterSmelting;
+            }
+            
+            if (!_playerMetaData.TutorialInfo.IsTradeStarted)
+            {
+                _tutorialEventBus.OnTradeStarted += TradeStarted;
+            }
+            
+            if (!_playerMetaData.TutorialInfo.IsTradeScreenOpened)
+            {
+                _tutorialEventBus.OnTradeScreenOpened += TradeScreenOpened;
+            }
+
+            if (!_playerMetaData.TutorialInfo.IsTradeGreenZone)
+            {
+                _tutorialEventBus.OnTradeGreenZone += TradeGreenZone;
+            }
+
+            if (!_playerMetaData.TutorialInfo.IsTradeFinished)
+            {
+                _tutorialEventBus.OnTradeFinished += TradeFinished;
+            }
+
+            if (!_playerMetaData.TutorialInfo.IsHardeningStarted)
+            {
+                _tutorialEventBus.OnHardeningStarted += HardeningStarted;
+            }
+
+            if (!_playerMetaData.TutorialInfo.IsHardeningGoodHit)
+            {
+                _tutorialEventBus.OnHardeningGoodHit += HardeningGoodHit;
+            }
+
+            if (!_playerMetaData.TutorialInfo.IsSharpeningStarted)
+            {
+                _tutorialEventBus.OnSharpeningStarted += SharpeningStarted;
+            }
+
+            if (!_playerMetaData.TutorialInfo.IsSharpeningGoodHit)
+            {
+                _tutorialEventBus.OnSharpeningGoodHit += SharpeningGoodHit;
+            }
+
+            if (!_playerMetaData.TutorialInfo.IsSharpeningBadHit)
+            {
+                _tutorialEventBus.OnSharpeningBadHit += SharpeningBadHit;
+            }
         }
-        
+
         private void ClientActivated()
         {
             _tutorialView.TutorialStartedPanel.SetActive(false);
@@ -391,22 +441,179 @@ namespace Progression
 
         private void AdditionalStagesBought()
         {
-            throw new System.NotImplementedException();
+            _tutorialEventBus.OnAdditionalStagesBought -= AdditionalStagesBought;
+            _playerMetaData.TutorialInfo.IsAdditionalStagesBought = true;
+            _tutorialView.AdditionalStageAddedTutorialPanel.SetActive(true);
+            SetBlocker(_tutorialView.Blocker5);
         }
 
         private void SmeltingStarted()
         {
-            throw new System.NotImplementedException();
+            Time.timeScale = 0;
+            _tutorialEventBus.OnSmeltingStarted -= SmeltingStarted;
+            _playerMetaData.TutorialInfo.IsSmeltingStarted = true;
+            _tutorialView.SmeltingStartedTutorialPanel.SetActive(true);
+            _tutorialView.SmeltingContinueButton.Button.onClick.AddListener(SmeltingContinue);
+        }
+
+        private void SmeltingContinue()
+        {
+            Time.timeScale = 1;
+            _tutorialView.SmeltingStartedTutorialPanel.SetActive(false);
         }
 
         private void SmeltingNearTrigger()
         {
-            throw new System.NotImplementedException();
+            Time.timeScale = 0;
+            _tutorialEventBus.OnSmeltingNearTrigger -= SmeltingNearTrigger;
+            _playerMetaData.TutorialInfo.IsSmeltingNearTrigger = true;
+            _tutorialView.SmeltingNearTriggerTutorialPanel.SetActive(true);
+            _tutorialEventBus.OnSmeltingNearTriggerHit += ContinueSmelting;
+
+        }
+
+        private void ContinueSmelting()
+        {
+            Time.timeScale = 1;
+            _tutorialEventBus.OnSmeltingNearTriggerHit -= ContinueSmelting;
+            _tutorialView.SmeltingNearTriggerTutorialPanel.SetActive(false);
         }
 
         private void SmeltingGoodHit()
         {
-            throw new System.NotImplementedException();
+            Time.timeScale = 0;
+            _tutorialEventBus.OnSmeltingGoodHit -= SmeltingGoodHit;
+            _playerMetaData.TutorialInfo.IsSmeltingGoodHit = true;
+            _tutorialView.SmeltingGoodHitTutorialPanel.SetActive(true);
+            _tutorialView.SmeltingContinueButton2.Button.onClick.AddListener(ContinueSmelting2);
+        }
+        
+        private void ContinueSmelting2()
+        {
+            Time.timeScale = 1;
+            _tutorialView.SmeltingGoodHitTutorialPanel.SetActive(false);
+            _tutorialView.SmeltingContinueButton2.Button.onClick.RemoveAllListeners();
+        }
+        
+        private void StartForgingAfterSmelting()
+        {
+            if (_playerMetaData.TutorialInfo.IsSmeltingGoodHit)
+            {
+                _tutorialEventBus.OnForgingStarted -= StartForgingAfterSmelting;
+                _playerMetaData.TutorialInfo.IsForgingAfterSmelting = true;
+                _tutorialView.ForgingAfterSmeltingTutorialPanel.SetActive(true);
+            }
+        }
+
+        private void TradeStarted()
+        {
+            _tutorialEventBus.OnTradeStarted -= TradeStarted;
+            _playerMetaData.TutorialInfo.IsTradeStarted = true;
+            _tutorialView.TradeStartTutorialPanel.SetActive(true);
+        }
+        
+        private void TradeScreenOpened()
+        {
+            Time.timeScale = 0;
+            _tutorialEventBus.OnTradeScreenOpened -= TradeScreenOpened;
+            _playerMetaData.TutorialInfo.IsTradeScreenOpened = true;
+            _tutorialView.TradeStartTutorialPanel.SetActive(false);
+            _tutorialView.TradeScreenTutorialPanel.SetActive(true);
+            _tutorialView.TradeScreenContinueButton.Button.onClick.AddListener(ContinueTrade);
+        }
+
+        private void ContinueTrade()
+        {
+            _tutorialView.TradeScreenTutorialPanel.SetActive(false);
+            _tutorialView.TradeGreenZoneTutorialPanel.SetActive(false);
+            _tutorialView.TradeScreenContinueButton.Button.onClick.RemoveAllListeners();
+            _tutorialView.TradeScreenContinueButton2.Button.onClick.RemoveAllListeners();
+            Time.timeScale = 1;
+        }
+
+        private void TradeGreenZone()
+        {
+            Time.timeScale = 0;
+            _tutorialEventBus.OnTradeGreenZone -= TradeGreenZone;
+            _playerMetaData.TutorialInfo.IsTradeGreenZone = true;
+            _tutorialView.TradeGreenZoneTutorialPanel.SetActive(true);
+            _tutorialView.TradeScreenContinueButton2.Button.onClick.AddListener(ContinueTrade);
+        }
+
+        private void TradeFinished()
+        {
+            _tutorialEventBus.OnTradeFinished -= TradeFinished;
+            _playerMetaData.TutorialInfo.IsTradeFinished = true;
+            _tutorialView.TradeFinishTutorialPanel.SetActive(true);
+        }
+
+        private void HardeningStarted()
+        {
+            Time.timeScale = 0;
+            _tutorialEventBus.OnHardeningStarted -= HardeningStarted;
+            _playerMetaData.TutorialInfo.IsHardeningStarted = true;
+            _tutorialView.HardeningStartTutorialPanel.SetActive(true);
+            _tutorialView.HardeningContinueButton.Button.onClick.AddListener(HardeningContinue);
+        }
+
+        private void HardeningContinue()
+        {
+            Time.timeScale = 1;
+            _tutorialView.HardeningStartTutorialPanel.SetActive(false);
+            _tutorialView.HardeningGoodHitTutorialPanel.SetActive(false);
+            _tutorialView.HardeningContinueButton.Button.onClick.RemoveAllListeners();
+            _tutorialView.HardeningContinueButton2.Button.onClick.RemoveAllListeners();
+        }
+
+        private void HardeningGoodHit()
+        {
+            Time.timeScale = 0;
+            _tutorialEventBus.OnHardeningGoodHit -= HardeningGoodHit;
+            _playerMetaData.TutorialInfo.IsHardeningGoodHit = true;
+            _tutorialView.HardeningGoodHitTutorialPanel.SetActive(true);
+            _tutorialView.HardeningContinueButton2.Button.onClick.AddListener(HardeningContinue);
+        }
+
+        private void SharpeningStarted()
+        {
+            Time.timeScale = 0;
+            _tutorialEventBus.OnSharpeningStarted -= SharpeningStarted;
+            _playerMetaData.TutorialInfo.IsSharpeningStarted = true;
+            _tutorialView.SharpeningStartTutorialPanel.SetActive(true);
+            _tutorialView.SharpeningContinueButton.Button.onClick.AddListener(SharpeningContinue);
+        }
+
+        private void SharpeningContinue()
+        {
+            Time.timeScale = 1;
+            _tutorialView.SharpeningStartTutorialPanel.SetActive(false);
+            _tutorialView.SharpeningGoodHitTutorialPanel.SetActive(false);
+            _tutorialView.SharpeningBadHitTutorialPanel.SetActive(false);
+            _tutorialView.SharpeningContinueButton.Button.onClick.RemoveAllListeners();
+            _tutorialView.SharpeningContinue2Button.Button.onClick.RemoveAllListeners();
+            _tutorialView.SharpeningContinue3Button.Button.onClick.RemoveAllListeners();
+        }
+
+        private void SharpeningGoodHit()
+        {
+            Time.timeScale = 0;
+            _tutorialEventBus.OnSharpeningGoodHit -= SharpeningGoodHit;
+            _tutorialEventBus.OnSharpeningBadHit -= SharpeningBadHit;
+            _playerMetaData.TutorialInfo.IsSharpeningGoodHit = true;
+            _playerMetaData.TutorialInfo.IsSharpeningBadHit = true;
+            _tutorialView.SharpeningGoodHitTutorialPanel.SetActive(true);
+            _tutorialView.SharpeningContinue2Button.Button.onClick.AddListener(SharpeningContinue);
+        }
+
+        private void SharpeningBadHit()
+        {
+            Time.timeScale = 0;
+            _tutorialEventBus.OnSharpeningGoodHit -= SharpeningGoodHit;
+            _tutorialEventBus.OnSharpeningBadHit -= SharpeningBadHit;
+            _playerMetaData.TutorialInfo.IsSharpeningBadHit = true;
+            _playerMetaData.TutorialInfo.IsSharpeningGoodHit = true;
+            _tutorialView.SharpeningBadHitTutorialPanel.SetActive(true);
+            _tutorialView.SharpeningContinue3Button.Button.onClick.AddListener(SharpeningContinue);
         }
         
 

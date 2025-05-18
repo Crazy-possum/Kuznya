@@ -93,6 +93,7 @@ namespace GameCoreModule
 
         private void ShowForgingScreen(float forgingBonus)
         {
+            _tutorialEventBus.OnForgingStarted?.Invoke();
             ShowCurrentScreen(_canvasList.ForgingCanvas);
         }
         

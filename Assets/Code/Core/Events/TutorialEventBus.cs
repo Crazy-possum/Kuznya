@@ -31,7 +31,19 @@ namespace GameCoreModule
         private Action _onAdditionalStagesBought;
         private Action _onSmeltingStarted;
         private Action _onSmeltingNearTrigger;
+        private Action _onSmeltingNearTriggerHit;
         private Action _onSmeltingGoodHit;
+        private Action _onForgingAfterSmelting;
+        private Action _onTradeStarted;
+        private Action _onTradeScreenOpened;
+        private Action _onTradeGreenZone;
+        private Action _onTradeFinished;
+        private Action _onHardeningStarted;
+        private Action _onHardeningGoodHit;
+        private Action _onSharpeningStarted;
+        private Action _onSharpeningGoodHit;
+        private Action _onSharpeningBadHit;
+        
         
         public Action OnGameStarted { get => _onGameStarted; set => _onGameStarted = value; }
         public Action OnTutorialStarted { get => _onTutorialStarted; set => _onTutorialStarted = value; }
@@ -59,7 +71,18 @@ namespace GameCoreModule
         public Action OnAdditionalStagesBought { get => _onAdditionalStagesBought; set => _onAdditionalStagesBought = value; }
         public Action OnSmeltingStarted { get => _onSmeltingStarted; set => _onSmeltingStarted = value; }
         public Action OnSmeltingNearTrigger { get => _onSmeltingNearTrigger; set => _onSmeltingNearTrigger = value; }
+        public Action OnSmeltingNearTriggerHit { get => _onSmeltingNearTriggerHit; set => _onSmeltingNearTriggerHit = value; }
         public Action OnSmeltingGoodHit { get => _onSmeltingGoodHit; set => _onSmeltingGoodHit = value; }
-
+        public Action OnForgingAfterSmelting { get => _onForgingAfterSmelting; set => _onForgingAfterSmelting = value; }
+        public Action OnTradeStarted { get => _onTradeStarted; set => _onTradeStarted = value; }
+        public Action OnTradeScreenOpened { get => _onTradeScreenOpened; set => _onTradeScreenOpened = value; }
+        public Action OnTradeGreenZone { get => _onTradeGreenZone; set => _onTradeGreenZone = value; }
+        public Action OnTradeFinished { get => _onTradeFinished; set => _onTradeFinished = value; }
+        public Action OnHardeningStarted { get => _onHardeningStarted; set => _onHardeningStarted = value; }
+        public Action OnHardeningGoodHit { get => _onHardeningGoodHit; set => _onHardeningGoodHit = value; }
+        public Action OnSharpeningStarted { get => _onSharpeningStarted; set => _onSharpeningStarted = value; }
+        public Action OnSharpeningGoodHit { get => _onSharpeningGoodHit; set => _onSharpeningGoodHit = value; }
+        public Action OnSharpeningBadHit { get => _onSharpeningBadHit; set => _onSharpeningBadHit = value; }
+        
     }
 }

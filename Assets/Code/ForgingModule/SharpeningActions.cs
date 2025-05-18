@@ -20,6 +20,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private OrdersEventBus _ordersEventBus;
     private ProgressionData _progressionData;
     private GameEventBus _gameEventBus;
+    private TutorialEventBus _tutorialEventBus;
 
     private UpgradesMetaData _upgradesMetaData;
     private PlayerMetaData _playerMetaData;
@@ -37,7 +38,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     [Inject]
     public void Construct(SharpeningUIView uiView, ForgingEventBus forgingEventBus,
         StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus, ProgressionData progressionData,
-        GameEventBus gameEventBus)
+        GameEventBus gameEventBus, TutorialEventBus tutorialEventBus)
     {
         _uiView = uiView;
         _eventBus = forgingEventBus;
@@ -45,6 +46,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         _ordersEventBus = ordersEventBus;
         _progressionData = progressionData;
         _gameEventBus = gameEventBus;
+        _tutorialEventBus = tutorialEventBus;
     }
     
     
@@ -138,17 +140,20 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
             if (isInGreenZone)
             {
                 _currentScore += _basicAddingScore;
+                _tutorialEventBus.OnSharpeningGoodHit?.Invoke();
                 //Debug.Log($"{_basicAddingScore} added to score");
                 addingScore = _basicAddingScore;
             }
             else if (isInYellowZone)
             {
                 _currentScore += _basicAddingScore / 2;
+                _tutorialEventBus.OnSharpeningBadHit?.Invoke();
                 //Debug.Log($"{_basicAddingScore / 2} added to score");
                 addingScore = _basicAddingScore / 2;
             }
             else
             {
+                _tutorialEventBus.OnSharpeningBadHit?.Invoke();
                 //Debug.Log($"Nothing added to score");
             }
             if (_currentProgress >= _currentMaxProgress)
@@ -221,6 +226,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     {
         if (_playerMetaData.Unlocks.IsSharpeningUnlocked)
         {
+            _tutorialEventBus.OnSharpeningStarted?.Invoke();
             _currentScore = score;
             _currentProgress = 0;
             _isRunning = true;

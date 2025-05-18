@@ -29,6 +29,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     private OrdersEventBus _ordersEventBus;
     private ProgressionData _progressionData;
     private AudioEventBus _audioEventBus;
+    private TutorialEventBus _tutorialEventBus;
 
     private UpgradesMetaData _upgradesMetaData;
     private Timer _smeltingTimer;
@@ -45,7 +46,8 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
 
     [Inject]
     public void Construct(SmeltingView smeltingView, GameEventBus gameEventBus, StateEventsBus stateEvents,
-        OrdersEventBus ordersEventBus, ProgressionData progressionData, AudioEventBus audioEventBus)
+        OrdersEventBus ordersEventBus, ProgressionData progressionData, AudioEventBus audioEventBus,
+        TutorialEventBus tutorialEventBus)
     {
         _smeltingView = smeltingView;
         _gameEventBus = gameEventBus;
@@ -53,6 +55,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
         _ordersEventBus = ordersEventBus;
         _progressionData = progressionData;
         _audioEventBus = audioEventBus;
+        _tutorialEventBus = tutorialEventBus;
     }
     
     public void Initialisation()
@@ -119,11 +122,13 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     
     private void BellowsAction()
     {
+        _tutorialEventBus.OnSmeltingNearTriggerHit?.Invoke();
         _audioEventBus.OnPlaySound?.Invoke(AudioResourceID.Sound_Bellows);
         if (_triggeredSignalRect != null)
         {
             _temperature += TEMPERATURE_ADD_STEP;
             ClearTriggeredObject(_triggeredSignalRect.gameObject, true);
+            _tutorialEventBus.OnSmeltingGoodHit?.Invoke();
             _coolingTimer = new Timer(COOLING_TIME);
         }
         else
@@ -146,6 +151,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
                 _triggeredSignalRect = signalView;
                 _isTriggeredObjectSet = true;
                 //Debug.Log($"{_triggeredSignalRect.gameObject.GetInstanceID()} set");
+                _tutorialEventBus.OnSmeltingNearTrigger?.Invoke();
             }
 
         }
@@ -269,6 +275,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
         _temperatureTimer = null;
         _smeltingView.TemperatureSlider.maxValue = MAX_TEMPERATURE;
         _temperature = 0f;
+        _tutorialEventBus.OnSmeltingStarted?.Invoke();
     }
 
     private void SetupSignalTimer()
