@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7a258b61e1349546b7237b514938ac6, type: 3}
+  m_Name: CraftmanMan_2Config
+  m_EditorClassIdentifier: 
+  _name: "\u0413\u043E\u043D\u0447\u0430\u0440 \u041F\u0430\u0441\u0432\u0438\u043B\u044C"
+  _materialName: 2
+  _clientSprite: {fileID: 21300000, guid: 0d153ea8123e0124398d7a43303be12b, type: 3}
+  _orders: {fileID: 11400000, guid: eba7f72073fc0af4994bfbe21c2c8342, type: 2}
+  _clientType: 2

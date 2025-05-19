@@ -1,6 +1,7 @@
 ﻿using GameCoreModule;
 using MAEngine;
 using System.Collections.Generic;
+using Orders;
 using UnityEngine.UI;
 using Zenject;
 
@@ -12,14 +13,17 @@ namespace MainGUI
         private StateEventsBus _events;
         private ResultsEventBus _resultsEvents;
         private List<Button> _guiButtons;
+        private OrdersEventBus _ordersEventBus;
         
 
         [Inject]
-        public void Construct(GUIView view, StateEventsBus events, ResultsEventBus resultsEvents)
+        public void Construct(GUIView view, StateEventsBus events, ResultsEventBus resultsEvents,
+            OrdersEventBus ordersEvents)
         {
             _view = view;
             _events = events;
             _resultsEvents = resultsEvents;
+            _ordersEventBus = ordersEvents;
         }
 
         public void Initialisation()
@@ -28,7 +32,7 @@ namespace MainGUI
             _view.OrdersButton.onClick.AddListener(() => ShowOrders());
             _view.ShopButton.onClick.AddListener(() => ShowShop());
             _view.MaterialsButton.onClick.AddListener(() => ShowMaterials());
-            _events.OnSmeltingStateActivate += ActivateOrderForging;
+            _ordersEventBus.OnOrderStarted += ActivateOrderForging;
             _resultsEvents.OnResultsFinished += StopOrderForging;
             InitializeButtonsList();
             ShowDialogue();
@@ -51,7 +55,7 @@ namespace MainGUI
             _view.OrdersButton.onClick.RemoveListener(() => ShowOrders());
             _view.ShopButton.onClick.RemoveListener(() => ShowShop());
             _view.MaterialsButton.onClick.RemoveListener(() => ShowMaterials());
-            _events.OnSmeltingStateActivate -= ActivateOrderForging;
+            _ordersEventBus.OnOrderStarted -= ActivateOrderForging;
             _resultsEvents.OnResultsFinished -= StopOrderForging;
         }
 
@@ -93,7 +97,7 @@ namespace MainGUI
         
         private void ShowNavigationButtons(int money)
         {
-            ShowDialogue();
+            ShowOrders();
             _view.NavigationPanel.gameObject.SetActive(true);
         }
         
@@ -102,7 +106,7 @@ namespace MainGUI
             _view.NavigationPanel.gameObject.SetActive(false);
         }
 
-        private void ActivateOrderForging()
+        private void ActivateOrderForging(ActiveOrder activeOrder)
         {
             HideNavigationButtons();
             _view.ClientsQueueTransform.gameObject.SetActive(false);

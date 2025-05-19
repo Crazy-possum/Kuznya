@@ -16,6 +16,7 @@ namespace Economy
         private EconomyEventBus _economyEventBus;
         private StateEventsBus _stateEventsBus;
         private ProgressionData _progressionData;
+        private TutorialEventBus _tutorialEventBus;
 
         private ActiveOrder _currentOrder;
         private float _currentMultipler;
@@ -26,26 +27,45 @@ namespace Economy
         private TradeState _tradeState;
         private Random _random;
         private UpgradesMetaData _upgradesMetaData;
+        private PlayerMetaData _playerMetaData;
         
 
         [Inject]
         public void Construct(TradeView tradeView, EconomyEventBus economyEventBus,
-            StateEventsBus stateEventsBus, ProgressionData progressionData)
+            StateEventsBus stateEventsBus, ProgressionData progressionData,
+            TutorialEventBus tutorialEventBus)
         {
             _tradeView = tradeView;
             _economyEventBus = economyEventBus;
             _stateEventsBus = stateEventsBus;
             _progressionData = progressionData;
+            _tutorialEventBus = tutorialEventBus;
         }
         
         public void Initialisation()
         {
             _upgradesMetaData = _progressionData.UpgradesMeta;
+            _playerMetaData = _progressionData.PlayerMetaData;
             _tradeView.TradeButton.onClick.AddListener(StartTrading);
             _tradeView.ConfirmButton.onClick.AddListener(SubmitOrder);
             _tradeView.TradeClickerButton.onClick.AddListener(AddTradingScore);
             _economyEventBus.OnOrderSubmited += SetCurrentOrder;
+            _stateEventsBus.OnTradeStateActivate += SetTradeButtonState;
+            _tradeView.TradeButton.gameObject.SetActive(false);
             _random = new Random();
+        }
+
+        private void SetTradeButtonState()
+        {
+            if (_playerMetaData.Unlocks.IsTradeUnlocked)
+            {
+                _tutorialEventBus.OnTradeStarted?.Invoke();
+                _tradeView.TradeButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                _tradeView.TradeButton.gameObject.SetActive(false);
+            }
         }
 
         public void Cleanup()
@@ -76,6 +96,7 @@ namespace Economy
                     _isTrading = false;
                     SetTradedState(true);
                     _tradeView.HideTradePanel();
+                    _tutorialEventBus.OnTradeFinished?.Invoke();
                 }
                 UpdateUI();
                 
@@ -147,6 +168,7 @@ namespace Economy
             }
             else if (_tradeState == TradeState.GreenZone)
             {
+                _tutorialEventBus.OnTradeGreenZone?.Invoke();
                 _currentTradeValue += 3;
             }
             else if (_tradeState == TradeState.RedZone)
@@ -162,16 +184,21 @@ namespace Economy
             int reward = GetRewardValue();
             _economyEventBus.OnAddMoney?.Invoke((int)(reward));
             _stateEventsBus.OnOrdersStateActivate?.Invoke();
+            _tradeView.AdditionRewardText.gameObject.SetActive(false);
+            _tradeView.RewardText.gameObject.SetActive(false);
         }
 
         private void StartTrading()
         {
+            _tutorialEventBus.OnTradeScreenOpened?.Invoke();
             _isTrading = true;
             _tradingTimeLeft = 20;
             _tradeTickTimer = new Timer(1.5f);
             _tradeState = TradeState.WhiteZone;
             _currentTradeValue = 0;
             _tradeView.ShowTradePanel();
+            _tradeView.AdditionRewardText.gameObject.SetActive(true);
+            _tradeView.RewardText.gameObject.SetActive(true);
         }
         
         private void SetCurrentOrder(ActiveOrder order)
@@ -197,10 +224,24 @@ namespace Economy
             {
                 tradeMultipler = _upgradesMetaData.Upgrades[UpgradeName.TradeSpeechcraft].GetUpgradeData();
             }
-            int addingCost = (int)(basicCost * _currentMultipler) + 
+
+            int addingCost = (int)(basicCost * _currentMultipler) +
                              (int)Mathf.Ceil((basicCost * _currentMultipler) * tradeMultipler);
             int reward = _currentOrder.Reward + addingCost;
-            _tradeView.RewardText.text = reward.ToString();
+            _tradeView.FullRewardText.text = reward.ToString();
+            _tradeView.RewardText.text = _currentOrder.Reward.ToString();
+            string addingCostString = ""; 
+            if (addingCost >= 0)
+            {
+                addingCostString = $" + {addingCost}";
+                _tradeView.AdditionRewardText.color = _tradeView.GoodColor;
+            }
+            else
+            {
+                addingCostString = $" - {Mathf.Abs(addingCost)}";
+                _tradeView.AdditionRewardText.color = _tradeView.BadColor;
+            }
+            _tradeView.AdditionRewardText.text = addingCostString;
             if (addingCost > 0)
             {
                 _tradeView.Multipler.text = $"+ {addingCost}";

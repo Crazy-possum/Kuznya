@@ -19,6 +19,7 @@ namespace MainGUI
         [SerializeField] private GameObject _orderTimePanel;
         [SerializeField] private Slider _orderTimeSlider;
         [SerializeField] private GameObject _uiBlockingPanel;
+        [SerializeField] private Button _addMoneyButton;
 
         public Button DialogueButton { get => _dialogueButton; }
         public Button OrdersButton { get => _ordersButton; }
@@ -33,6 +34,7 @@ namespace MainGUI
         public GameObject OrderTimePanel { get => _orderTimePanel; }
         public Slider OrderTimeSlider { get => _orderTimeSlider; }
         public GameObject UIBlockingPanel { get => _uiBlockingPanel; }
+        public Button AddMoneyButton { get => _addMoneyButton; }
         
     }
 }

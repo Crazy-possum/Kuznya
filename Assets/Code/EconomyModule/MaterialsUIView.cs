@@ -45,11 +45,21 @@ namespace Economy
 
         public void AddTextToList(CountTextView text)
         {
-            if (_addingCountTextList.Count >= _maxCountTexts)
+            if (_addingCountTextList.Count > 0)
             {
-                GameObject textObject = _addingCountTextList[0].gameObject;
-                _addingCountTextList.Remove(_addingCountTextList[0]);
-                Destroy(textObject);
+                if (_addingCountTextList[0] != null)
+                {
+                    if (_addingCountTextList.Count >= _maxCountTexts)
+                    {
+                        GameObject textObject = _addingCountTextList[0].gameObject;
+                        _addingCountTextList.Remove(_addingCountTextList[0]);
+                        Destroy(textObject);
+                    }
+                }
+                else
+                {
+                    _addingCountTextList.Remove(_addingCountTextList[0]);
+                }
             }
             _addingCountTextList.Add(text);
         }

@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: +50%
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 930c1eddcbd334a42a56604df3c682b2, type: 2}
-  m_sharedMaterial: {fileID: -3210774679722826613, guid: 930c1eddcbd334a42a56604df3c682b2, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f9f91fc13fb1d504cb04bab3da031f1e, type: 2}
+  m_sharedMaterial: {fileID: 5366964401342571148, guid: f9f91fc13fb1d504cb04bab3da031f1e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -308,6 +308,10 @@ PrefabInstance:
     - target: {fileID: 2404988682911862780, guid: 57015827f86bbce4da7681275cee7378, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538954208972251366, guid: 57015827f86bbce4da7681275cee7378, type: 3}
+      propertyPath: _buttonText
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8937157132758330716, guid: 57015827f86bbce4da7681275cee7378, type: 3}
       propertyPath: m_Sprite

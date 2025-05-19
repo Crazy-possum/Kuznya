@@ -16,6 +16,7 @@ namespace Orders
         private OrdersView _ordersView;
         private EconomyEventBus _economyEventBus;
         private GameEventBus _gameEventBus;
+        private TutorialEventBus _tutorialEventBus;
         
         private bool _isInventoryShowed;
         private Timer _removingMaterialLifetime;
@@ -24,11 +25,12 @@ namespace Orders
         
         [Inject]
         public void Construct(OrdersView orderView, EconomyEventBus economyEventBus,
-            GameEventBus gameEventBus)
+            GameEventBus gameEventBus, TutorialEventBus tutorialEventBus)
         {
             _ordersView = orderView;
             _economyEventBus = economyEventBus;
             _gameEventBus = gameEventBus;
+            _tutorialEventBus = tutorialEventBus;
         }
         
         public void Initialisation()
@@ -83,6 +85,7 @@ namespace Orders
         {
             _ordersView.MaterialsPanelRect.anchoredPosition = new Vector2(0, VISIBLE_POSITION_Y);
             _isInventoryShowed = true;
+            _tutorialEventBus.OnOrdersMaterialOpened?.Invoke();
         }
 
         private void HideInventory()

@@ -17,6 +17,10 @@ namespace Economy
         [SerializeField] private TMP_Text _rewardText;
         [SerializeField] private Image _clientImage;
         [SerializeField] private TMP_Text _clientName;
+        [SerializeField] private TMP_Text _additionRewardText;
+        [SerializeField] private TMP_Text _fullRewardText;
+        [SerializeField] private Color _goodColor;
+        [SerializeField] private Color _badColor;
 
         public GameObject DialoguePanel => _dialoguePanel;
         public GameObject TradePanel => _tradePanel;
@@ -29,6 +33,10 @@ namespace Economy
         public TMP_Text RewardText => _rewardText;
         public Image ClientImage => _clientImage;
         public TMP_Text ClientName => _clientName;
+        public TMP_Text AdditionRewardText => _additionRewardText;
+        public TMP_Text FullRewardText => _fullRewardText;
+        public Color GoodColor => _goodColor;
+        public Color BadColor => _badColor;
         
         public void ShowTradePanel()
         {

@@ -94,6 +94,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textRectTransform: {fileID: 9134634637354655862}
   _text: {fileID: 2774885273101492091}
+  _textColor: {r: 1, g: 0.6111827, b: 0, a: 1}
+  _goodTextColor: {r: 0.7372549, g: 0.14117646, b: 0.1871664, a: 1}
 --- !u!114 &5028626118260816662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,8 +109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _textRectTransform: {fileID: 9134634637354655862}
-  _flyUpSpeed: 200
-  _fallSpeed: 100
   _xOffset: 300
   _lifetime: 2
 --- !u!50 &6535488705717876141
@@ -250,15 +250,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: + 999
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 849d8e5cb94ff214fb2957d1980b06e4, type: 2}
-  m_sharedMaterial: {fileID: -1817630771259951494, guid: 849d8e5cb94ff214fb2957d1980b06e4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f9f91fc13fb1d504cb04bab3da031f1e, type: 2}
+  m_sharedMaterial: {fileID: 5366964401342571148, guid: f9f91fc13fb1d504cb04bab3da031f1e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190335
-  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
+    rgba: 4288347904
+  m_fontColor: {r: 0, g: 1, b: 0.6052079, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

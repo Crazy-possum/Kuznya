@@ -10,12 +10,15 @@ namespace GameCoreModule
         private StateEventsBus _stateEventsBus;
         private CanvasList _canvasList;
         private List<GameObject> _screensList;
+        private TutorialEventBus _tutorialEventBus;
 
         [Inject]
-        public void Construct(StateEventsBus stateEventsBus, CanvasList canvasList)
+        public void Construct(StateEventsBus stateEventsBus, CanvasList canvasList,
+            TutorialEventBus tutorialEventBus)
         {
             _stateEventsBus = stateEventsBus;
             _canvasList = canvasList;
+            _tutorialEventBus = tutorialEventBus;
         }
 
         public void Initialisation()
@@ -72,21 +75,25 @@ namespace GameCoreModule
 
         private void ShowOrdersScreen()
         {
+            _tutorialEventBus.OnOrdersScreenOpened?.Invoke();
             ShowCurrentScreen(_canvasList.OrdersCanvas);
         }
 
         private void ShowShopScreen()
         {
+            _tutorialEventBus.OnShopScreenOpened?.Invoke();
             ShowCurrentScreen(_canvasList.ShopCanvas);
         }
 
         private void ShowMaterialsScreen()
         {
+            _tutorialEventBus.OnMaterialScreenOpened?.Invoke();
             ShowCurrentScreen(_canvasList.MaterialsCanvas);
         }
 
         private void ShowForgingScreen(float forgingBonus)
         {
+            _tutorialEventBus.OnForgingStarted?.Invoke();
             ShowCurrentScreen(_canvasList.ForgingCanvas);
         }
         

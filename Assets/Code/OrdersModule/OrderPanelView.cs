@@ -21,6 +21,7 @@ public class OrderPanelView : MonoBehaviour
 
     [SerializeField] private Sprite _inProcessSprite;
     [SerializeField] private Sprite _comletedSprite;
+    [SerializeField] private GameObject _lockedVisualPanel;
     private ActiveOrder _activeOrder;
 
     public GameObject ActiveOrderPanel { get => _activeOrderPanel; }
@@ -34,6 +35,7 @@ public class OrderPanelView : MonoBehaviour
     public OrderMaterialView OrderMaterial2View { get => _orderMaterial2View; }
     public OrderMaterialView OrderMaterial3View { get => _orderMaterial3View; }
     public ActiveOrder ActiveOrder { get => _activeOrder; set => _activeOrder = value; }
+    public GameObject LockedVisualPanel { get => _lockedVisualPanel; }
     
     public void SetOrderPanelState(bool isActive)
     {
@@ -64,7 +66,6 @@ public class OrderPanelView : MonoBehaviour
 
     public void SetCompletionState(bool isCompleted)
     {
-        Debug.Log(isCompleted);
         if (_activeOrder != null)
         {
             if (_activeOrder.CheckIsOrderCountCompleted())
@@ -94,5 +95,10 @@ public class OrderPanelView : MonoBehaviour
         {
             _orderCountText.gameObject.SetActive(false);
         }
+    }
+
+    public void SetLockedState(bool isLocked)
+    {
+        _lockedVisualPanel.SetActive(isLocked);
     }
 }

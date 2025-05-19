@@ -13,18 +13,21 @@ namespace Economy
         private ProgressionEvents _progressionEvents;
         private ShopView _shopView;
         private UpgradesPool _upgradesPool;
+        private TutorialEventBus _tutorialEventBus;
         
         private UpgradesMetaData _upgradesMetaData;
         
         [Inject]
         public void Construct(EconomyEventBus economyEventBus, ProgressionData progressionData,
-            ProgressionEvents progressionEvents, ShopView shopView, UpgradesPool upgradesPool)
+            ProgressionEvents progressionEvents, ShopView shopView, UpgradesPool upgradesPool,
+            TutorialEventBus tutorialEventBus)
         {
             _economyEventBus = economyEventBus;
             _progressionData = progressionData;
             _progressionEvents = progressionEvents;
             _shopView = shopView;
             _upgradesPool = upgradesPool;
+            _tutorialEventBus = tutorialEventBus;
         }
         
         public void Initialisation()
@@ -56,6 +59,8 @@ namespace Economy
             {
                 return;
             }
+            
+            _tutorialEventBus.OnUpgradeBought?.Invoke();
 
             switch (upgradeName)
             {
@@ -107,10 +112,10 @@ namespace Economy
                     SetClientsPrestigeUpgrade(upgradeView);
                     break;
                 case UpgradeName.AutomaticWholesale:
-                    SetWhoresaleAutomationUpgrade(upgradeView);
+                    SetWholesaleAutomationUpgrade(upgradeView);
                     break;
                 case UpgradeName.WholesaleFrequency:
-                    SetupWhoresaleFrequencyUpgrade(upgradeView);
+                    SetupWholesaleFrequencyUpgrade(upgradeView);
                     break;
                 case UpgradeName.SmeltingHeat:
                     SetSmeltingHeatUpgrade(upgradeView);
@@ -125,6 +130,7 @@ namespace Economy
                     SetSharpeningZonesActions(upgradeView);
                     break;
                 case UpgradeName.AdditionalSteps:
+                    _tutorialEventBus.OnAdditionalStagesBought?.Invoke();
                     SetAdditionalStepsUpgrade(upgradeView);
                     break;
                 default:
@@ -605,6 +611,9 @@ namespace Economy
                 case 3 :
                     value = 3f;
                     break;
+                case 4 :
+                    value = 4f;
+                    break;
                 default:
                     Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
                     break;
@@ -687,7 +696,7 @@ namespace Economy
             SetUpgradeValue(upgradeView, value);
         }
         
-        private void SetupWhoresaleFrequencyUpgrade(UpgradeView upgradeView)
+        private void SetupWholesaleFrequencyUpgrade(UpgradeView upgradeView)
         {
             float value = 0;
             switch (upgradeView.CurrentLevel)
@@ -717,7 +726,7 @@ namespace Economy
             SetUpgradeValue(upgradeView, value);
         }
         
-        private void SetWhoresaleAutomationUpgrade(UpgradeView upgradeView)
+        private void SetWholesaleAutomationUpgrade(UpgradeView upgradeView)
         {
             float value = 0;
             switch (upgradeView.CurrentLevel)

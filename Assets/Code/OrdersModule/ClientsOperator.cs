@@ -16,6 +16,7 @@ namespace Orders
         private ProgressionData _progressionData;
         private OrdersEventBus _ordersEventBus;
         private GameConfig _gameConfig;
+        private TutorialEventBus _tutorialEventBus;
 
         private OrdersMetaData _ordersMetaData;
         private UpgradesMetaData _upgradesMetaData;
@@ -29,12 +30,13 @@ namespace Orders
         [Inject]
         public void Construct(ClientsPoolConfig clientsPoolConfig, 
             ProgressionData progressionData,
-            OrdersEventBus ordersEventBus, GameConfig gameConfig)
+            OrdersEventBus ordersEventBus, GameConfig gameConfig, TutorialEventBus tutorialEventBus)
         {
             _clientsPoolConfig = clientsPoolConfig;
             _progressionData = progressionData;
             _ordersEventBus = ordersEventBus;
             _gameConfig = gameConfig;
+            _tutorialEventBus = tutorialEventBus;
         }
 
         public void Initialisation()
@@ -44,6 +46,10 @@ namespace Orders
             _ordersMetaData = _progressionData.OrdersMeta;
             _upgradesMetaData = _progressionData.UpgradesMeta;
             _playerMetaData = _progressionData.PlayerMetaData;
+            if (!_playerMetaData.TutorialInfo.IsClientActivated)
+            {
+                _tutorialEventBus.OnTutorialStartConfirmed += AddTutorialClient;
+            }
             UpdateTimer();
             LoadClients();
         }
@@ -91,6 +97,12 @@ namespace Orders
             }
         }
 
+        private void AddTutorialClient()
+        {
+            AddNewClient();
+            _tutorialEventBus.OnTutorialStartConfirmed -= AddTutorialClient;
+        }
+
         private void SetActiveClient()
         {
             if (!_isClientActive)
@@ -100,6 +112,7 @@ namespace Orders
                 {
                     _isClientActive = true;
                     _ordersEventBus.OnClientActivated?.Invoke();
+                    _tutorialEventBus.OnClientActivated?.Invoke();
                 }
             }
         }
@@ -161,7 +174,7 @@ namespace Orders
             float tier2Probability = 0.3f;
             float tier3Probability = 0.2f;
             float tier4Probability = 0.2f;
-            float tier5Probability = 0.1f;
+            //float tier5Probability = 0.1f;
 
             if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.ClientsPrestige))
             {
@@ -172,35 +185,30 @@ namespace Orders
                         tier2Probability = 0.285f;
                         tier3Probability = 0.2f;
                         tier4Probability = 0.215f;
-                        tier5Probability = 0.115f;
                         break;
                     case 2f:
                         tier1Probability = 0.17f;
                         tier2Probability = 0.27f;
                         tier3Probability = 0.2f;
                         tier4Probability = 0.23f;
-                        tier5Probability = 0.13f;
                         break;
                     case 3f:
                         tier1Probability = 0.155f;
                         tier2Probability = 0.255f;
                         tier3Probability = 0.2f;
                         tier4Probability = 0.245f;
-                        tier5Probability = 0.145f;
                         break;
                     case 4f:
                         tier1Probability = 0.14f;
                         tier2Probability = 0.24f;
                         tier3Probability = 0.2f;
                         tier4Probability = 0.27f;
-                        tier5Probability = 0.17f;
                         break;
                     case 5f:
                         tier1Probability = 0.125f;
                         tier2Probability = 0.225f;
                         tier3Probability = 0.2f;
                         tier4Probability = 0.285f;
-                        tier5Probability = 0.185f;
                         break;
                 }
             }

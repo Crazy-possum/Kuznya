@@ -13,6 +13,8 @@ namespace Progression
         [SerializeField] private SerializableDictionary<MaterialName, int> _materials;
         [SerializeField] private int _currentMaxMaterialStorage;
         [SerializeField] private float _materialAddingDeltaTime;
+        [SerializeField] private Unlocks _unlocks;
+        [SerializeField] private TutorialInfo _tutorialInfo;
 
         private StorageMaterialsConfig _storageMaterialsConfig;
 
@@ -22,9 +24,12 @@ namespace Progression
         public int CurrentMaxMaterialStorage { get => _currentMaxMaterialStorage; set => _currentMaxMaterialStorage = value; }
         public float MaterialAddingDeltaTime { get => _materialAddingDeltaTime; set => _materialAddingDeltaTime = value; }
         public StorageMaterialsConfig StorageMaterialsConfig { get => _storageMaterialsConfig; set => _storageMaterialsConfig = value; }
+        public Unlocks Unlocks { get => _unlocks; set => _unlocks = value; }
+        public TutorialInfo TutorialInfo { get => _tutorialInfo; set => _tutorialInfo = value; }
 
         public void Initialize(SaveLoadEventBus saveLoadEventBus)
         {
+            _tutorialInfo = new TutorialInfo();
             LoadData(saveLoadEventBus);
         }
 

@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 569b809d6bf644b69087e638a39047b7, type: 3}
+  m_Name: SpearMaterialsContainer
+  m_EditorClassIdentifier: 
+  _itemSpritesDict:
+    Dictionary:
+    - Key: 1
+      Value:
+        _stage0Sprite: {fileID: 21300000, guid: 9ff7113e584104f438bc9dd178432ef0, type: 3}
+        _stage1Sprite: {fileID: 21300000, guid: 36dd919b7c872e342856a0f7a66906c8, type: 3}
+        _stage2Sprite: {fileID: 21300000, guid: 119752c3c4b8a424fbe1160611d9f8d6, type: 3}
+        _stage3Sprite: {fileID: 21300000, guid: 76ffd2647470dcd43a6a8771088a2175, type: 3}
+        _stage4Sprite: {fileID: 21300000, guid: 69287f8c6a7c93043bed843df410cde6, type: 3}
+        _orderSprite: {fileID: 21300000, guid: 44792e4d5910a9049b1cc9ddd802d435, type: 3}
+    - Key: 2
+      Value:
+        _stage0Sprite: {fileID: 21300000, guid: 9ff7113e584104f438bc9dd178432ef0, type: 3}
+        _stage1Sprite: {fileID: 21300000, guid: 36dd919b7c872e342856a0f7a66906c8, type: 3}
+        _stage2Sprite: {fileID: 21300000, guid: 119752c3c4b8a424fbe1160611d9f8d6, type: 3}
+        _stage3Sprite: {fileID: 21300000, guid: 1952275482d149a46ac7ecd68ee0a911, type: 3}
+        _stage4Sprite: {fileID: 21300000, guid: baea8799589bff449b5a445b219fd61d, type: 3}
+        _orderSprite: {fileID: 21300000, guid: 44792e4d5910a9049b1cc9ddd802d435, type: 3}
+    - Key: 3
+      Value:
+        _stage0Sprite: {fileID: 21300000, guid: 9ff7113e584104f438bc9dd178432ef0, type: 3}
+        _stage1Sprite: {fileID: 21300000, guid: 36dd919b7c872e342856a0f7a66906c8, type: 3}
+        _stage2Sprite: {fileID: 21300000, guid: bed58f71dfb9151438673e75249e7df7, type: 3}
+        _stage3Sprite: {fileID: 21300000, guid: f3048843dcdab7e46a728811b111767c, type: 3}
+        _stage4Sprite: {fileID: 21300000, guid: 794467816eda18e43aedf6ac31e58b00, type: 3}
+        _orderSprite: {fileID: 21300000, guid: 44792e4d5910a9049b1cc9ddd802d435, type: 3}
+    - Key: 4
+      Value:
+        _stage0Sprite: {fileID: 21300000, guid: 9ff7113e584104f438bc9dd178432ef0, type: 3}
+        _stage1Sprite: {fileID: 21300000, guid: 36dd919b7c872e342856a0f7a66906c8, type: 3}
+        _stage2Sprite: {fileID: 21300000, guid: 119752c3c4b8a424fbe1160611d9f8d6, type: 3}
+        _stage3Sprite: {fileID: 21300000, guid: 4dcc238a27195884fafcfaa887153517, type: 3}
+        _stage4Sprite: {fileID: 21300000, guid: f3c5d38f48304354b8081a40a8d259e0, type: 3}
+        _orderSprite: {fileID: 21300000, guid: 44792e4d5910a9049b1cc9ddd802d435, type: 3}
+    - Key: 5
+      Value:
+        _stage0Sprite: {fileID: 21300000, guid: 9ff7113e584104f438bc9dd178432ef0, type: 3}
+        _stage1Sprite: {fileID: 21300000, guid: 36dd919b7c872e342856a0f7a66906c8, type: 3}
+        _stage2Sprite: {fileID: 21300000, guid: 119752c3c4b8a424fbe1160611d9f8d6, type: 3}
+        _stage3Sprite: {fileID: 21300000, guid: 07ac27e0f2dfd6643bd0aa51434ed919, type: 3}
+        _stage4Sprite: {fileID: 21300000, guid: 1732aef0ecc10e44d8401ad4434ad1ec, type: 3}
+        _orderSprite: {fileID: 21300000, guid: 44792e4d5910a9049b1cc9ddd802d435, type: 3}
+    - Key: 6
+      Value:
+        _stage0Sprite: {fileID: 21300000, guid: 2e57d77d21ef4a2469cb95518057923f, type: 3}
+        _stage1Sprite: {fileID: 21300000, guid: 2fde4364ffc17814381ee04c5681f747, type: 3}
+        _stage2Sprite: {fileID: 21300000, guid: 6a29a3518b0c00e46974edbdc0e55cb6, type: 3}
+        _stage3Sprite: {fileID: 21300000, guid: 27ae7190595a93b46a4a0359cf69467c, type: 3}
+        _stage4Sprite: {fileID: 21300000, guid: 1b737856a4486d94c8e905bef5acc7a7, type: 3}
+        _orderSprite: {fileID: 21300000, guid: 44792e4d5910a9049b1cc9ddd802d435, type: 3}

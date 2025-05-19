@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using GameCoreModule;
@@ -11,15 +12,15 @@ using Zenject;
 public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute, ICleanUp
 {
     private const float MINUTE = 60f;
-    private const int SMELTING_PER_MINUTE_MIN = 60;
-    private const int SMELTING_PER_MINUTE_MAX = 140;
+    private const int SMELTING_PER_MINUTE_MIN = 45;
+    private const int SMELTING_PER_MINUTE_MAX = 60;
     private const float MAX_TEMPERATURE = 100f;
     private const float TARGET_TEMPERATURE = 85f;
     private const float TEMPERATURE_TIME = 5f;
     private const float TEMPERATURE_ADD_STEP = 10f;
     private const float TEMPERATURE_REMOVE_STEP = 15f;
     private const float TEMPERATURE_REMOVE_COOLING_STEP = 8f;
-    private const float COOLING_TIME = 0.5f;
+    private const float COOLING_TIME = 1.6f;
     private const float SIGNAL_SPEED = 10f;
     
     private SmeltingView _smeltingView;
@@ -27,6 +28,8 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     private StateEventsBus _stateEvents;
     private OrdersEventBus _ordersEventBus;
     private ProgressionData _progressionData;
+    private AudioEventBus _audioEventBus;
+    private TutorialEventBus _tutorialEventBus;
 
     private UpgradesMetaData _upgradesMetaData;
     private Timer _smeltingTimer;
@@ -43,13 +46,16 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
 
     [Inject]
     public void Construct(SmeltingView smeltingView, GameEventBus gameEventBus, StateEventsBus stateEvents,
-        OrdersEventBus ordersEventBus, ProgressionData progressionData)
+        OrdersEventBus ordersEventBus, ProgressionData progressionData, AudioEventBus audioEventBus,
+        TutorialEventBus tutorialEventBus)
     {
         _smeltingView = smeltingView;
         _gameEventBus = gameEventBus;
         _stateEvents = stateEvents;
         _ordersEventBus = ordersEventBus;
         _progressionData = progressionData;
+        _audioEventBus = audioEventBus;
+        _tutorialEventBus = tutorialEventBus;
     }
     
     public void Initialisation()
@@ -116,10 +122,13 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     
     private void BellowsAction()
     {
+        _tutorialEventBus.OnSmeltingNearTriggerHit?.Invoke();
+        _audioEventBus.OnPlaySound?.Invoke(AudioResourceID.Sound_Bellows);
         if (_triggeredSignalRect != null)
         {
             _temperature += TEMPERATURE_ADD_STEP;
             ClearTriggeredObject(_triggeredSignalRect.gameObject, true);
+            _tutorialEventBus.OnSmeltingGoodHit?.Invoke();
             _coolingTimer = new Timer(COOLING_TIME);
         }
         else
@@ -142,6 +151,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
                 _triggeredSignalRect = signalView;
                 _isTriggeredObjectSet = true;
                 //Debug.Log($"{_triggeredSignalRect.gameObject.GetInstanceID()} set");
+                _tutorialEventBus.OnSmeltingNearTrigger?.Invoke();
             }
 
         }
@@ -265,6 +275,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
         _temperatureTimer = null;
         _smeltingView.TemperatureSlider.maxValue = MAX_TEMPERATURE;
         _temperature = 0f;
+        _tutorialEventBus.OnSmeltingStarted?.Invoke();
     }
 
     private void SetupSignalTimer()
@@ -305,10 +316,19 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     {
         if (_temperatureTimer != null && _isSmelting)
         {
+            _smeltingView.TimerText.gameObject.SetActive(true);
+             _temperatureTimer.GetRemainingTime().ToString();
+            float secondsRemaining = _temperatureTimer.GetRoundedRemainingTime(2);
+            TimeSpan time = TimeSpan.FromSeconds(secondsRemaining);
+            _smeltingView.TimerText.text = time.ToString("mm':'ss");
             if (_temperatureTimer.Wait())
             {
                 EndProcess();
             }
+        }
+        else
+        {
+            _smeltingView.TimerText.gameObject.SetActive(false);
         }
     }
     

@@ -48,6 +48,7 @@ namespace MainGUI
             _resultsEventBus.OnResultsFinished += HideOrderGUI;
             _guiView.UpgradeConfirmView.gameObject.SetActive(false);
             _guiView.ClearProgressButton.onClick.AddListener(ClearProgress);
+            _guiView.AddMoneyButton.onClick.AddListener(AddMoney);
             _uiEventBus._onFreezeUI += FreezeUI;
             _uiEventBus._onUnfreezeUI += UnfreezeUI;
         }
@@ -65,6 +66,7 @@ namespace MainGUI
             _ordersEventBus.OnOrderStarted -= SetOrderGUI;
             _resultsEventBus.OnResultsFinished -= HideOrderGUI;
             _guiView.ClearProgressButton.onClick.RemoveListener(ClearProgress);
+            _guiView.AddMoneyButton.onClick.RemoveListener(AddMoney);
             _uiEventBus._onFreezeUI -= FreezeUI;
             _uiEventBus._onUnfreezeUI -= UnfreezeUI;
         }
@@ -146,6 +148,11 @@ namespace MainGUI
             _guiView.UpgradeConfirmView.ConfirmButton.onClick.RemoveAllListeners();
             _guiView.UpgradeConfirmView.CancelButton.onClick.RemoveAllListeners();
             _economyEventBus.OnBuyUpgradeCanceled?.Invoke();
+        }
+        
+        private void AddMoney()
+        {
+            _economyEventBus.OnAddMoney?.Invoke(5000);
         }
         
         private void FreezeUI()

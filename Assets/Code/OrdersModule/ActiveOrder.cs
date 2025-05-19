@@ -116,15 +116,22 @@ namespace Orders
 
         public override string ToString()
         {
-            if (_orderCount == 0)
+            if (_orderTimer != null)
             {
-                return $"{_orderID}|_|{_clientID}|_|{_orderTimer.GetRemainingTime()}|_|{_descriptionID}|_|{_isCompleted}|_|{_reward}";
+                if (_orderCount == 0)
+                {
+                    return $"{_orderID}|_|{_clientID}|_|{_orderTimer.GetRemainingTime()}|_|{_descriptionID}|_|{_isCompleted}|_|{_reward}";
+                }
+                else
+                {
+                    return $"{_orderID}|_|{_clientID}|_|{_orderTimer.GetRemainingTime()}|_|{_currentOrderCount}|_|{_isCompleted}|_|{_reward}";
+                }
             }
             else
             {
-                return $"{_orderID}|_|{_clientID}|_|{_orderTimer.GetRemainingTime()}|_|{_orderCount}|_|{_isCompleted}|_|{_reward}";
+                //Debug.LogWarning("Timer is null");
+                return null;
             }
-            
         }
 
         public void LoadOrder(string savedData)
@@ -141,10 +148,11 @@ namespace Orders
                 _clientID = items[1];
                 
                 ClientConfig client = SetupClientData(_clientID);
-                if (client.ClientType == ClientType.Whoresale)
+                if (client.ClientType == ClientType.Wholesale)
                 {
                     _descriptionID = 0;
-                    _orderCount = _descriptionID;
+                    _orderCount = 10;
+                    _currentOrderCount = int.Parse(items[3]);
                 }
                 else
                 {

@@ -12,14 +12,18 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private const int ZONE_SIZE_DELTA = 20;
     private const int MAX_PROGRESS = 5;
     private const int COST_MULTIPLER = 50;
+    private const float SCORE_TEXT_LIFETIME = 2f;
     
     private SharpeningUIView _uiView;
     private ForgingEventBus _eventBus;
     private StateEventsBus _stateEventsBus;
     private OrdersEventBus _ordersEventBus;
     private ProgressionData _progressionData;
+    private GameEventBus _gameEventBus;
+    private TutorialEventBus _tutorialEventBus;
 
     private UpgradesMetaData _upgradesMetaData;
+    private PlayerMetaData _playerMetaData;
     private int _currentProgress;
     private int _currentScore;
     private bool _isRunning;
@@ -29,16 +33,20 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private Vector2 _greenZoneInitialSize;
     private Vector2 _yellowZoneInitialSize;
     private int _currentMaxProgress;
+    private ScoreTextView _currentAddingScoreTextView;
     
     [Inject]
     public void Construct(SharpeningUIView uiView, ForgingEventBus forgingEventBus,
-        StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus, ProgressionData progressionData)
+        StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus, ProgressionData progressionData,
+        GameEventBus gameEventBus, TutorialEventBus tutorialEventBus)
     {
         _uiView = uiView;
         _eventBus = forgingEventBus;
         _stateEventsBus = stateEventsBus;
         _ordersEventBus = ordersEventBus;
         _progressionData = progressionData;
+        _gameEventBus = gameEventBus;
+        _tutorialEventBus = tutorialEventBus;
     }
     
     
@@ -51,6 +59,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         _greenZoneInitialSize = _uiView.TargetZoneGreen.sizeDelta;
         _yellowZoneInitialSize = _uiView.TargetZoneYellow.sizeDelta;
         _upgradesMetaData = _progressionData.UpgradesMeta;
+        _playerMetaData = _progressionData.PlayerMetaData;
     }
     
     public void FixedExecute(float fixedDeltaTime)
@@ -74,7 +83,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     {
         if (_isMovingRight)
         {
-            _uiView.HardeningSlider.value += 1;
+            _uiView.HardeningSlider.value += 1.8f;
             if(_uiView.HardeningSlider.value >= _uiView.HardeningSlider.maxValue)
             {
                 _isMovingRight = false;
@@ -82,7 +91,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         }
         else
         {
-            _uiView.HardeningSlider.value -= 1;
+            _uiView.HardeningSlider.value -= 1.8f;
             if(_uiView.HardeningSlider.value <= _uiView.HardeningSlider.minValue)
             {
                 _isMovingRight = true;
@@ -127,18 +136,24 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
             _currentProgress++;
             bool isInGreenZone = CheckGreenZone();
             bool isInYellowZone = CheckYellowZone();
+            int addingScore = 0;
             if (isInGreenZone)
             {
                 _currentScore += _basicAddingScore;
+                _tutorialEventBus.OnSharpeningGoodHit?.Invoke();
                 //Debug.Log($"{_basicAddingScore} added to score");
+                addingScore = _basicAddingScore;
             }
             else if (isInYellowZone)
             {
                 _currentScore += _basicAddingScore / 2;
+                _tutorialEventBus.OnSharpeningBadHit?.Invoke();
                 //Debug.Log($"{_basicAddingScore / 2} added to score");
+                addingScore = _basicAddingScore / 2;
             }
             else
             {
+                _tutorialEventBus.OnSharpeningBadHit?.Invoke();
                 //Debug.Log($"Nothing added to score");
             }
             if (_currentProgress >= _currentMaxProgress)
@@ -147,8 +162,36 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
                 return;
             }
             ChangeZonesSize();
+            SpawnAddingScoreObject(addingScore);
             UpdateUI();
         }
+    }
+
+    private void SpawnAddingScoreObject(int addingScore)
+    {
+        SpawnScoreTextView();
+        _currentAddingScoreTextView.Text.text = $"+ {addingScore}";
+    }
+    
+    private void SpawnScoreTextView()
+    {
+        if (_currentAddingScoreTextView != null)
+        {
+            _currentAddingScoreTextView = null;
+        }
+        GameObjectSpawnCallback callback = new GameObjectSpawnCallback();
+        _gameEventBus.OnSpawnObjectWithoutRoot?.Invoke(PrefabID.UIForgingScoreText, Vector3.zero, callback);
+        InitializeTextObject(callback.SpawnedObject);
+    }
+    
+    private void InitializeTextObject(GameObject textObject)
+    {
+        textObject.transform.SetParent(_uiView.ScoreRoot);
+        ScoreTextView textView = textObject.GetComponent<ScoreTextView>();
+        textView.TextRectTransform.anchoredPosition = _uiView.ScoreRoot.rect.center;
+        textView.InitializeView(SCORE_TEXT_LIFETIME);
+        _currentAddingScoreTextView = textView;
+
     }
 
     private void ChangeZonesSize()
@@ -181,9 +224,17 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
 
     private void StartSharpening(int score)
     {
-        _currentScore = score;
-        _currentProgress = 0;
-        _isRunning = true;
+        if (_playerMetaData.Unlocks.IsSharpeningUnlocked)
+        {
+            _tutorialEventBus.OnSharpeningStarted?.Invoke();
+            _currentScore = score;
+            _currentProgress = 0;
+            _isRunning = true;
+        }
+        else
+        {
+            _eventBus.OnSharpeningFinished?.Invoke(score);
+        }
     }
     
     private void EndProcess()
