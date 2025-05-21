@@ -90,6 +90,7 @@ namespace Orders
             AddInitialOrders();
             InitializeWholesale();
             _economyEventBus.OnUpgradeApplied += CheckIsUpgradesChanged;
+            _tutorialEventBus.OnMaterialScreenOpened += HideConfirmPanel;
         }
 
         private void CheckIsUpgradesChanged(UpgradeName upgradeName)
@@ -173,6 +174,8 @@ namespace Orders
             _ordersView.ConfirmButton.onClick.RemoveAllListeners();
             _ordersView.DenyButton.onClick.RemoveAllListeners();
             CleanOrderPanels();
+            _economyEventBus.OnUpgradeApplied -= CheckIsUpgradesChanged;
+            _tutorialEventBus.OnMaterialScreenOpened -= HideConfirmPanel;
         }
 
         public void FixedExecute(float fixedDeltaTime)
@@ -493,8 +496,19 @@ namespace Orders
                 activeOrder.Materials[0].Config.Name;
             orderPanelView.OrderMaterial1View.MaterialImage.sprite =
                 activeOrder.Materials[0].Config.Sprite;
+            int materialEconomy = 0;
+            if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.Economy))
+            {
+                materialEconomy = (int)Mathf.Ceil(activeOrder.Materials[0].Count *
+                                                  _upgradesMetaData.Upgrades[UpgradeName.Economy].GetUpgradeData());
+            }
+            int requiredMaterialCount = activeOrder.Materials[0].Count - materialEconomy;
+            if (requiredMaterialCount < 1)
+            {
+                requiredMaterialCount = 1;
+            }
             orderPanelView.OrderMaterial1View.MaterialCount.text =
-                $"{activeOrder.Materials[0].Count} шт.";
+                $"{requiredMaterialCount} шт.";
             orderPanelView.OrderTimeSlider.value = 1f;
             orderPanelView.ActiveOrder = activeOrder;
             orderPanelView.SetInitialCompletionState(activeOrder.IsCompleted);

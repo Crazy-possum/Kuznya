@@ -39,6 +39,7 @@ namespace Orders
             HideInventory();
             _ordersView.ResizeButton.Button.onClick.AddListener(ResizeInventory);
             _economyEventBus.OnMaterialRemoved += ShowMaterialRemoving;
+            _tutorialEventBus.OnMaterialScreenOpened += HideInventory;
         }
 
         public void Cleanup()
@@ -46,6 +47,7 @@ namespace Orders
             UnSubscribeView();
             _ordersView.ResizeButton.Button.onClick.RemoveListener(ResizeInventory);
             _economyEventBus.OnMaterialRemoved -= ShowMaterialRemoving;
+            _tutorialEventBus.OnMaterialScreenOpened -= HideInventory;
         }
         
         public void FixedExecute(float fixedDeltaTime)
