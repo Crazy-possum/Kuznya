@@ -17,6 +17,8 @@ namespace Orders
         private const string NOT_ENOUTH_TEXT = "Нет места";
         private const float DIALOGUE_END_DELAY = 1f;
         private const float WARNING_DELAY = 2f;
+        private const float DEFAULT_ORDER_TIME = 8f;
+        private const float MINUTE_MULTIPLER = 60f;
 
         private DialogueView _dialogueView;
         private ProgressionData _progressionData;
@@ -327,7 +329,7 @@ namespace Orders
         private void AcceptOrder()
         {
             _dialogueView.HighlightComfirmObject.SetActive(true);
-            _currentActiveOrder.OrderTimer = new Timer(_currentActiveOrder.OrderTime);
+            _currentActiveOrder.OrderTimer = new Timer(DEFAULT_ORDER_TIME * MINUTE_MULTIPLER);
             _ordersMetaData.SaveActiveOrder(_currentActiveOrder);
             _ordersEvents.OnOrderAdded?.Invoke();
             _tutorialEventBus.OnOrderApplied?.Invoke();

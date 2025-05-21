@@ -14,7 +14,8 @@ namespace Orders
     {
         private const float REMOVE_TIME = 2f;
         private const float ORDER_START_DELAY = 2f;
-        private const float WHOLESALE_ORDER_DELAY = 11f;
+        private const float WHOLESALE_ORDER_TIME = 20f;
+        private const float DEFAULT_ORDER_TIME = 8f;
         private const float MINUTE_MULTIPLER = 60f;
         private const int WHOLESALE_COUNT = 10;
         private const int OPENED_STAGES = 4;
@@ -273,6 +274,7 @@ namespace Orders
             }
             ActiveOrder activeWholesaleOrder = new ActiveOrder(_wholesaleClient,
                 wholesaleOrders[orderIndex], 0);
+            activeWholesaleOrder.OrderTimer = new Timer(MINUTE_MULTIPLER * WHOLESALE_ORDER_TIME);
             activeWholesaleOrder.OrderCount = WHOLESALE_COUNT;
             SetupOrderView(_wholesalePanel, activeWholesaleOrder);
             _wholesalePanel.SetOrderPanelState(true);
@@ -519,9 +521,17 @@ namespace Orders
         {
             if (activeOrder.OrderTimer != null)
             {
+                float orderTime;
+                if (orderPanelView.ActiveOrder.OrderCount == 0)
+                {
+                    orderTime = DEFAULT_ORDER_TIME * MINUTE_MULTIPLER;
+                }
+                else
+                {
+                    orderTime = WHOLESALE_ORDER_TIME * MINUTE_MULTIPLER;
+                }
                 orderPanelView.OrderTimeSlider.value =
-                    activeOrder.OrderTimer.GetRemainingTime() /
-                    activeOrder.OrderTime;
+                    activeOrder.OrderTimer.GetRemainingTime() / orderTime;
             }
         }
 
