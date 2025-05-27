@@ -54,7 +54,10 @@ namespace Economy
             {
                 if (upgradeView.CurrentValue <= currentMoney)
                 {
-                    upgradeView.UpgradeButton.interactable = true;
+                    if (upgradeView.CurrentLevel < upgradeView.UpgradeConfig.LevelsCostList.Count)
+                    {
+                        upgradeView.UpgradeButton.interactable = true;
+                    }
                 }
                 else
                 {
