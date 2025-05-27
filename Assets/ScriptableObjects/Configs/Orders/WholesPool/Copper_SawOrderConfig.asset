@@ -22,8 +22,9 @@ MonoBehaviour:
       \u043F\u0438\u043B\u0430"
   _orderIcon: {fileID: 0}
   _materials:
-  - _config: {fileID: 11400000, guid: 4acee6433904afa4bb5da0c254b0ab5b, type: 2}
+  - _config: {fileID: 11400000, guid: 63c3e0ffa57721f40a478ab7de26b140, type: 2}
     _count: 3
   _orderTime: 120
   _basicCost: 24
   _orderType: 7
+  _orderCount: 0
