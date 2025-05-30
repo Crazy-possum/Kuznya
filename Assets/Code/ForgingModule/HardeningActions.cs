@@ -229,6 +229,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     {
         if (_playerMetaData.Unlocks.IsHardeningUnlocked)
         {
+            _audioEventBus.OnPlayAmbientSound?.Invoke(AudioResourceID.Ambient_Oil);
             _tutorialEventBus.OnHardeningStarted?.Invoke();
             if (_isRunning) return;
             _hardeningTimer = new Timer(HARDENING_TIME);
@@ -266,6 +267,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     
     private void EndProcess()
     {
+        _audioEventBus.OnStopAmbientSound?.Invoke();
         _forgingEventBus.OnHardeningFinished?.Invoke((int)_currentScore);
         ClearProgress();
         if (_playerMetaData.Unlocks.IsSharpeningUnlocked)

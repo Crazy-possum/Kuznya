@@ -52,6 +52,7 @@ namespace Orders
         private System.Random _random;
         private ActiveOrder _wholesaleActiveOrder;
         private bool _isWholesaleReadyToSetup;
+        private bool _isTutorialActive;
         
         
 
@@ -92,6 +93,8 @@ namespace Orders
             InitializeWholesale();
             _economyEventBus.OnUpgradeApplied += CheckIsUpgradesChanged;
             _tutorialEventBus.OnMaterialScreenOpened += HideConfirmPanel;
+            _tutorialEventBus.OnOrderSectionStarted += () => { _isTutorialActive = true; };
+            _tutorialEventBus.OnOrderSectionFinished += () => { _isTutorialActive = false; };
         }
 
         private void CheckIsUpgradesChanged(UpgradeName upgradeName)
@@ -326,15 +329,18 @@ namespace Orders
                     UpdateOrderSlider(keyValuePair.Key, keyValuePair.Value);
                     if (keyValuePair.Value.OrderTimer.Wait())
                     {
-                        if (_currentActiveOrder != null)
+                        if (!_isTutorialActive)
                         {
-                            if (_currentActiveOrder == keyValuePair.Key)
+                            if (_currentActiveOrder != null)
                             {
-                                _ordersEventBus.OnOrderEnded?.Invoke(keyValuePair.Value);
+                                if (_currentActiveOrder == keyValuePair.Key)
+                                {
+                                    _ordersEventBus.OnOrderEnded?.Invoke(keyValuePair.Value);
+                                }
                             }
+                            RemoveOrder(keyValuePair.Key, REMOVE_TIME);
                         }
                         keyValuePair.Value.OrderTimer = null;
-                        RemoveOrder(keyValuePair.Key, REMOVE_TIME);
                     }
                 }
             }

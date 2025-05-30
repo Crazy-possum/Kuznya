@@ -56,6 +56,9 @@ namespace MainGUI
             _guiView.AddMoneyButton.onClick.AddListener(AddMoney);
             _uiEventBus._onFreezeUI += FreezeUI;
             _uiEventBus._onUnfreezeUI += UnfreezeUI;
+            _ordersEventBus.OnOrderFinished += HideGUI;
+            _economyEventBus.OnAddMoney += ShowGUI;
+
         }
 
         private void ClearProgress()
@@ -94,7 +97,7 @@ namespace MainGUI
         
         private void SetOrderGUI(ActiveOrder order)
         {
-            _guiView.ClientsQueueTransform.gameObject.SetActive(false);
+            HideGUI();
             _guiView.OrderTimePanel.SetActive(true);
             if (order.OrderCount == 0)
             {
@@ -112,12 +115,35 @@ namespace MainGUI
         
         private void HideOrderGUI(int value)
         {
-            _guiView.ClientsQueueTransform.gameObject.SetActive(true);
+            ShowGUI();
             _guiView.OrderTimePanel.SetActive(false);
-            _guiView.NavigationPanel.gameObject.SetActive(true);
             _guiView.OrderTimePanel.SetActive(false);
             _activeOrder = null;
 
+        }
+
+        private void HideGUI(ActiveOrder order)
+        {
+            _guiView.NavigationPanel.gameObject.SetActive(false);
+            _guiView.ClientsQueueTransform.gameObject.SetActive(false);
+        }
+        
+        private void HideGUI()
+        {
+            _guiView.NavigationPanel.gameObject.SetActive(false);
+            _guiView.ClientsQueueTransform.gameObject.SetActive(false);
+        }
+        
+        private void ShowGUI(int money)
+        {
+            _guiView.NavigationPanel.gameObject.SetActive(true);
+            _guiView.ClientsQueueTransform.gameObject.SetActive(true);
+        }
+        
+        private void ShowGUI()
+        {
+            _guiView.NavigationPanel.gameObject.SetActive(true);
+            _guiView.ClientsQueueTransform.gameObject.SetActive(true);
         }
         
         private void UpdateMoneyUI(int money)

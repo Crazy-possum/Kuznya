@@ -22,6 +22,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     private const float TEMPERATURE_REMOVE_COOLING_STEP = 8f;
     private const float COOLING_TIME = 1.6f;
     private const float SIGNAL_SPEED = 10f;
+    private const float BELLOWS_ANIMATION_TIME = 0.5f;
     
     private SmeltingView _smeltingView;
     private GameEventBus _gameEventBus;
@@ -43,6 +44,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     private SignalObjectView _lastTriggeredSignalRect;
     private bool _isTriggeredObjectSet;
     private System.Random _random;
+    private Timer _bellowsAnimationTimer;
 
     [Inject]
     public void Construct(SmeltingView smeltingView, GameEventBus gameEventBus, StateEventsBus stateEvents,
@@ -62,7 +64,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     {
         _stateEvents.OnSmeltingStateActivate += StartSmelting;
         _ordersEventBus.OnOrderEnded += StopProcess;
-        _smeltingView.BellowsButton.onClick.AddListener(BellowsAction);
+        _smeltingView.BellowsButton.Button.onClick.AddListener(BellowsAction);
         _isSmelting = false;
         _random = new System.Random();
         _upgradesMetaData = _progressionData.UpgradesMeta;
@@ -72,7 +74,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     {
         _stateEvents.OnSmeltingStateActivate -= StartSmelting;
         _ordersEventBus.OnOrderEnded -= StopProcess;
-        _smeltingView.BellowsButton.onClick.RemoveListener(BellowsAction);
+        _smeltingView.BellowsButton.Button.onClick.RemoveListener(BellowsAction);
     }
     
     public void FixedExecute(float fixedDeltaTime)
@@ -118,6 +120,14 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     {
         MoveActiveSignals();
         _smeltingView.TemperatureSlider.value = _temperature;
+        if (_bellowsAnimationTimer != null)
+        {
+            if (_bellowsAnimationTimer.Wait())
+            {
+                _bellowsAnimationTimer = null;
+                _smeltingView.BellowsButton.ButtonImage.sprite = _smeltingView.BellowsSprite;
+            }
+        }
     }
     
     private void BellowsAction()
@@ -136,6 +146,8 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
             _temperature -= TEMPERATURE_REMOVE_STEP;
         }
         _temperature = Mathf.Clamp(_temperature, 0, MAX_TEMPERATURE);
+        _bellowsAnimationTimer = new Timer(BELLOWS_ANIMATION_TIME);
+        _smeltingView.BellowsButton.ButtonImage.sprite = _smeltingView.ActiveBellowsSprite;
         _isCooling = false;
     }
     
@@ -267,6 +279,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
 
     private void StartSmelting()
     {
+        _audioEventBus.OnPlayAmbientSound?.Invoke(AudioResourceID.Ambient_Fire);
         _isSmelting = true;
         _activeSignalRects = new List<RectTransform>();
         _triggeredSignalRect = null;
@@ -348,7 +361,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
     private void EndProcess()
     {
         StopProcess();
+        _audioEventBus.OnStopAmbientSound?.Invoke();
         _stateEvents.OnForgingStateActivate?.Invoke(0.5f);
-        //TODO : Add points to next stage
     }
 }

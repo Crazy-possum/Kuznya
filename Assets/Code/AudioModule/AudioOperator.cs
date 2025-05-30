@@ -32,9 +32,13 @@ namespace Audio
         {
             _audioEventBus.OnPlayMusic += PlayMusic;
             _audioEventBus.OnPlaySound += PlaySound;
+            _audioEventBus.OnPlaySound2 += PlaySound2;
             _audioEventBus.OnPlaySoundLoop += PlaySoundLoop;
+            _audioEventBus.OnPlayAmbientSound += PlayAmbientSound;
             _audioEventBus.OnPlayMusicOneShot += PlayMusicOneShot;
             _audioEventBus.OnStopSound += StopSound;
+            _audioEventBus.OnStopSound2 += StopSound2;
+            _audioEventBus.OnStopAmbientSound += StopAmbientSound;
             _audioEventBus.OnPlayMusicWithPauseCurrent += PlayMusicWithPauseCurrent;
             _audioEventBus.OnGetAudioSettings += GetAudioSettings;
             _audioEventBus.OnSetMusicVolume += SetMusicVolume;
@@ -47,6 +51,12 @@ namespace Audio
         {
             _audioEventBus.OnPlayMusic -= PlayMusic;
             _audioEventBus.OnPlaySound -= PlaySound;
+            _audioEventBus.OnPlaySound2 -= PlaySound2;
+            _audioEventBus.OnPlaySoundLoop -= PlaySoundLoop;
+            _audioEventBus.OnPlayAmbientSound -= PlayAmbientSound;
+            _audioEventBus.OnStopSound -= StopSound;
+            _audioEventBus.OnStopSound2 -= StopSound2;
+            _audioEventBus.OnStopAmbientSound -= StopAmbientSound;
             _audioEventBus.OnPlayMusicOneShot -= PlayMusicOneShot;
             _audioEventBus.OnPlayMusicWithPauseCurrent -= PlayMusicWithPauseCurrent;
             _audioEventBus.OnGetAudioSettings -= GetAudioSettings;
@@ -80,6 +90,8 @@ namespace Audio
             if (soundVolumeFloat.IsLoaded)
             {
                 _sourceView.SoundSource.volume = soundVolumeFloat.Value;
+                _sourceView.Sound2Source.volume = soundVolumeFloat.Value;
+                _sourceView.AmbientSource.volume = soundVolumeFloat.Value;
             }
         }
 
@@ -95,16 +107,39 @@ namespace Audio
             _sourceView.SoundSource.PlayOneShot(_audioContainer.GetAudioClip(id));
         }
         
+        private void PlaySound2(AudioResourceID id)
+        {
+            _sourceView.Sound2Source.PlayOneShot(_audioContainer.GetAudioClip(id));
+        }
+        
         private void PlaySoundLoop(AudioResourceID id)
         {
             _sourceView.SoundSource.clip = _audioContainer.GetAudioClip(id);
             _sourceView.SoundSource.Play();
         }
         
+        private void PlayAmbientSound(AudioResourceID id)
+        {
+            _sourceView.AmbientSource.clip = _audioContainer.GetAudioClip(id);
+            _sourceView.AmbientSource.Play();
+        }
+
+        private void StopAmbientSound()
+        {
+            _sourceView.AmbientSource.clip = null;
+            _sourceView.AmbientSource.Stop();
+        }
+        
         private void StopSound()
         {
             _sourceView.SoundSource.clip = null;
             _sourceView.SoundSource.Stop();
+        }
+        
+        private void StopSound2()
+        {
+            _sourceView.SoundSource.clip = null;
+            _sourceView.Sound2Source.Stop();
         }
 
         private void PlayMusic(AudioResourceID id)

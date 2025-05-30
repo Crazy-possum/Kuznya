@@ -173,6 +173,7 @@ namespace Orders
             if (_clientIconObjects.Count > 0)
             {
                 GameObject clientIcon = _clientIconObjects[0];
+                clientIcon.GetComponent<Button>().onClick.RemoveAllListeners();
                 _clientIconObjects.Remove(clientIcon);
                 GameObject.Destroy(clientIcon);
             }
@@ -191,12 +192,18 @@ namespace Orders
         {
             clientIconObject.transform.SetSiblingIndex(0);
             Image clientImage = clientIconObject.GetComponent<Image>();
+            Button clientButton = clientIconObject.GetComponent<Button>();
+            clientButton.onClick.AddListener(ShowDialogueScreen);
             clientImage.sprite = _clientsSpritesContainer.ClientSprites[_currentClientConfig.ClientType];
             _currentClientConfig = null;
             _clientIconObjects.Add(clientIconObject);
         }
 
-
+        private void ShowDialogueScreen()
+        {
+            _gameEventBus.OnSetDialogueState?.Invoke();
+        }
+        
         private void DialogueStartActions(ClientConfig client)
         {
 

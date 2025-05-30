@@ -296,6 +296,7 @@ namespace Progression
         {
             _tutorialEventBus.OnOrderSelected -= OrderStarted;
             _tutorialView.OrdersListTutorialPanel.SetActive(false);
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void ForgingStarted()
@@ -303,6 +304,7 @@ namespace Progression
             _tutorialEventBus.OnForgingStarted -= ForgingStarted;
             _playerMetaData.TutorialInfo.IsForgingStarted = true;
             _tutorialView.ForgingStartedTutorialPanel.SetActive(true);
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void ForgingHit()
@@ -311,6 +313,7 @@ namespace Progression
             _tutorialEventBus.OnForgingHit -= ForgingHit;
             _playerMetaData.TutorialInfo.IsForgingHit = true;
             _tutorialView.ForgingFirstHitTutorialPanel.SetActive(true);
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void ForgingStageChanged()
@@ -318,6 +321,7 @@ namespace Progression
             _tutorialEventBus.OnForgingStageChanged -= ForgingStageChanged;
             _playerMetaData.TutorialInfo.IsForgingStageChanged = true;
             _tutorialView.ForgingChangeStageTutorialPanel.SetActive(true);
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void ResultScreenOpened()
@@ -325,6 +329,7 @@ namespace Progression
             _tutorialEventBus.OnResultScreenOpened -= ResultScreenOpened;
             _playerMetaData.TutorialInfo.IsResultScreenOpened = true;
             _tutorialView.ResultScreenTutorialPanel.SetActive(true);
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void OrderFinished()
@@ -333,6 +338,7 @@ namespace Progression
             _tutorialEventBus.OnOrderFinished -= OrderFinished;
             _playerMetaData.TutorialInfo.IsOrderFinished = true;
             _tutorialView.OrderFinishedTutorialPanel.SetActive(true);
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void OrderSubmitStarted()
@@ -340,6 +346,7 @@ namespace Progression
             _tutorialEventBus.OnOrderSubmitStarted -= OrderSubmitStarted;
             _playerMetaData.TutorialInfo.IsOrderSubmitStarted = true;
             _tutorialView.OrderSubmitOrderTutorialPanel.SetActive(true);
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void MoneyAdded()
@@ -349,6 +356,7 @@ namespace Progression
             _playerMetaData.TutorialInfo.IsMoneyAdded = true;
             _tutorialView.FristMoneyTutorialPanel.SetActive(true);
             SetBlocker(_tutorialView.Blocker3);
+            _tutorialEventBus.OnOrderSectionFinished?.Invoke();
         }
 
         private void ShopScreenOpened()
@@ -454,12 +462,14 @@ namespace Progression
             _playerMetaData.TutorialInfo.IsSmeltingStarted = true;
             _tutorialView.SmeltingStartedTutorialPanel.SetActive(true);
             _tutorialView.SmeltingContinueButton.Button.onClick.AddListener(SmeltingContinue);
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void SmeltingContinue()
         {
             Time.timeScale = 1;
             _tutorialView.SmeltingStartedTutorialPanel.SetActive(false);
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void SmeltingNearTrigger()
@@ -469,7 +479,7 @@ namespace Progression
             _playerMetaData.TutorialInfo.IsSmeltingNearTrigger = true;
             _tutorialView.SmeltingNearTriggerTutorialPanel.SetActive(true);
             _tutorialEventBus.OnSmeltingNearTriggerHit += ContinueSmelting;
-
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void ContinueSmelting()
@@ -477,6 +487,7 @@ namespace Progression
             Time.timeScale = 1;
             _tutorialEventBus.OnSmeltingNearTriggerHit -= ContinueSmelting;
             _tutorialView.SmeltingNearTriggerTutorialPanel.SetActive(false);
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void SmeltingGoodHit()
@@ -486,6 +497,7 @@ namespace Progression
             _playerMetaData.TutorialInfo.IsSmeltingGoodHit = true;
             _tutorialView.SmeltingGoodHitTutorialPanel.SetActive(true);
             _tutorialView.SmeltingContinueButton2.Button.onClick.AddListener(ContinueSmelting2);
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
         
         private void ContinueSmelting2()
@@ -493,6 +505,7 @@ namespace Progression
             Time.timeScale = 1;
             _tutorialView.SmeltingGoodHitTutorialPanel.SetActive(false);
             _tutorialView.SmeltingContinueButton2.Button.onClick.RemoveAllListeners();
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
         
         private void StartForgingAfterSmelting()
@@ -502,6 +515,7 @@ namespace Progression
                 _tutorialEventBus.OnForgingStarted -= StartForgingAfterSmelting;
                 _playerMetaData.TutorialInfo.IsForgingAfterSmelting = true;
                 _tutorialView.ForgingAfterSmeltingTutorialPanel.SetActive(true);
+                _tutorialEventBus.OnOrderSectionFinished?.Invoke();
             }
         }
 
@@ -554,6 +568,7 @@ namespace Progression
             _playerMetaData.TutorialInfo.IsHardeningStarted = true;
             _tutorialView.HardeningStartTutorialPanel.SetActive(true);
             _tutorialView.HardeningContinueButton.Button.onClick.AddListener(HardeningContinue);
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void HardeningContinue()
@@ -563,6 +578,7 @@ namespace Progression
             _tutorialView.HardeningGoodHitTutorialPanel.SetActive(false);
             _tutorialView.HardeningContinueButton.Button.onClick.RemoveAllListeners();
             _tutorialView.HardeningContinueButton2.Button.onClick.RemoveAllListeners();
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void HardeningGoodHit()
@@ -572,6 +588,7 @@ namespace Progression
             _playerMetaData.TutorialInfo.IsHardeningGoodHit = true;
             _tutorialView.HardeningGoodHitTutorialPanel.SetActive(true);
             _tutorialView.HardeningContinueButton2.Button.onClick.AddListener(HardeningContinue);
+            _tutorialEventBus.OnOrderSectionFinished?.Invoke();
         }
 
         private void SharpeningStarted()
@@ -581,6 +598,7 @@ namespace Progression
             _playerMetaData.TutorialInfo.IsSharpeningStarted = true;
             _tutorialView.SharpeningStartTutorialPanel.SetActive(true);
             _tutorialView.SharpeningContinueButton.Button.onClick.AddListener(SharpeningContinue);
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void SharpeningContinue()
@@ -592,6 +610,7 @@ namespace Progression
             _tutorialView.SharpeningContinueButton.Button.onClick.RemoveAllListeners();
             _tutorialView.SharpeningContinue2Button.Button.onClick.RemoveAllListeners();
             _tutorialView.SharpeningContinue3Button.Button.onClick.RemoveAllListeners();
+            _tutorialEventBus.OnOrderSectionStarted?.Invoke();
         }
 
         private void SharpeningGoodHit()
@@ -603,6 +622,7 @@ namespace Progression
             _playerMetaData.TutorialInfo.IsSharpeningBadHit = true;
             _tutorialView.SharpeningGoodHitTutorialPanel.SetActive(true);
             _tutorialView.SharpeningContinue2Button.Button.onClick.AddListener(SharpeningContinue);
+            _tutorialEventBus.OnOrderSectionFinished?.Invoke();
         }
 
         private void SharpeningBadHit()
@@ -614,6 +634,7 @@ namespace Progression
             _playerMetaData.TutorialInfo.IsSharpeningGoodHit = true;
             _tutorialView.SharpeningBadHitTutorialPanel.SetActive(true);
             _tutorialView.SharpeningContinue3Button.Button.onClick.AddListener(SharpeningContinue);
+            _tutorialEventBus.OnOrderSectionFinished?.Invoke();
         }
         
 
