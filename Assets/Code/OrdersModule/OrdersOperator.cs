@@ -14,7 +14,8 @@ namespace Orders
     {
         private const float REMOVE_TIME = 2f;
         private const float ORDER_START_DELAY = 2f;
-        private const float WHOLESALE_ORDER_DELAY = 11f;
+        private const float WHOLESALE_ORDER_TIME = 20f;
+        private const float DEFAULT_ORDER_TIME = 8f;
         private const float MINUTE_MULTIPLER = 60f;
         private const int WHOLESALE_COUNT = 10;
         private const int OPENED_STAGES = 4;
@@ -51,6 +52,7 @@ namespace Orders
         private System.Random _random;
         private ActiveOrder _wholesaleActiveOrder;
         private bool _isWholesaleReadyToSetup;
+        private bool _isTutorialActive;
         
         
 
@@ -90,6 +92,9 @@ namespace Orders
             AddInitialOrders();
             InitializeWholesale();
             _economyEventBus.OnUpgradeApplied += CheckIsUpgradesChanged;
+            _tutorialEventBus.OnMaterialScreenOpened += HideConfirmPanel;
+            _tutorialEventBus.OnOrderSectionStarted += () => { _isTutorialActive = true; };
+            _tutorialEventBus.OnOrderSectionFinished += () => { _isTutorialActive = false; };
         }
 
         private void CheckIsUpgradesChanged(UpgradeName upgradeName)
@@ -173,6 +178,8 @@ namespace Orders
             _ordersView.ConfirmButton.onClick.RemoveAllListeners();
             _ordersView.DenyButton.onClick.RemoveAllListeners();
             CleanOrderPanels();
+            _economyEventBus.OnUpgradeApplied -= CheckIsUpgradesChanged;
+            _tutorialEventBus.OnMaterialScreenOpened -= HideConfirmPanel;
         }
 
         public void FixedExecute(float fixedDeltaTime)
@@ -270,6 +277,7 @@ namespace Orders
             }
             ActiveOrder activeWholesaleOrder = new ActiveOrder(_wholesaleClient,
                 wholesaleOrders[orderIndex], 0);
+            activeWholesaleOrder.OrderTimer = new Timer(MINUTE_MULTIPLER * WHOLESALE_ORDER_TIME);
             activeWholesaleOrder.OrderCount = WHOLESALE_COUNT;
             SetupOrderView(_wholesalePanel, activeWholesaleOrder);
             _wholesalePanel.SetOrderPanelState(true);
@@ -321,15 +329,18 @@ namespace Orders
                     UpdateOrderSlider(keyValuePair.Key, keyValuePair.Value);
                     if (keyValuePair.Value.OrderTimer.Wait())
                     {
-                        if (_currentActiveOrder != null)
+                        if (!_isTutorialActive)
                         {
-                            if (_currentActiveOrder == keyValuePair.Key)
+                            if (_currentActiveOrder != null)
                             {
-                                _ordersEventBus.OnOrderEnded?.Invoke(keyValuePair.Value);
+                                if (_currentActiveOrder == keyValuePair.Key)
+                                {
+                                    _ordersEventBus.OnOrderEnded?.Invoke(keyValuePair.Value);
+                                }
                             }
+                            RemoveOrder(keyValuePair.Key, REMOVE_TIME);
                         }
                         keyValuePair.Value.OrderTimer = null;
-                        RemoveOrder(keyValuePair.Key, REMOVE_TIME);
                     }
                 }
             }
@@ -493,8 +504,19 @@ namespace Orders
                 activeOrder.Materials[0].Config.Name;
             orderPanelView.OrderMaterial1View.MaterialImage.sprite =
                 activeOrder.Materials[0].Config.Sprite;
+            int materialEconomy = 0;
+            if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.Economy))
+            {
+                materialEconomy = (int)Mathf.Ceil(activeOrder.Materials[0].Count *
+                                                  _upgradesMetaData.Upgrades[UpgradeName.Economy].GetUpgradeData());
+            }
+            int requiredMaterialCount = activeOrder.Materials[0].Count - materialEconomy;
+            if (requiredMaterialCount < 1)
+            {
+                requiredMaterialCount = 1;
+            }
             orderPanelView.OrderMaterial1View.MaterialCount.text =
-                $"{activeOrder.Materials[0].Count} шт.";
+                $"{requiredMaterialCount} шт.";
             orderPanelView.OrderTimeSlider.value = 1f;
             orderPanelView.ActiveOrder = activeOrder;
             orderPanelView.SetInitialCompletionState(activeOrder.IsCompleted);
@@ -505,9 +527,17 @@ namespace Orders
         {
             if (activeOrder.OrderTimer != null)
             {
+                float orderTime;
+                if (orderPanelView.ActiveOrder.OrderCount == 0)
+                {
+                    orderTime = DEFAULT_ORDER_TIME * MINUTE_MULTIPLER;
+                }
+                else
+                {
+                    orderTime = WHOLESALE_ORDER_TIME * MINUTE_MULTIPLER;
+                }
                 orderPanelView.OrderTimeSlider.value =
-                    activeOrder.OrderTimer.GetRemainingTime() /
-                    activeOrder.OrderTime;
+                    activeOrder.OrderTimer.GetRemainingTime() / orderTime;
             }
         }
 

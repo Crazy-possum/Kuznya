@@ -19,6 +19,7 @@ namespace GameCoreModule
 
         private Action<GameState> _onStateChanged;
         private Action _onGameOver;
+        private Action _onSetDialogueState;
 
         public Action<PrefabID, PoolCallback> OnCreatePool 
         { get => _onCreatePool; set => _onCreatePool = value; }
@@ -36,5 +37,7 @@ namespace GameCoreModule
         { get => _onStateChanged; set => _onStateChanged = value; }
         public Action OnGameOver 
         { get => _onGameOver; set => _onGameOver = value; }
+        public Action OnSetDialogueState 
+        { get => _onSetDialogueState; set => _onSetDialogueState = value; }
     }
 }

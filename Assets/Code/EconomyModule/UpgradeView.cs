@@ -41,6 +41,7 @@ public class UpgradeView : MonoBehaviour
         else
         {
             _currentValueText.text = $"Макс.";
+            UpgradeButton.interactable = false;
         }
         
         for (int i = 0; i < maxLevel; i++)

@@ -279,6 +279,11 @@ namespace Orders
                 maxTimeBetweenClients = _gameConfig.MaxTimeBetweenClients - (int)Mathf.Ceil(_upgradesMetaData.
                                                 Upgrades[UpgradeName.ClientsSign].GetUpgradeData());
             }
+
+            if (minTimeBetweenClients > maxTimeBetweenClients)
+            {
+                minTimeBetweenClients = maxTimeBetweenClients;
+            }
             _currentTimeBetweenClients = _random.Next(minTimeBetweenClients,
                 maxTimeBetweenClients);
             _timer = new Timer(_currentTimeBetweenClients);

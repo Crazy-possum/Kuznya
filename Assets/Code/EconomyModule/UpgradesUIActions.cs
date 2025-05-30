@@ -32,7 +32,6 @@ namespace Economy
             _upgradeViews = new List<UpgradeView>();
             _upgradesMetaData = _progressionData.UpgradesMeta;
             InitializeUpgradesUI();
-
         }
 
         private void InitializeUpgradesUI()
@@ -40,6 +39,10 @@ namespace Economy
             foreach (UpgradeConfig upgradeConfig in _upgradesPool.UpgradesList)
             {
                 UpgradeView view = _shopView.UpgradeViews.GetValue(upgradeConfig.Name);
+                if (view == null)
+                {
+                    continue;
+                }
                 view.UpdateUI(upgradeConfig, 0);
                 view.UpgradeButton.onClick.AddListener(() => UpgradeButtonClicked(view));
                 _upgradeViews.Add(view);

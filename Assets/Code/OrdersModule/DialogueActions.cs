@@ -17,6 +17,8 @@ namespace Orders
         private const string NOT_ENOUTH_TEXT = "Нет места";
         private const float DIALOGUE_END_DELAY = 1f;
         private const float WARNING_DELAY = 2f;
+        private const float DEFAULT_ORDER_TIME = 8f;
+        private const float MINUTE_MULTIPLER = 60f;
 
         private DialogueView _dialogueView;
         private ProgressionData _progressionData;
@@ -171,6 +173,7 @@ namespace Orders
             if (_clientIconObjects.Count > 0)
             {
                 GameObject clientIcon = _clientIconObjects[0];
+                clientIcon.GetComponent<Button>().onClick.RemoveAllListeners();
                 _clientIconObjects.Remove(clientIcon);
                 GameObject.Destroy(clientIcon);
             }
@@ -189,12 +192,18 @@ namespace Orders
         {
             clientIconObject.transform.SetSiblingIndex(0);
             Image clientImage = clientIconObject.GetComponent<Image>();
+            Button clientButton = clientIconObject.GetComponent<Button>();
+            clientButton.onClick.AddListener(ShowDialogueScreen);
             clientImage.sprite = _clientsSpritesContainer.ClientSprites[_currentClientConfig.ClientType];
             _currentClientConfig = null;
             _clientIconObjects.Add(clientIconObject);
         }
 
-
+        private void ShowDialogueScreen()
+        {
+            _gameEventBus.OnSetDialogueState?.Invoke();
+        }
+        
         private void DialogueStartActions(ClientConfig client)
         {
 
@@ -327,7 +336,7 @@ namespace Orders
         private void AcceptOrder()
         {
             _dialogueView.HighlightComfirmObject.SetActive(true);
-            _currentActiveOrder.OrderTimer = new Timer(_currentActiveOrder.OrderTime);
+            _currentActiveOrder.OrderTimer = new Timer(DEFAULT_ORDER_TIME * MINUTE_MULTIPLER);
             _ordersMetaData.SaveActiveOrder(_currentActiveOrder);
             _ordersEvents.OnOrderAdded?.Invoke();
             _tutorialEventBus.OnOrderApplied?.Invoke();

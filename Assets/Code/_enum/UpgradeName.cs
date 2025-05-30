@@ -23,5 +23,15 @@ public enum UpgradeName
     HardeningAutomation = 20,
     SharpeningSpeed = 21,
     SharpeningZoneValue = 22,
-    AdditionalSteps = 23
+    AdditionalSteps = 23,
+    Ore1 = 24,
+    Ore2 = 25,
+    Ore3 = 26,
+    Ore4 = 27,
+    Ore5 = 28,
+    StepTrade = 29,
+    StepSmelting = 30,
+    StepHardening = 31,
+    StepSharpening = 32,
+    StepFinalization = 33
 }

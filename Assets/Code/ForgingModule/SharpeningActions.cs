@@ -21,6 +21,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private ProgressionData _progressionData;
     private GameEventBus _gameEventBus;
     private TutorialEventBus _tutorialEventBus;
+    private AudioEventBus _audioEventBus;
 
     private UpgradesMetaData _upgradesMetaData;
     private PlayerMetaData _playerMetaData;
@@ -38,7 +39,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     [Inject]
     public void Construct(SharpeningUIView uiView, ForgingEventBus forgingEventBus,
         StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus, ProgressionData progressionData,
-        GameEventBus gameEventBus, TutorialEventBus tutorialEventBus)
+        GameEventBus gameEventBus, TutorialEventBus tutorialEventBus, AudioEventBus audioEventBus)
     {
         _uiView = uiView;
         _eventBus = forgingEventBus;
@@ -47,6 +48,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         _progressionData = progressionData;
         _gameEventBus = gameEventBus;
         _tutorialEventBus = tutorialEventBus;
+        _audioEventBus = audioEventBus;
     }
     
     
@@ -226,6 +228,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     {
         if (_playerMetaData.Unlocks.IsSharpeningUnlocked)
         {
+            _audioEventBus.OnPlayAmbientSound?.Invoke(AudioResourceID.Ambient_SharpStone);
             _tutorialEventBus.OnSharpeningStarted?.Invoke();
             _currentScore = score;
             _currentProgress = 0;
@@ -239,6 +242,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     
     private void EndProcess()
     {
+        _audioEventBus.OnStopAmbientSound?.Invoke();
         _eventBus.OnSharpeningFinished?.Invoke(_currentScore);
         ClearProgress();
         _stateEventsBus.OnResultsStateActivate?.Invoke();

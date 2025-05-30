@@ -14,21 +14,24 @@ namespace MainGUI
         private ResultsEventBus _resultsEvents;
         private List<Button> _guiButtons;
         private OrdersEventBus _ordersEventBus;
+        private GameEventBus _gameEventBus;
         
 
         [Inject]
         public void Construct(GUIView view, StateEventsBus events, ResultsEventBus resultsEvents,
-            OrdersEventBus ordersEvents)
+            OrdersEventBus ordersEvents, GameEventBus gameEventBus)
         {
             _view = view;
             _events = events;
             _resultsEvents = resultsEvents;
             _ordersEventBus = ordersEvents;
+            _gameEventBus = gameEventBus;
         }
 
         public void Initialisation()
         {
             _view.DialogueButton.onClick.AddListener(() => ShowDialogue());
+            _gameEventBus.OnSetDialogueState += ShowDialogue;
             _view.OrdersButton.onClick.AddListener(() => ShowOrders());
             _view.ShopButton.onClick.AddListener(() => ShowShop());
             _view.MaterialsButton.onClick.AddListener(() => ShowMaterials());
@@ -52,6 +55,7 @@ namespace MainGUI
         public void Cleanup()
         {
             _view.DialogueButton.onClick.RemoveListener(() => ShowDialogue());
+            _gameEventBus.OnSetDialogueState -= ShowDialogue;
             _view.OrdersButton.onClick.RemoveListener(() => ShowOrders());
             _view.ShopButton.onClick.RemoveListener(() => ShowShop());
             _view.MaterialsButton.onClick.RemoveListener(() => ShowMaterials());

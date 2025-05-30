@@ -43,6 +43,8 @@ namespace GameCoreModule
         private Action _onSharpeningStarted;
         private Action _onSharpeningGoodHit;
         private Action _onSharpeningBadHit;
+        private Action _onOrderSectionStarted;
+        private Action _onOrderSectionFinished;
         
         
         public Action OnGameStarted { get => _onGameStarted; set => _onGameStarted = value; }
@@ -83,6 +85,7 @@ namespace GameCoreModule
         public Action OnSharpeningStarted { get => _onSharpeningStarted; set => _onSharpeningStarted = value; }
         public Action OnSharpeningGoodHit { get => _onSharpeningGoodHit; set => _onSharpeningGoodHit = value; }
         public Action OnSharpeningBadHit { get => _onSharpeningBadHit; set => _onSharpeningBadHit = value; }
-        
+        public Action OnOrderSectionStarted { get => _onOrderSectionStarted; set => _onOrderSectionStarted = value; }
+        public Action OnOrderSectionFinished { get => _onOrderSectionFinished; set => _onOrderSectionFinished = value;}
     }
 }

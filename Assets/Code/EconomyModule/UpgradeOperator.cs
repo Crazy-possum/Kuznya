@@ -43,6 +43,10 @@ namespace Economy
             {
                 UpgradeName upgradeName = config.Name;
                 UpgradeView view = _shopView.UpgradeViews.GetValue(upgradeName);
+                if (view == null)
+                {
+                    continue;
+                }
                 view.SetLevel(_upgradesMetaData.GetUpgradeLevel(upgradeName));
                 AddUpgrade(upgradeName, view, 0);
             }
@@ -133,6 +137,41 @@ namespace Economy
                     _tutorialEventBus.OnAdditionalStagesBought?.Invoke();
                     SetAdditionalStepsUpgrade(upgradeView);
                     break;
+                case UpgradeName.Ore1:
+                    SetProgressionMaterial(upgradeView, MaterialName.Tin);
+                    break;
+                case UpgradeName.Ore2:
+                    SetProgressionMaterial(upgradeView, MaterialName.Copper);
+                    break;
+                case UpgradeName.Ore3:
+                    SetProgressionMaterial(upgradeView, MaterialName.Iron);
+                    break;
+                case UpgradeName.Ore4:
+                    SetProgressionMaterial(upgradeView, MaterialName.Steel);
+                    break;
+                case UpgradeName.Ore5:
+                    SetProgressionMaterial(upgradeView, MaterialName.Silver);
+                    break;
+                case UpgradeName.StepSmelting:
+                    SetAdditionalStepsUpgrade(upgradeView, 1f);
+                    _tutorialEventBus.OnAdditionalStagesBought?.Invoke();
+                    break;
+                case UpgradeName.StepTrade:
+                    SetAdditionalStepsUpgrade(upgradeView, 2f);
+                    _tutorialEventBus.OnAdditionalStagesBought?.Invoke();
+                    break;
+                case UpgradeName.StepHardening:
+                    SetAdditionalStepsUpgrade(upgradeView, 3f);
+                    _tutorialEventBus.OnAdditionalStagesBought?.Invoke();
+                    break;
+                case UpgradeName.StepSharpening:
+                    SetAdditionalStepsUpgrade(upgradeView, 4f);
+                    _tutorialEventBus.OnAdditionalStagesBought?.Invoke();
+                    break;
+                case UpgradeName.StepFinalization:
+                    SetAdditionalStepsUpgrade(upgradeView, 5f);
+                    _tutorialEventBus.OnAdditionalStagesBought?.Invoke();
+                    break;
                 default:
                     Debug.Log("Upgrade in development");
                     break;
@@ -172,6 +211,21 @@ namespace Economy
                     _upgradesMetaData.Upgrades.Add(upgradeName, upgrade);
                 }
             }
+        }
+        
+        private void SetProgressionMaterial(UpgradeView upgradeView, MaterialName material)
+        {
+            if (material != MaterialName.NONE)
+            {
+                _progressionData.PlayerMetaData.CurrentMaximumMaterial = material;
+            }
+            else
+            {
+                Debug.Log("Material not found");
+            }
+
+            float value = 0;
+            SetUpgradeValue(upgradeView, value);
         }
         
         private void SetProgressionMaterial(UpgradeView upgradeView)
@@ -595,6 +649,38 @@ namespace Economy
                     break;
             }
             SetUpgradeValue(upgradeView, value);
+        }
+        
+        private void SetAdditionalStepsUpgrade(UpgradeView upgradeView, float value)
+        {
+            UpgradeName upgradeName = UpgradeName.AdditionalSteps;
+            if (value == 0)
+            {
+                if (_upgradesMetaData.Upgrades.IsContainsKey(upgradeName))
+                {
+                    _upgradesMetaData.Upgrades[upgradeName].ActivateUpgrade();
+                }
+                else
+                {
+                    Upgrade upgrade = new Upgrade();
+                    upgrade.ActivateUpgrade();
+                    _upgradesMetaData.Upgrades.Add(upgradeName, upgrade);
+                }
+            }
+            else
+            {
+                if (_upgradesMetaData.Upgrades.IsContainsKey(upgradeName))
+                {
+                    _upgradesMetaData.Upgrades[upgradeName].SetUpgradeModifier(value);
+                }
+                else
+                {
+                    Upgrade upgrade = new Upgrade();
+                    upgrade.SetUpgradeModifier(value);
+                    _upgradesMetaData.Upgrades.Add(upgradeName, upgrade);
+                }
+            }
+            _economyEventBus.OnUpgradeApplied?.Invoke(upgradeName);
         }
         
         private void SetAdditionalStepsUpgrade(UpgradeView upgradeView)

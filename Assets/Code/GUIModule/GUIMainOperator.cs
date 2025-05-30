@@ -10,6 +10,10 @@ namespace MainGUI
     public class GUIMainOperator : IAction, IInitialisation, ICleanUp, IFixedExecute
     {
         private const string PRE_COST_TEXT = "Желаете потратить";
+        private const float WHOLESALE_ORDER_TIME = 20f;
+        private const float DEFAULT_ORDER_TIME = 8f;
+        private const float MINUTE_MULTIPLER = 60f;
+        
         private EconomyEventBus _economyEventBus;
         private GUIView _guiView;
         private ProgressionData _progressionData;
@@ -21,6 +25,7 @@ namespace MainGUI
         private ResultsEventBus _resultsEventBus;
         
         private ActiveOrder _activeOrder;
+        private float _orderTime;
         
         [Inject]
         public void Construct(EconomyEventBus economyEventBus, GUIView guiView, ProgressionData progressionData,
@@ -51,6 +56,9 @@ namespace MainGUI
             _guiView.AddMoneyButton.onClick.AddListener(AddMoney);
             _uiEventBus._onFreezeUI += FreezeUI;
             _uiEventBus._onUnfreezeUI += UnfreezeUI;
+            _ordersEventBus.OnOrderFinished += HideGUI;
+            _economyEventBus.OnAddMoney += ShowGUI;
+
         }
 
         private void ClearProgress()
@@ -75,8 +83,8 @@ namespace MainGUI
         {
             if (_activeOrder != null)
             {
-                float delta = _activeOrder.OrderTime - _activeOrder.OrderTimer.GetRemainingTime();
-                _guiView.OrderTimeSlider.value =  _activeOrder.OrderTime - delta;
+                float delta = _orderTime - _activeOrder.OrderTimer.GetRemainingTime();
+                _guiView.OrderTimeSlider.value =  _orderTime - delta;
             }
         }
         
@@ -89,22 +97,53 @@ namespace MainGUI
         
         private void SetOrderGUI(ActiveOrder order)
         {
-            _guiView.ClientsQueueTransform.gameObject.SetActive(false);
+            HideGUI();
             _guiView.OrderTimePanel.SetActive(true);
-            _guiView.OrderTimeSlider.maxValue = order.OrderTime;
-            float delta = order.OrderTime - order.OrderTimer.GetRemainingTime();
-            _guiView.OrderTimeSlider.value = order.OrderTime - delta;
+            if (order.OrderCount == 0)
+            {
+                _orderTime = DEFAULT_ORDER_TIME * MINUTE_MULTIPLER;
+            }
+            else
+            {
+                _orderTime = WHOLESALE_ORDER_TIME * MINUTE_MULTIPLER;
+            }
+            _guiView.OrderTimeSlider.maxValue = _orderTime;
+            float delta = _orderTime - order.OrderTimer.GetRemainingTime();
+            _guiView.OrderTimeSlider.value = _orderTime - delta;
             _activeOrder = order;
         }
         
         private void HideOrderGUI(int value)
         {
-            _guiView.ClientsQueueTransform.gameObject.SetActive(true);
+            ShowGUI();
             _guiView.OrderTimePanel.SetActive(false);
-            _guiView.NavigationPanel.gameObject.SetActive(true);
             _guiView.OrderTimePanel.SetActive(false);
             _activeOrder = null;
 
+        }
+
+        private void HideGUI(ActiveOrder order)
+        {
+            _guiView.NavigationPanel.gameObject.SetActive(false);
+            _guiView.ClientsQueueTransform.gameObject.SetActive(false);
+        }
+        
+        private void HideGUI()
+        {
+            _guiView.NavigationPanel.gameObject.SetActive(false);
+            _guiView.ClientsQueueTransform.gameObject.SetActive(false);
+        }
+        
+        private void ShowGUI(int money)
+        {
+            _guiView.NavigationPanel.gameObject.SetActive(true);
+            _guiView.ClientsQueueTransform.gameObject.SetActive(true);
+        }
+        
+        private void ShowGUI()
+        {
+            _guiView.NavigationPanel.gameObject.SetActive(true);
+            _guiView.ClientsQueueTransform.gameObject.SetActive(true);
         }
         
         private void UpdateMoneyUI(int money)
