@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddf7c932de844844f8553ee2da25266a, type: 3}
+  m_Name: Metal_SickleOrderConfig
+  m_EditorClassIdentifier: 
+  _name: "\u0413\u0440\u0443\u0431\u044B\u0439 \u0441\u0435\u0440\u043F"
+  _descriptions:
+  - _text: '-'
+    _description: "\u041D\u0443\u0436\u0435\u043D \u0433\u0440\u0443\u0431\u044B\u0439
+      \u0441\u0435\u0440\u043F"
+  _orderIcon: {fileID: 21300000, guid: e46f941b8126c084da369a5b0a393cd7, type: 3}
+  _materials:
+  - _config: {fileID: 11400000, guid: 5c06a408247f5a642b61a21898b7cf93, type: 2}
+    _count: 2
+  _orderTime: 120
+  _basicCost: 6
+  _orderType: 4
+  _orderCount: 0

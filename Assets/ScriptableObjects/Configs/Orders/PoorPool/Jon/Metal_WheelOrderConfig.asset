@@ -28,7 +28,7 @@ MonoBehaviour:
       \u043A\u043E\u043B\u0435\u0441\u043E"
     _description: "\u041D\u0443\u0436\u043D\u043E \u0433\u0440\u0443\u0431\u043E\u0435
       \u043A\u043E\u043B\u0435\u0441\u043E"
-  _orderIcon: {fileID: 0}
+  _orderIcon: {fileID: 21300000, guid: 578ba5363fcba0e49bab2b3fadb5ae01, type: 3}
   _materials:
   - _config: {fileID: 11400000, guid: 5c06a408247f5a642b61a21898b7cf93, type: 2}
     _count: 4
