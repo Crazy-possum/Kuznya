@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7a258b61e1349546b7237b514938ac6, type: 3}
-  m_Name: CraftmanMan_2Config
+  m_Name: Craft_Jinny_Config
   m_EditorClassIdentifier: 
-  _name: "\u0413\u043E\u043D\u0447\u0430\u0440 \u041F\u0430\u0441\u0432\u0438\u043B\u044C"
+  _name: "\u041A\u043E\u0436\u0435\u0432\u043D\u0438\u0446\u0430 \u0414\u0436\u0438\u043D\u043D\u0438"
   _materialName: 2
-  _clientSprite: {fileID: 21300000, guid: 0d153ea8123e0124398d7a43303be12b, type: 3}
-  _orders: {fileID: 11400000, guid: eba7f72073fc0af4994bfbe21c2c8342, type: 2}
+  _clientSprite: {fileID: 21300000, guid: a541cf749323a0147acb52c60c798139, type: 3}
+  _orders: {fileID: 11400000, guid: 7b36f027a58e5634ab6e0f47ae60c5f7, type: 2}
   _clientType: 2

@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7a258b61e1349546b7237b514938ac6, type: 3}
-  m_Name: PoorMan_3Config
+  m_Name: Trader_Paul_Config
   m_EditorClassIdentifier: 
-  _name: "\u0411\u043B\u0430\u0436\u0435\u043D\u043D\u044B\u0439 \u041F\u0430\u0442\u0440\u0438\u043A"
-  _materialName: 1
-  _clientSprite: {fileID: 21300000, guid: 7cd755bc8b93e7b488ae0950e357dd41, type: 3}
-  _orders: {fileID: 11400000, guid: d31afdae70a56bf4f873ee68397ae454, type: 2}
-  _clientType: 1
+  _name: "\u0411\u0435\u0441\u043F\u0440\u0438\u043D\u0446\u0438\u043F\u043D\u044B\u0439
+    \u041F\u0430\u0443\u043B\u044C"
+  _materialName: 3
+  _clientSprite: {fileID: 21300000, guid: b03f228d501a024429a7c37fb70578f5, type: 3}
+  _orders: {fileID: 11400000, guid: 7c188c6d67cd09d4e9af92ff1814b360, type: 2}
+  _clientType: 4

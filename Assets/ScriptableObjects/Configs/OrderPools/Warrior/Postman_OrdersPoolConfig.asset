@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e577a03c648cca54d90abb3015000bfb, type: 3}
+  m_Name: Postman_OrdersPoolConfig
+  m_EditorClassIdentifier: 
+  _orders:
+  - {fileID: 11400000, guid: 544df9e23d03e794f9220793e8db156c, type: 2}
+  - {fileID: 11400000, guid: 82291de8b2416af4db228194c1d17c4d, type: 2}
+  - {fileID: 11400000, guid: c4fab66f4d9a07c4cbd995d845ab263e, type: 2}
+  - {fileID: 11400000, guid: 1908e8065ee3f3b4fba558e4072eb214, type: 2}
+  - {fileID: 11400000, guid: 923c94084ce090e4abfdbe17bb5ccf4f, type: 2}
+  - {fileID: 11400000, guid: cd1296afccd378f498dff80ca498ddb3, type: 2}
+  - {fileID: 11400000, guid: c7fb71a78c4c50d4aa6ab26cb8437bc2, type: 2}
+  - {fileID: 11400000, guid: 1c5d2def2bda8f84cb26824232ef8f21, type: 2}
+  - {fileID: 11400000, guid: 081b567c1d076fb4491689e61ed6decf, type: 2}
+  - {fileID: 11400000, guid: 0f1317a4193d9364aab52d5b352fdf0b, type: 2}

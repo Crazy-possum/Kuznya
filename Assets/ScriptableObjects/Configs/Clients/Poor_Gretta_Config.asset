@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7a258b61e1349546b7237b514938ac6, type: 3}
-  m_Name: CraftmanWoman_1Config
+  m_Name: Poor_Gretta_Config
   m_EditorClassIdentifier: 
-  _name: "\u041A\u043E\u0436\u0435\u0432\u043D\u0438\u0446\u0430 \u0414\u0436\u0438\u043D\u043D\u0438"
-  _materialName: 2
-  _clientSprite: {fileID: 21300000, guid: a541cf749323a0147acb52c60c798139, type: 3}
-  _orders: {fileID: 11400000, guid: eba7f72073fc0af4994bfbe21c2c8342, type: 2}
-  _clientType: 2
+  _name: "\u0412\u0434\u043E\u0432\u0441\u0442\u0432\u0443\u044E\u0449\u0430\u044F
+    \u0413\u0440\u0435\u0442\u0442\u0430"
+  _materialName: 1
+  _clientSprite: {fileID: 21300000, guid: eea141319b3243a4a901d248d2983328, type: 3}
+  _orders: {fileID: 11400000, guid: d31afdae70a56bf4f873ee68397ae454, type: 2}
+  _clientType: 1

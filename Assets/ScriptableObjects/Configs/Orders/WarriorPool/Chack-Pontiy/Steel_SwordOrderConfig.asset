@@ -17,7 +17,7 @@ MonoBehaviour:
   - _text: "\u0425\u043E\u0440\u043E\u0448\u0430\u044F \u043F\u043E\u0433\u043E\u0434\u0430"
     _description: "\u041D\u0443\u0436\u0435\u043D \u0441\u0442\u0430\u043B\u044C\u043D\u043E\u0439
       \u043C\u0435\u0447"
-  _orderIcon: {fileID: 21300000, guid: 8e0786d05655ffd4f8612be73f5c8d7f, type: 3}
+  _orderIcon: {fileID: 21300000, guid: d0f837419a46b3d4687a01f4f17d2aba, type: 3}
   _materials:
   - _config: {fileID: 11400000, guid: d70278e8084308542a0e6a41fcb0a034, type: 2}
     _count: 3

@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: "\u041C\u0435\u0434\u043D\u043E\u0435 \u043A\u043E\u043B\u0435\u0441\u043E"
   _descriptions:
-  - _text: "\u0425\u043E\u0440\u043E\u0448\u0430\u044F \u043F\u043E\u0433\u043E\u0434\u0430"
+  - _text: "\u0421\u043A\u043E\u043B\u044C\u043A\u043E \u0431\u0443\u0434\u0435\u0442
+      \u0441\u0442\u043E\u0438\u0442\u044C \u0441\u043E\u0441\u0442\u0440\u044F\u043F\u0430\u0442\u044C
+      \u043C\u0435\u0434\u043D\u043E\u0435 \u043A\u043E\u043B\u0435\u0441\u043E \u0443
+      \u0432\u0430\u0441?"
     _description: "\u041D\u0443\u0436\u043D\u043E \u043C\u0435\u0434\u043D\u043E\u0435
       \u043A\u043E\u043B\u0435\u0441\u043E"
-  _orderIcon: {fileID: 21300000, guid: fcb5218203e20b240bd5e5dbf481c9cb, type: 3}
+  _orderIcon: {fileID: 21300000, guid: a5053e7ffd7462545a9a02158eb31445, type: 3}
   _materials:
   - _config: {fileID: 11400000, guid: 4acee6433904afa4bb5da0c254b0ab5b, type: 2}
     _count: 4

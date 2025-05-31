@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7a258b61e1349546b7237b514938ac6, type: 3}
-  m_Name: RichMan_1Config
+  m_Name: War_Chack-Pontiy_Config
   m_EditorClassIdentifier: 
-  _name: "\u0411\u0430\u0440\u043E\u043D \u0411\u0430\u0440\u0442\u043E\u043B\u043E\u043C\u044C\u044E"
-  _materialName: 5
-  _clientSprite: {fileID: 21300000, guid: b932de3e558d89c44a942629db91379f, type: 3}
-  _orders: {fileID: 11400000, guid: 81d402278d609154a8363cf69383ad66, type: 2}
-  _clientType: 5
+  _name: "\u0427\u0430\u043A-\u041F\u043E\u043D\u0442\u0438\u0439"
+  _materialName: 4
+  _clientSprite: {fileID: 21300000, guid: 8d2598ec642823d42bfefb79c518c1da, type: 3}
+  _orders: {fileID: 11400000, guid: 46b9a4c4c1bf0564a9232ba1093f9169, type: 2}
+  _clientType: 3
