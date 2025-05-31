@@ -111,6 +111,7 @@ public class FinalizationActions : IAction, IInitialisation, ICleanUp, IFixedExe
             {
                 _uiView.ResetButton(_currentHighlightedButtonName);
                 _highlightTimer = null;
+                _currentHighlightedButtonName = ButtonNames.NONE;
             }
         }
 
@@ -175,6 +176,11 @@ public class FinalizationActions : IAction, IInitialisation, ICleanUp, IFixedExe
     
     private void ActFinalization(ButtonNames buttonName)
     {
+        if (_currentHighlightedButtonName != ButtonNames.NONE)
+        {
+            _uiView.ResetButton(_currentHighlightedButtonName);
+            _highlightTimer = null;
+        }
         _audioEventBus.OnPlaySound?.Invoke(AudioResourceID.Sound_FinalizationHit1);
         _audioEventBus.OnPlaySound2?.Invoke(AudioResourceID.Sound_FinalizationHit2);
         if (_currentMemoryPointsNames[_activeMemoryPointsCount] == buttonName)
