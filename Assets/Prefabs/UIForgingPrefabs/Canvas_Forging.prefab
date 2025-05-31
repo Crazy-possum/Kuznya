@@ -1110,7 +1110,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.387
+  m_Value: 0.26
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2094,26 +2094,26 @@ MonoBehaviour:
   _smeltingBonusText: {fileID: 1983260191496143242}
   _stepsDict:
     Dictionary:
-    - Key: 3
-      Value: {fileID: 2646812563084640227}
-    - Key: 10
-      Value: {fileID: 1173082846865218641}
-    - Key: 1
-      Value: {fileID: 6945300328922622723}
-    - Key: 7
-      Value: {fileID: 2265074316877115937}
-    - Key: 5
-      Value: {fileID: 6255683812770593396}
-    - Key: 8
-      Value: {fileID: 4752376401853303505}
-    - Key: 4
-      Value: {fileID: 6888548915921438955}
-    - Key: 6
-      Value: {fileID: 4970421386170465137}
-    - Key: 2
-      Value: {fileID: 1652969009059693302}
-    - Key: 9
-      Value: {fileID: 9071574578616323377}
+    - _key: 3
+      _value: {fileID: 2646812563084640227}
+    - _key: 10
+      _value: {fileID: 1173082846865218641}
+    - _key: 1
+      _value: {fileID: 6945300328922622723}
+    - _key: 7
+      _value: {fileID: 2265074316877115937}
+    - _key: 5
+      _value: {fileID: 6255683812770593396}
+    - _key: 8
+      _value: {fileID: 4752376401853303505}
+    - _key: 4
+      _value: {fileID: 6888548915921438955}
+    - _key: 6
+      _value: {fileID: 4970421386170465137}
+    - _key: 2
+      _value: {fileID: 1652969009059693302}
+    - _key: 9
+      _value: {fileID: 9071574578616323377}
   _itemImage: {fileID: 6509399184355942781}
   _scoreRoot: {fileID: 4713159586320085121}
 --- !u!1 &4915666605707364208
@@ -2181,12 +2181,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9c61e852bfd135e4d9704e8f2e5cf86c, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: -2094086408, guid: 9c61e852bfd135e4d9704e8f2e5cf86c, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillMethod: 0
+  m_FillAmount: 0.26
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0

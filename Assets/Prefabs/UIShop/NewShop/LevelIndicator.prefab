@@ -89,5 +89,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelIndicatorImage: {fileID: 7764199877304952487}
-  _lockedSprite: {fileID: 21300000, guid: 9ed7ced7cd448a348b69d2a4558bed03, type: 3}
-  _unlockedSprite: {fileID: 21300000, guid: 7b343a18a7f328d449e66f15867851d0, type: 3}
+  _lockedSprite: {fileID: 21300000, guid: d0cefb311eff86e498f2d9e0487ec7cf, type: 3}
+  _unlockedSprite: {fileID: 21300000, guid: d24bb96ebb9b1ce4b908254eca703fb9, type: 3}
