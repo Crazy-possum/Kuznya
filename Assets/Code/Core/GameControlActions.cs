@@ -30,6 +30,7 @@ namespace GameCoreModule
             _stateEventsBus.OnForgingStateActivate += ShowForgingScreen;
             _stateEventsBus.OnHardeningStateActivate += ShowHardeningScreen;
             _stateEventsBus.OnSharpeningStateActivate += ShowSharpeningScreen;
+            _stateEventsBus.OnFinalizationStateActivate += ShowFinalizationScreen;
             _stateEventsBus.OnResultsStateActivate += ShowResultsScreen;
             _stateEventsBus.OnTradeStateActivate += ShowTradeScreen;
             _stateEventsBus.OnSmeltingStateActivate += ShowSmeltingScreen;
@@ -45,6 +46,7 @@ namespace GameCoreModule
             _stateEventsBus.OnForgingStateActivate -= ShowForgingScreen;
             _stateEventsBus.OnHardeningStateActivate -= ShowHardeningScreen;
             _stateEventsBus.OnSharpeningStateActivate -= ShowSharpeningScreen;
+            _stateEventsBus.OnFinalizationStateActivate -= ShowFinalizationScreen;
             _stateEventsBus.OnResultsStateActivate -= ShowResultsScreen;
             _stateEventsBus.OnTradeStateActivate -= ShowTradeScreen;
             _stateEventsBus.OnSmeltingStateActivate -= ShowSmeltingScreen;
@@ -63,7 +65,8 @@ namespace GameCoreModule
                 _canvasList.SharpeningCanvas,
                 _canvasList.ResultsCanvas,
                 _canvasList.TradeCanvas,
-                _canvasList.SmeltingCanvas
+                _canvasList.SmeltingCanvas,
+                _canvasList.FinalizationCanvas
             };
 
         }
@@ -105,6 +108,11 @@ namespace GameCoreModule
         private void ShowSharpeningScreen()
         {
             ShowCurrentScreen(_canvasList.SharpeningCanvas);
+        }
+        
+        private void ShowFinalizationScreen()
+        {
+            ShowCurrentScreen(_canvasList.FinalizationCanvas);
         }
         
         private void ShowResultsScreen()

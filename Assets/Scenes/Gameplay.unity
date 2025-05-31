@@ -2038,6 +2038,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7726f2171ee52ca4693e80113b3f348d, type: 3}
+--- !u!1 &2179276457404711835 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4968894388058492421, guid: 7726f2171ee52ca4693e80113b3f348d, type: 3}
+  m_PrefabInstance: {fileID: 2179276457404711834}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2179276457404711836 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4286476851956510631, guid: 7726f2171ee52ca4693e80113b3f348d, type: 3}
+  m_PrefabInstance: {fileID: 2179276457404711834}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2179276457404711835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fb65696cbb4317439968a63943b22c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4459424139680015407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2271,6 +2287,10 @@ PrefabInstance:
       propertyPath: _sharpeningView
       value: 
       objectReference: {fileID: 2076399479650643765}
+    - target: {fileID: 4762195954417408171, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
+      propertyPath: _finalizationView
+      value: 
+      objectReference: {fileID: 2179276457404711836}
     - target: {fileID: 5310458550469782052, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
       propertyPath: _guiView
       value: 
@@ -2323,6 +2343,10 @@ PrefabInstance:
       propertyPath: _sharpeningCanvas
       value: 
       objectReference: {fileID: 277649866}
+    - target: {fileID: 8111679376960137017, guid: e81d5abf670ae1049bbbaa429fe69895, type: 3}
+      propertyPath: _finalizationCanvas
+      value: 
+      objectReference: {fileID: 2179276457404711835}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

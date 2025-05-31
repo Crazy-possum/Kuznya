@@ -229,6 +229,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         if (_playerMetaData.Unlocks.IsSharpeningUnlocked)
         {
             _audioEventBus.OnPlayAmbientSound?.Invoke(AudioResourceID.Ambient_SharpStone);
+            _audioEventBus.OnPlaySoundLoop?.Invoke(AudioResourceID.Ambient_SharpStone2);
             _tutorialEventBus.OnSharpeningStarted?.Invoke();
             _currentScore = score;
             _currentProgress = 0;
@@ -243,9 +244,17 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private void EndProcess()
     {
         _audioEventBus.OnStopAmbientSound?.Invoke();
+        _audioEventBus.OnStopSound?.Invoke();
         _eventBus.OnSharpeningFinished?.Invoke(_currentScore);
         ClearProgress();
-        _stateEventsBus.OnResultsStateActivate?.Invoke();
+        if (_playerMetaData.Unlocks.IsFinalizationUnlocked)
+        {
+            _stateEventsBus.OnFinalizationStateActivate?.Invoke();
+        }
+        else
+        {
+            _stateEventsBus.OnResultsStateActivate?.Invoke();
+        }
         _uiView.gameObject.SetActive(false);
     }
     

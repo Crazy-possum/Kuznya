@@ -14,6 +14,7 @@ namespace GameCoreModule
         private Action _onSmeltingStateActivate;
         private Action _onSharpeningStateActivate;
         private Action _onHardeningStateActivate;
+        private Action _onFinalizationStateActivate;
 
         public Action OnDialogueStateActivate { get => _onDialogueStateActivate; set => _onDialogueStateActivate = value; }
         public Action OnOrdersStateActivate { get => _onOrdersStateActivate; set => _onOrdersStateActivate = value; }
@@ -25,5 +26,6 @@ namespace GameCoreModule
         public Action OnSmeltingStateActivate { get => _onSmeltingStateActivate; set => _onSmeltingStateActivate = value; }
         public Action OnSharpeningStateActivate { get => _onSharpeningStateActivate; set => _onSharpeningStateActivate = value; }
         public Action OnHardeningStateActivate { get => _onHardeningStateActivate; set => _onHardeningStateActivate = value; }
+        public Action OnFinalizationStateActivate { get => _onFinalizationStateActivate; set => _onFinalizationStateActivate = value; }
     }
 }

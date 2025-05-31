@@ -9,6 +9,7 @@ public class ForgingInstaller : MonoInstaller
     [SerializeField] private SmeltingView _smeltingView;
     [SerializeField] private HardeningUIView _hardeningView;
     [SerializeField] private SharpeningUIView _sharpeningView;
+    [SerializeField] private FinalizationUIView _finalizationView;
     
     [SerializeField] private OrderSpritesContainer _orderSpritesContainer;
     
@@ -20,6 +21,7 @@ public class ForgingInstaller : MonoInstaller
         Container.Bind<SmeltingView>().FromInstance(_smeltingView).AsSingle();
         Container.Bind<HardeningUIView>().FromInstance(_hardeningView).AsSingle();
         Container.Bind<SharpeningUIView>().FromInstance(_sharpeningView).AsSingle();
+        Container.Bind<FinalizationUIView>().FromInstance(_finalizationView).AsSingle();
         
         Container.Bind<OrderSpritesContainer>().FromInstance(_orderSpritesContainer).AsSingle();
 
@@ -28,6 +30,7 @@ public class ForgingInstaller : MonoInstaller
         Container.Bind<SmeltingActions>().AsSingle();
         Container.Bind<HardeningActions>().AsSingle();
         Container.Bind<SharpeningActions>().AsSingle();
+        Container.Bind<FinalizationActions>().AsSingle();
         
     }
 }

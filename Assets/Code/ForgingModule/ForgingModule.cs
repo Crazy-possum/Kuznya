@@ -15,6 +15,7 @@ public class ForgingModule : BasicModule
         InitializeSmeltingActions();
         InitializeHardeningActions();
         InitializeSharpeningActions();
+        InitializeFinalizationActions();
     }
 
     private void InitializeFields()
@@ -55,5 +56,12 @@ public class ForgingModule : BasicModule
         SharpeningActions sharpeningActions =
             _di.Resolve<SharpeningActions>();
         _actions.Add(sharpeningActions);
+    }
+    
+    private void InitializeFinalizationActions()
+    {
+        FinalizationActions finalizationActions =
+            _di.Resolve<FinalizationActions>();
+        _actions.Add(finalizationActions);
     }
 }
