@@ -16,4 +16,5 @@ public enum AudioResourceID
     Sound_FinalizationHit1 = 13,
     Sound_FinalizationHit2 = 14,
     Ambient_SharpStone2 = 15,
+    Sound_Sharpening = 16
 }
