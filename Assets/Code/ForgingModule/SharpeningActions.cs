@@ -152,6 +152,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         if (_isRunning)
         {
             _currentProgress++;
+            _audioEventBus.OnPlaySound?.Invoke(AudioResourceID.Sound_Sharpening);
             bool isInGreenZone = CheckGreenZone();
             bool isInYellowZone = CheckYellowZone();
             int addingScore = 0;
