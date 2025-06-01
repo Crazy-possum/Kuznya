@@ -94,6 +94,7 @@ namespace Progression
             saveLoadEventBus.OnSaveString?.Invoke(SaveDataKey.Materials, _materials.ToString());
             saveLoadEventBus.OnSaveInt?.Invoke(SaveDataKey.CurrentMaxMaterialStorage, _currentMaxMaterialStorage);
             saveLoadEventBus.OnSaveFloat?.Invoke(SaveDataKey.MaterialAddingDeltaTime, _materialAddingDeltaTime);
+            saveLoadEventBus.OnSaveString?.Invoke(SaveDataKey.TutorialInfo, _tutorialInfo.ToString());
         }
         
         private void LoadData(SaveLoadEventBus saveLoadEventBus)
@@ -149,6 +150,11 @@ namespace Progression
             else
             {
                 _materialAddingDeltaTime = 0;
+            }
+            saveLoadEventBus.OnGetString?.Invoke(SaveDataKey.TutorialInfo, savableString);
+            if (savableString.IsLoaded)
+            {
+                _tutorialInfo.LoadFromString(savableString.Value);
             }
         }
 

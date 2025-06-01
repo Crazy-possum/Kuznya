@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Progression
 {
@@ -76,5 +77,94 @@ namespace Progression
         public bool IsSharpeningStarted { get => _isSharpeningStarted; set => _isSharpeningStarted = value; }
         public bool IsSharpeningGoodHit { get => _isSharpeningGoodHit; set => _isSharpeningGoodHit = value; }
         public bool IsSharpeningBadHit { get => _isSharpeningBadHit; set => _isSharpeningBadHit = value; }
+        
+        public override string ToString() 
+        {
+            return $"IsGameStarted : {_isGameStarted}],[" +
+                   $"IsTutorialStarted : {_isTutorialStarted}],[" +
+                   $"IsTutorialSkiped : {_isTutorialSkiped}],[" +
+                   $"IsClientActivated : {_isClientActivated}],[" +
+                   $"IsDialogueStarted : {_isDialogueStarted}],[" +
+                   $"IsOrderApplied : {_isOrderApplied}],[" +
+                   $"IsOrdersScreenOpened : {_isOrdersScreenOpened}],[" +
+                   $"IsForgingStarted : {_isForgingStarted}],[" +
+                   $"IsForgingHit : {_isForgingHit}],[" +
+                   $"IsForgingStageChanged : {_isForgingStageChanged}],[" +
+                   $"IsResultScreenOpened : {_isResultScreenOpened}],[" +
+                   $"IsOrderFinished : {_isOrderFinished}],[" +
+                   $"IsOrderSubmitStarted : {_isOrderSubmitStarted}],[" +
+                   $"IsMoneyAdded : {_isMoneyAdded}],[" +
+                   $"IsShopScreenOpened : {_isShopScreenOpened}],[" +
+                   $"IsMoneyAccumulated : {_isMoneyAccumulated}],[" +
+                   $"IsUpgradeBought : {_isUpgradeBought}],[" +
+                   $"IsOrderMaterialUnavailable : {_isOrderMaterialUnavailable}],[" +
+                   $"IsMaterialScreenOpened : {_isMaterialScreenOpened}],[" +
+                   $"IsMaterialChanged : {_isMaterialChanged}],[" +
+                   $"IsOrdersMaterialOpened : {_isOrdersMaterialOpened}],[" +
+                   $"IsAdditionalStagesBought : {_isAdditionalStagesBought}],[" +
+                   $"IsSmeltingStarted : {_isSmeltingStarted}],[" +
+                   $"IsSmeltingNearTrigger : {_isSmeltingNearTrigger}],[" +
+                   $"IsSmeltingGoodHit : {_isSmeltingGoodHit}],[" +
+                   $"IsForgingAfterSmelting : {_isForgingAfterSmelting}],[" +
+                   $"IsTradeStarted : {_isTradeStarted}],[" +
+                   $"IsTradeScreenOpened : {_isTradeScreenOpened}],[" +
+                   $"IsTradeGreenZone : {_isTradeGreenZone}],[" +
+                   $"IsTradeFinished : {_isTradeFinished}],[" +
+                   $"IsHardeningStarted : {_isHardeningStarted}],[" +
+                   $"IsHardeningGoodHit : {_isHardeningGoodHit}],[" +
+                   $"IsSharpeningStarted : {_isSharpeningStarted}],[" +
+                   $"IsSharpeningGoodHit : {_isSharpeningGoodHit}],[" +
+                   $"IsSharpeningBadHit : {_isSharpeningBadHit}"; 
+        } 
+        public void LoadFromString(string tutorialString) 
+        {
+            string[] statesArray = tutorialString.Split("],[", StringSplitOptions.RemoveEmptyEntries);
+            foreach (string stateString in statesArray)
+            {
+                string[] items = stateString.Split(" : ", StringSplitOptions.RemoveEmptyEntries);
+                if (items.Length == 2)
+                {
+                    bool value = bool.Parse(items[1]);
+                    switch (items[0])
+                    {
+                        case "IsGameStarted": _isGameStarted = value; break;
+                        case "IsTutorialStarted": _isTutorialStarted = value; break;
+                        case "IsTutorialSkiped": _isTutorialSkiped = value; break;
+                        case "IsClientActivated": _isClientActivated = value; break;
+                        case "IsDialogueStarted": _isDialogueStarted = value; break;
+                        case "IsOrderApplied": _isOrderApplied = value; break;
+                        case "IsOrdersScreenOpened": _isOrdersScreenOpened = value; break;
+                        case "IsForgingStarted": _isForgingStarted = value; break;
+                        case "IsForgingHit": _isForgingHit = value; break;
+                        case "IsForgingStageChanged": _isForgingStageChanged = value; break;
+                        case "IsResultScreenOpened": _isResultScreenOpened = value; break;
+                        case "IsOrderFinished": _isOrderFinished = value; break;
+                        case "IsOrderSubmitStarted": _isOrderSubmitStarted = value; break;
+                        case "IsMoneyAdded": _isMoneyAdded = value; break;
+                        case "IsShopScreenOpened": _isShopScreenOpened = value; break;
+                        case "IsMoneyAccumulated": _isMoneyAccumulated = value; break;
+                        case "IsUpgradeBought": _isUpgradeBought = value; break;
+                        case "IsOrderMaterialUnavailable": _isOrderMaterialUnavailable = value; break;
+                        case "IsMaterialScreenOpened": _isMaterialScreenOpened = value; break;
+                        case "IsMaterialChanged": _isMaterialChanged = value; break;
+                        case "IsOrdersMaterialOpened": _isOrdersMaterialOpened = value; break;
+                        case "IsAdditionalStagesBought": _isAdditionalStagesBought = value; break;
+                        case "IsSmeltingStarted": _isSmeltingStarted = value; break;
+                        case "IsSmeltingNearTrigger": _isSmeltingNearTrigger = value; break;
+                        case "IsSmeltingGoodHit": _isSmeltingGoodHit = value; break;
+                        case "IsForgingAfterSmelting": _isForgingAfterSmelting = value; break;
+                        case "IsTradeStarted": _isTradeStarted = value; break;
+                        case "IsTradeScreenOpened": _isTradeScreenOpened = value; break;
+                        case "IsTradeGreenZone": _isTradeGreenZone = value; break;
+                        case "IsTradeFinished": _isTradeFinished = value; break;
+                        case "IsHardeningStarted": _isHardeningStarted = value; break;
+                        case "IsHardeningGoodHit": _isHardeningGoodHit = value; break;
+                        case "IsSharpeningStarted": _isSharpeningStarted = value; break;
+                        case "IsSharpeningGoodHit": _isSharpeningGoodHit = value; break;
+                        case "IsSharpeningBadHit": _isSharpeningBadHit = value; break;
+                    }
+                }
+            } 
+        }
     }
 }

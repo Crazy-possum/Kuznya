@@ -26,15 +26,16 @@ namespace Progression
             _playerMetaData = _data.PlayerMetaData;
             _activeBlocker = _tutorialView.Blocker1;
             _activeBlocker.SetActive(true);
+            AskAboutTutorial();
             if (!_playerMetaData.TutorialInfo.IsGameStarted)
             {
                 _playerMetaData.TutorialInfo.IsGameStarted = true;
-                AskAboutTutorial();
+                
             }
 
             if (_playerMetaData.TutorialInfo.IsTutorialStarted)
             {
-                SubscribeTutorialEvents();
+                //SubscribeTutorialEvents();
             }
         }
 

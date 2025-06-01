@@ -14,5 +14,6 @@ public enum SaveDataKey
     CurrentMaxMaterialStorage = 12,
     MaterialAddingDeltaTime = 13,
     WhoresaleOrder = 14,
-    WhoresaleTime = 15
+    WhoresaleTime = 15,
+    TutorialInfo = 16
 }
