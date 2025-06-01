@@ -247,11 +247,17 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     {
         if (orderType == OrderType.Wheel || orderType == OrderType.Shield)
         {
-            _hardeningUIView.BarrelImage.sprite = _hardeningUIView.Barrel2Sprite;
+            _hardeningUIView.Barrel2Image1.SetActive(true);
+            _hardeningUIView.Barrel2Image2.SetActive(true);
+            _hardeningUIView.Barrel1Image1.SetActive(false);
+            _hardeningUIView.Barrel1Image2.SetActive(false);
         }
         else
         {
-            _hardeningUIView.BarrelImage.sprite = _hardeningUIView.Barrel1Sprite;
+            _hardeningUIView.Barrel2Image1.SetActive(false);
+            _hardeningUIView.Barrel2Image2.SetActive(false);
+            _hardeningUIView.Barrel1Image1.SetActive(true);
+            _hardeningUIView.Barrel1Image2.SetActive(true);
         }
     }
 

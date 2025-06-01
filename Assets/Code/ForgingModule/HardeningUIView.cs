@@ -11,9 +11,10 @@ public class HardeningUIView : MonoBehaviour
     [SerializeField] private TMP_Text _scoreText;
     [SerializeField] private RectTransform _scoreRoot;
     [SerializeField] private Image _itemImage;
-    [SerializeField] private Image _barrelImage;
-    [SerializeField] private Sprite _barrel1Sprite;
-    [SerializeField] private Sprite _barrel2Sprite;
+    [SerializeField] private GameObject _barrel1Image1;
+    [SerializeField] private GameObject _barrel1Image2;
+    [SerializeField] private GameObject _barrel2Image1;
+    [SerializeField] private GameObject _barrel2Image2;
 
     public Slider HardeningSlider => _hardeningSlider;
     public RectTransform SliderCheckZone1 => _sliderCheckZone1;
@@ -22,9 +23,10 @@ public class HardeningUIView : MonoBehaviour
     public TMP_Text ScoreText => _scoreText;
     public RectTransform ScoreRoot => _scoreRoot;
     public Image ItemImage => _itemImage;
-    public Image BarrelImage => _barrelImage;
-    public Sprite Barrel1Sprite => _barrel1Sprite;
-    public Sprite Barrel2Sprite => _barrel2Sprite;
+    public GameObject Barrel1Image1 => _barrel1Image1;
+    public GameObject Barrel1Image2 => _barrel1Image2;
+    public GameObject Barrel2Image1 => _barrel2Image1;
+    public GameObject Barrel2Image2 => _barrel2Image2;
 
     public void UpdateScore(int currentScore)
     {
