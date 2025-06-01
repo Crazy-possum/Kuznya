@@ -25,6 +25,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     private ProgressionData _progressionData;
     private GameEventBus _gameEventBus;
     private TutorialEventBus _tutorialEventBus;
+    private OrderSpritesContainer _orderSpritesContainer;
 
     private UpgradesMetaData _upgradesMetaData;
     private PlayerMetaData _playerMetaData;
@@ -45,7 +46,8 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     [Inject]
     public void Initialize(HardeningUIView hardeningUIView, ForgingEventBus forgingEventBus,
         StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus, AudioEventBus audioEventBus,
-        ProgressionData progressionData, GameEventBus gameEventBus, TutorialEventBus tutorialEventBus)
+        ProgressionData progressionData, GameEventBus gameEventBus, TutorialEventBus tutorialEventBus,
+        OrderSpritesContainer orderSpritesContainer)
     {
         _hardeningUIView = hardeningUIView;
         _forgingEventBus = forgingEventBus;
@@ -55,6 +57,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
         _progressionData = progressionData;
         _gameEventBus = gameEventBus;
         _tutorialEventBus = tutorialEventBus;
+        _orderSpritesContainer = orderSpritesContainer;
     }
     
     public void Initialisation()
@@ -223,8 +226,35 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
         }
         _basicAddingScore = ((_currentBasicCost * COST_MULTIPLER) / timerTicks) + 
                             (((_currentBasicCost * COST_MULTIPLER) / timerTicks) * additionalGoodScoreMultipler);
-    }
         
+        SetItemImage(order);
+        SetBarrelImage(order.OrderType);
+    }
+
+    private void SetItemImage(ActiveOrder order)
+    {
+        MaterialName materialName = order.Materials[0].Config.MaterialName;
+        OrderType orderType = order.OrderType;
+        Sprite itemSprite = _orderSpritesContainer.OrderSpritesDict[orderType]
+            .ItemSpritesDict[materialName].Stage4Sprite;
+        _hardeningUIView.ItemImage.sprite = itemSprite;
+        _hardeningUIView.ItemImage.SetNativeSize();
+        RectTransform imageRect = _hardeningUIView.ItemImage.GetComponent<RectTransform>();
+        imageRect.sizeDelta = new Vector2(imageRect.sizeDelta.x/2, imageRect.sizeDelta.y/2);
+    }
+
+    private void SetBarrelImage(OrderType orderType)
+    {
+        if (orderType == OrderType.Wheel || orderType == OrderType.Shield)
+        {
+            _hardeningUIView.BarrelImage.sprite = _hardeningUIView.Barrel2Sprite;
+        }
+        else
+        {
+            _hardeningUIView.BarrelImage.sprite = _hardeningUIView.Barrel1Sprite;
+        }
+    }
+
     public void StartHardening(int score)
     {
         if (_playerMetaData.Unlocks.IsHardeningUnlocked)
@@ -238,7 +268,6 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
             _currentScore = score;
             ChangeZoneIndex();
             _hardeningUIView.UpdateScore((int)_currentScore);
-            
         }
         else
         {

@@ -11,6 +11,8 @@ public class SharpeningUIView : MonoBehaviour
     [SerializeField] private Button _hardeningButton;
     [SerializeField] private TMP_Text _scoreText;
     [SerializeField] private RectTransform _scoreRoot;
+    [SerializeField] private Image _itemImage;
+    [SerializeField] private Animator _itemAnimator;
     
     public Slider HardeningSlider => _hardeningSlider;
     public RectTransform SliderCheckZone => _sliderCheckZone;
@@ -19,4 +21,6 @@ public class SharpeningUIView : MonoBehaviour
     public Button HardeningButton => _hardeningButton;
     public TMP_Text ScoreText => _scoreText;
     public RectTransform ScoreRoot => _scoreRoot;
+    public Image ItemImage => _itemImage;
+    public Animator ItemAnimator => _itemAnimator;
 }

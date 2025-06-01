@@ -22,6 +22,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private GameEventBus _gameEventBus;
     private TutorialEventBus _tutorialEventBus;
     private AudioEventBus _audioEventBus;
+    private OrderSpritesContainer _orderSpritesContainer;
 
     private UpgradesMetaData _upgradesMetaData;
     private PlayerMetaData _playerMetaData;
@@ -39,7 +40,8 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     [Inject]
     public void Construct(SharpeningUIView uiView, ForgingEventBus forgingEventBus,
         StateEventsBus stateEventsBus, OrdersEventBus ordersEventBus, ProgressionData progressionData,
-        GameEventBus gameEventBus, TutorialEventBus tutorialEventBus, AudioEventBus audioEventBus)
+        GameEventBus gameEventBus, TutorialEventBus tutorialEventBus, AudioEventBus audioEventBus,
+        OrderSpritesContainer orderSpritesContainer)
     {
         _uiView = uiView;
         _eventBus = forgingEventBus;
@@ -49,6 +51,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         _gameEventBus = gameEventBus;
         _tutorialEventBus = tutorialEventBus;
         _audioEventBus = audioEventBus;
+        _orderSpritesContainer = orderSpritesContainer;
     }
     
     
@@ -123,6 +126,19 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         
         _basicAddingScore = (int)((_currentBasicCost * COST_MULTIPLER) + ((_currentBasicCost * COST_MULTIPLER) 
                                                                           * additionalGoodScoreMultipler)) / _currentMaxProgress;
+        SetItemImage(order);
+    }
+    
+    private void SetItemImage(ActiveOrder order)
+    {
+        MaterialName materialName = order.Materials[0].Config.MaterialName;
+        OrderType orderType = order.OrderType;
+        Sprite itemSprite = _orderSpritesContainer.OrderSpritesDict[orderType]
+            .ItemSpritesDict[materialName].Stage4Sprite;
+        _uiView.ItemImage.sprite = itemSprite;
+        _uiView.ItemImage.SetNativeSize();
+        //RectTransform imageRect = _hardeningUIView.ItemImage.GetComponent<RectTransform>();
+        //imageRect.sizeDelta = new Vector2(imageRect.sizeDelta.x/2, imageRect.sizeDelta.y/2);
     }
     
     private void StopProcess(ActiveOrder order)
@@ -166,6 +182,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
             ChangeZonesSize();
             SpawnAddingScoreObject(addingScore);
             UpdateUI();
+            _uiView.ItemAnimator.SetTrigger("ActSharpening");
         }
     }
 
