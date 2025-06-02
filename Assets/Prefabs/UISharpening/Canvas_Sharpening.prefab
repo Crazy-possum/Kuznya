@@ -1204,7 +1204,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 37.8
+  m_Value: 16.3
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1492,7 +1492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.36464104, g: 0.5566038, b: 0.128649, a: 0.74509805}
+  m_Color: {r: 0.6272134, g: 0.6792453, b: 0.12495552, a: 0.74509805}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
