@@ -342,18 +342,18 @@ MonoBehaviour:
   _denyButton: {fileID: 3957166307851021894}
   _storableMaterials:
     Dictionary:
-    - Key: 1
-      Value: {fileID: 8818562070691002253}
-    - Key: 2
-      Value: {fileID: 4966772467821908128}
-    - Key: 3
-      Value: {fileID: 3090364572521595050}
-    - Key: 4
-      Value: {fileID: 7902829300755914613}
-    - Key: 5
-      Value: {fileID: 3882392318309389160}
-    - Key: 6
-      Value: {fileID: 2565566307408390039}
+    - _key: 1
+      _value: {fileID: 8818562070691002253}
+    - _key: 2
+      _value: {fileID: 4966772467821908128}
+    - _key: 3
+      _value: {fileID: 3090364572521595050}
+    - _key: 4
+      _value: {fileID: 7902829300755914613}
+    - _key: 5
+      _value: {fileID: 3882392318309389160}
+    - _key: 6
+      _value: {fileID: 2565566307408390039}
   _resizeButton: {fileID: 287985842125880741}
   _materialsPanelRect: {fileID: 6916287640221427966}
 --- !u!1 &2074482293634642200
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1150,6 +1150,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: P-StorableMaterial (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6766314229469049464, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_text
+      value: "\u041C\u0435\u0434\u044C"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1388,6 +1392,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: P-StorableMaterial (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 6766314229469049464, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_text
+      value: "\u0421\u0435\u0440\u0435\u0431\u0440\u043E"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1504,6 +1512,10 @@ PrefabInstance:
     - target: {fileID: 5903316021137222301, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
       propertyPath: m_Name
       value: P-StorableMaterial (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6766314229469049464, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_text
+      value: "\u0421\u0442\u0430\u043B\u044C"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1860,6 +1872,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: P-StorableMaterial (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6766314229469049464, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_text
+      value: "\u0416\u0435\u043B\u0435\u0437\u043E"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2097,6 +2113,10 @@ PrefabInstance:
     - target: {fileID: 5903316021137222301, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
       propertyPath: m_Name
       value: P-StorableMaterial
+      objectReference: {fileID: 0}
+    - target: {fileID: 6766314229469049464, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_text
+      value: "\u041C\u0435\u0442\u0430\u043B\u043B"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2489,6 +2509,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: P-StorableMaterial (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6766314229469049464, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_text
+      value: "\u041E\u043B\u043E\u0432\u043E"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2518,6 +2542,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5854402921347177961}
     m_Modifications:
+    - target: {fileID: 3584397393503322671, guid: 39cc2736175c47d4b91038c79e85a5f0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6b7ae7081b78bc9499ef853bbb03b31d, type: 3}
+    - target: {fileID: 3584397393503322671, guid: 39cc2736175c47d4b91038c79e85a5f0, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 4205765867814994383, guid: 39cc2736175c47d4b91038c79e85a5f0, type: 3}
       propertyPath: m_Sprite
       value: 

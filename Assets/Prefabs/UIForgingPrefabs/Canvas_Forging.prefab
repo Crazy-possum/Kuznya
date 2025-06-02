@@ -1110,7 +1110,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.26
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2151,7 +2151,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -8, y: -8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7880727514448733879
 CanvasRenderer:
@@ -2186,7 +2186,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.26
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -3345,7 +3345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 1}
+  m_Color: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4186,6 +4186,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4334932441182157369}
     m_Modifications:
+    - target: {fileID: 395762216779218311, guid: 21dd94a67fcb2a74a83a09cbbddea1d1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 395762216779218311, guid: 21dd94a67fcb2a74a83a09cbbddea1d1, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 4626509842003735900, guid: 21dd94a67fcb2a74a83a09cbbddea1d1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4265,6 +4273,14 @@ PrefabInstance:
     - target: {fileID: 4626509842003735900, guid: 21dd94a67fcb2a74a83a09cbbddea1d1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5150474370370645259, guid: 21dd94a67fcb2a74a83a09cbbddea1d1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cca814e745cf12948a6b58996cc7b026, type: 3}
+    - target: {fileID: 5150474370370645259, guid: 21dd94a67fcb2a74a83a09cbbddea1d1, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8351877387840623888, guid: 21dd94a67fcb2a74a83a09cbbddea1d1, type: 3}
       propertyPath: m_Name

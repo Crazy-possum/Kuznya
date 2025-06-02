@@ -172,7 +172,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 835.4025, y: -490.51294}
+  m_AnchoredPosition: {x: 835.4025, y: -469}
   m_SizeDelta: {x: 1049.195, y: 778.9741}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8997522298659817074
@@ -716,8 +716,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -600, y: 200}
+  m_AnchoredPosition: {x: 0, y: 11}
+  m_SizeDelta: {x: -600, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1715624349564519742
 CanvasRenderer:
@@ -747,7 +747,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 263993f2cd950184f82b3aaf1b38fdb1, type: 3}
+  m_Sprite: {fileID: -1341850817, guid: c6545bd14f8e9034ebf39be642cbd87f, type: 3}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -756,7 +756,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 2
 --- !u!114 &6826216311416162757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1497,6 +1497,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: P-StorableMaterial (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6766314229469049464, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_text
+      value: "\u041C\u0435\u0434\u044C"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1739,6 +1743,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: P-StorableMaterial (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6766314229469049464, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_text
+      value: "\u041E\u043B\u043E\u0432\u043E"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1855,6 +1863,10 @@ PrefabInstance:
     - target: {fileID: 5903316021137222301, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
       propertyPath: m_Name
       value: P-StorableMaterial
+      objectReference: {fileID: 0}
+    - target: {fileID: 6766314229469049464, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_text
+      value: "\u041C\u0435\u0442\u0430\u043B\u043B"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1973,6 +1985,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: P-StorableMaterial (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 6766314229469049464, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_text
+      value: "\u0421\u0442\u0430\u043B\u044C"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2090,6 +2106,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: P-StorableMaterial (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6766314229469049464, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_text
+      value: "\u0416\u0435\u043B\u0435\u0437\u043E"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2206,6 +2226,10 @@ PrefabInstance:
     - target: {fileID: 5903316021137222301, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
       propertyPath: m_Name
       value: P-StorableMaterial (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6766314229469049464, guid: f8703b00913f8944eb9ca8ea77562342, type: 3}
+      propertyPath: m_text
+      value: "\u0421\u0435\u0440\u0435\u0431\u0440\u043E"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
