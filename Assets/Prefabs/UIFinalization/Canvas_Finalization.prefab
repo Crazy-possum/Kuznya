@@ -872,9 +872,9 @@ MonoBehaviour:
   _itemImage: {fileID: 3558606287032067914}
   _handleImage: {fileID: 6897107340714547522}
   _scoreText: {fileID: 92277047583114205}
-  _defaultButtonSprite: {fileID: 21300000, guid: 7b343a18a7f328d449e66f15867851d0, type: 3}
-  _greenButtonSprite: {fileID: 21300000, guid: 95d5ea98e5b850a42afe197fbaf7558e, type: 3}
-  _redButtonSprite: {fileID: 21300000, guid: 018f9950e7f5a064a8a1e16880b574ca, type: 3}
+  _defaultButtonSprite: {fileID: 21300000, guid: cd850a99d14d7dc488cf6352afdbf255, type: 3}
+  _greenButtonSprite: {fileID: 21300000, guid: 97fd5372f7d1ff848809bac0293a0935, type: 3}
+  _redButtonSprite: {fileID: 21300000, guid: 382934e95fd17974d8d554c1e4f3a206, type: 3}
   _blockerPanel: {fileID: 3945256659718989831}
   _memoryTextPanel: {fileID: 1024204176824112962}
   _finalizeTextPanel: {fileID: 6749220433396724113}
