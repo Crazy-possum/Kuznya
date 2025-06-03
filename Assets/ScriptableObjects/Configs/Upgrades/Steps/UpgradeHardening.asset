@@ -16,5 +16,5 @@ MonoBehaviour:
   _title: "\u0417\u0430\u043A\u0430\u043B\u043A\u0430"
   _description: "\u041F\u043E\u0437\u0432\u043E\u043B\u044F\u0435\u0442 \u0437\u0430\u043A\u0430\u043B\u044F\u0442\u044C
     \u0432\u044B\u043A\u043E\u0432\u0430\u043D\u043D\u044B\u0435 \u0438\u0437\u0434\u0435\u043B\u0438\u044F"
-  _upgradeSprite: {fileID: 0}
+  _upgradeSprite: {fileID: 21300000, guid: 3522d1ec081ad0342881fa27b92b3d08, type: 3}
   _levelsCostList: 409c0000
