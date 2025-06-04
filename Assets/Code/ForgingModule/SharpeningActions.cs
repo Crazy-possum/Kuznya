@@ -13,6 +13,8 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private const int MAX_PROGRESS = 5;
     private const int COST_MULTIPLER = 50;
     private const float SCORE_TEXT_LIFETIME = 2f;
+    public const float END_TIME = 0.5f;
+    
     
     private SharpeningUIView _uiView;
     private ForgingEventBus _eventBus;
@@ -36,6 +38,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
     private Vector2 _yellowZoneInitialSize;
     private int _currentMaxProgress;
     private ScoreTextView _currentAddingScoreTextView;
+    private Timer _endTimer;
     
     [Inject]
     public void Construct(SharpeningUIView uiView, ForgingEventBus forgingEventBus,
@@ -175,16 +178,28 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
                 _tutorialEventBus.OnSharpeningBadHit?.Invoke();
                 //Debug.Log($"Nothing added to score");
             }
-            if (_currentProgress >= _currentMaxProgress)
-            {
-                EndProcess();
-                return;
-            }
             ChangeZonesSize();
             SpawnAddingScoreObject(addingScore);
             UpdateUI();
             _uiView.ItemAnimator.SetTrigger("ActSharpening");
+            if (_currentProgress >= _currentMaxProgress)
+            {
+                _isRunning = false;
+                _endTimer = new Timer(END_TIME);
+                return;
+            }
         }
+
+        if (_endTimer != null)
+        {
+            if (_endTimer.Wait())
+            {
+                EndProcess();
+                _endTimer = null;
+            }
+        }
+        
+        
     }
 
     private void SpawnAddingScoreObject(int addingScore)
@@ -284,6 +299,10 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         _isRunning = false;
         _uiView.TargetZoneGreen.sizeDelta = _greenZoneInitialSize;
         _uiView.TargetZoneYellow.sizeDelta = _yellowZoneInitialSize;
+        if (_currentAddingScoreTextView != null)
+        {
+            _currentAddingScoreTextView.RemoveText();
+        }
     }
     
     private void UpdateUI()

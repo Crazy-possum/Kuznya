@@ -22,6 +22,7 @@ public class OrderPanelView : MonoBehaviour
     [SerializeField] private Sprite _inProcessSprite;
     [SerializeField] private Sprite _comletedSprite;
     [SerializeField] private GameObject _lockedVisualPanel;
+    [SerializeField] private Slider _wholesaleAutomationTimeSlider;
     private ActiveOrder _activeOrder;
 
     public GameObject ActiveOrderPanel { get => _activeOrderPanel; }
@@ -36,6 +37,7 @@ public class OrderPanelView : MonoBehaviour
     public OrderMaterialView OrderMaterial3View { get => _orderMaterial3View; }
     public ActiveOrder ActiveOrder { get => _activeOrder; set => _activeOrder = value; }
     public GameObject LockedVisualPanel { get => _lockedVisualPanel; }
+    public Slider WholesaleAutomationTimeSlider { get => _wholesaleAutomationTimeSlider; }
     
     public void SetOrderPanelState(bool isActive)
     {

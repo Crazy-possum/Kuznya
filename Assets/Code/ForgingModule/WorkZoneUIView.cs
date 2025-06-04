@@ -17,9 +17,12 @@ public class WorkZoneUIView : MonoBehaviour
     {
         if (_scoreTextList.Count >= _maxScoreTextsCount)
         {
-            GameObject textObject = _scoreTextList[0].gameObject;
-            _scoreTextList.Remove(_scoreTextList[0]);
-            Destroy(textObject);
+            if (_scoreTextList[0].gameObject != null)
+            {
+                GameObject textObject = _scoreTextList[0].gameObject;
+                _scoreTextList.Remove(_scoreTextList[0]);
+                Destroy(textObject);
+            }
         }
         _scoreTextList.Add(text);
     }

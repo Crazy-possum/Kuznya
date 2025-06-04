@@ -323,6 +323,10 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
         _isRunning = false;
         _hardeningTimer = null;
         _stateTimer = null;
+        if (_currentAddingScoreTextView != null)
+        {
+            _currentAddingScoreTextView.RemoveText();
+        }
     }
 
 

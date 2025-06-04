@@ -345,7 +345,10 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         {
             textView.SetTextColor(textView.TextColor);
         }
-        _currentView.AddTextToList(textView);
+        if( textView != null )
+        {
+            _currentView.AddTextToList(textView);
+        }
         _currentView = null;
         _currentAddingScore = 0;
 
@@ -377,7 +380,10 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         }
         foreach (ScoreTextView textView in textsToRemove)
         {
-            textView.RemoveText();
+            if (textView != null)
+            {
+                textView.RemoveText();
+            }
         }
     }
 

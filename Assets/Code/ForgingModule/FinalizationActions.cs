@@ -14,7 +14,7 @@ public class FinalizationActions : IAction, IInitialisation, ICleanUp, IFixedExe
 {
     private const float HIGHLIGHT_TIME = 0.5f; 
     public const float MEMORY_TIME = 2f;
-    public const float END_TIME = 1.5f;
+    public const float END_TIME = 1f;
     private const float SCORE_TEXT_LIFETIME = 1f;
     
     private FinalizationUIView _uiView;
@@ -411,5 +411,14 @@ public class FinalizationActions : IAction, IInitialisation, ICleanUp, IFixedExe
         _currentStageIndex = 0;
         _memoryPointsCount = 0;
         _activeMemoryPointsCount = 0;
+        if (_currentAddingScoreTextView != null)
+        {
+            _currentAddingScoreTextView.RemoveText();
+        }
+        if(_currentHighlightedButtonName != ButtonNames.NONE)
+        {
+            _uiView.ResetButton(_currentHighlightedButtonName);
+            _currentHighlightedButtonName = ButtonNames.NONE;
+        }
     }
 }

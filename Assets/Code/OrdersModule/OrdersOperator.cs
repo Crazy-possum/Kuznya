@@ -17,7 +17,7 @@ namespace Orders
         private const float WHOLESALE_ORDER_TIME = 20f;
         private const float DEFAULT_ORDER_TIME = 8f;
         private const float MINUTE_MULTIPLER = 60f;
-        private const int WHOLESALE_COUNT = 10;
+        private const int WHOLESALE_COUNT = 5;
         private const int OPENED_STAGES = 4;
 
         private ProgressionData _progressionData;
@@ -167,6 +167,9 @@ namespace Orders
             _wholesaleAutomationDelay *= MINUTE_MULTIPLER;
             if (_wholesaleAutomationDelay > 0)
             {
+                _wholesalePanel.WholesaleAutomationTimeSlider.gameObject.SetActive(true);
+                _wholesalePanel.WholesaleAutomationTimeSlider.maxValue = _wholesaleAutomationDelay;
+                _wholesalePanel.WholesaleAutomationTimeSlider.value = _wholesaleAutomationDelay;
                 _wholesaleAutomationTimer = new Timer(_wholesaleAutomationDelay);
             }
         }
@@ -234,6 +237,7 @@ namespace Orders
 
             if (_wholesaleAutomationTimer != null)
             {
+                UpdateWholesaleUI();
                 if (_wholesaleAutomationTimer.Wait())
                 {
                     if (_wholesaleActiveOrder != null)
@@ -255,6 +259,12 @@ namespace Orders
                 }
                 
             }
+        }
+
+        private void UpdateWholesaleUI()
+        {
+            _wholesalePanel.WholesaleAutomationTimeSlider.value =
+                _wholesaleAutomationTimer.GetRoundedRemainingTime(0);
         }
 
         private void SetupNewWholesaleOrder()
