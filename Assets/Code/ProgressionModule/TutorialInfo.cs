@@ -41,6 +41,9 @@ namespace Progression
         private bool _isSharpeningStarted;
         private bool _isSharpeningGoodHit;
         private bool _isSharpeningBadHit;
+        private bool _isFinalizationStarted;
+        private bool _isFinalizationGoodHit;
+        private bool _isFinalizationBadHit;
         
         public bool IsGameStarted { get => _isGameStarted; set => _isGameStarted = value; }
         public bool IsTutorialStarted { get => _isTutorialStarted; set => _isTutorialStarted = value; }
@@ -77,6 +80,10 @@ namespace Progression
         public bool IsSharpeningStarted { get => _isSharpeningStarted; set => _isSharpeningStarted = value; }
         public bool IsSharpeningGoodHit { get => _isSharpeningGoodHit; set => _isSharpeningGoodHit = value; }
         public bool IsSharpeningBadHit { get => _isSharpeningBadHit; set => _isSharpeningBadHit = value; }
+        public bool IsFinalizationStarted { get => _isFinalizationStarted; set => _isFinalizationStarted = value; }
+        public bool IsFinalizationGoodHit { get => _isFinalizationGoodHit; set => _isFinalizationGoodHit = value; }
+        public bool IsFinalizationBadHit { get => _isFinalizationBadHit; set => _isFinalizationBadHit = value; }
+
         
         public override string ToString() 
         {
@@ -114,8 +121,11 @@ namespace Progression
                    $"IsHardeningGoodHit : {_isHardeningGoodHit}],[" +
                    $"IsSharpeningStarted : {_isSharpeningStarted}],[" +
                    $"IsSharpeningGoodHit : {_isSharpeningGoodHit}],[" +
-                   $"IsSharpeningBadHit : {_isSharpeningBadHit}"; 
-        } 
+                   $"IsSharpeningBadHit : {_isSharpeningBadHit}],["  +
+                   $"IsFinalizationStarted : {_isFinalizationStarted}],[" +
+                   $"IsFinalizationGoodHit : {_isFinalizationGoodHit}],[" +
+                   $"IsFinalizationBadHit : {_isFinalizationBadHit}";
+        }
         public void LoadFromString(string tutorialString) 
         {
             string[] statesArray = tutorialString.Split("],[", StringSplitOptions.RemoveEmptyEntries);
@@ -162,6 +172,9 @@ namespace Progression
                         case "IsSharpeningStarted": _isSharpeningStarted = value; break;
                         case "IsSharpeningGoodHit": _isSharpeningGoodHit = value; break;
                         case "IsSharpeningBadHit": _isSharpeningBadHit = value; break;
+                        case "IsFinalizationStarted": _isFinalizationStarted = value; break;
+                        case "IsFinalizationGoodHit": _isFinalizationGoodHit = value; break;
+                        case "IsFinalizationBadHit": _isFinalizationBadHit = value; break;
                     }
                 }
             } 

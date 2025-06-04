@@ -242,6 +242,18 @@ namespace Progression
             {
                 _tutorialEventBus.OnSharpeningBadHit += SharpeningBadHit;
             }
+            if (!_playerMetaData.TutorialInfo.IsFinalizationStarted)
+            {
+                _tutorialEventBus.OnFinalizationStarted += FinalizationStarted;
+            }
+            if (!_playerMetaData.TutorialInfo.IsFinalizationGoodHit)
+            {
+                _tutorialEventBus.OnFinalizationGoodHit += FinalizationGoodHit;
+            }
+            if (!_playerMetaData.TutorialInfo.IsFinalizationBadHit)
+            {
+                _tutorialEventBus.OnFinalizationBadHit += FinalizationBadHit;
+            }
         }
 
         private void ClientActivated()
@@ -636,6 +648,53 @@ namespace Progression
             _tutorialView.SharpeningBadHitTutorialPanel.SetActive(true);
             _tutorialView.SharpeningContinue3Button.Button.onClick.AddListener(SharpeningContinue);
             _tutorialEventBus.OnOrderSectionFinished?.Invoke();
+        }
+        
+        private void FinalizationStarted()
+        {
+            Time.timeScale = 0;
+            _tutorialEventBus.OnFinalizationStarted -= FinalizationStarted;
+            _playerMetaData.TutorialInfo.IsFinalizationStarted = true;
+            _tutorialView.FinalizationStartTutorialPanel.SetActive(true);
+            _tutorialView.FinalizationContinueButton1.Button.onClick.AddListener(FinalizationContinue1);
+        }
+
+        private void FinalizationContinue1()
+        {
+            Time.timeScale = 1;
+            _tutorialView.FinalizationStartTutorialPanel.SetActive(false);
+            _tutorialView.FinalizationContinueButton1.Button.onClick.RemoveAllListeners();
+        }
+        
+        private void FinalizationContinue2()
+        {
+            Time.timeScale = 1;
+            _tutorialView.FinalizationGoodHitTutorialPanel.SetActive(false);
+            _tutorialView.FinalizationBadHitTutorialPanel.SetActive(false);
+            _tutorialView.FinalizationContinueButton2.Button.onClick.RemoveAllListeners();
+            _tutorialView.FinalizationContinueButton3.Button.onClick.RemoveAllListeners();
+        }
+
+        private void FinalizationGoodHit()
+        {
+            Time.timeScale = 0;
+            _tutorialEventBus.OnFinalizationGoodHit -= FinalizationGoodHit;
+            _tutorialEventBus.OnFinalizationBadHit -= FinalizationBadHit;
+            _playerMetaData.TutorialInfo.IsFinalizationGoodHit = true;
+            _playerMetaData.TutorialInfo.IsFinalizationBadHit = true;
+            _tutorialView.FinalizationGoodHitTutorialPanel.SetActive(true);
+            _tutorialView.FinalizationContinueButton2.Button.onClick.AddListener(FinalizationContinue2);
+        }
+
+        private void FinalizationBadHit()
+        {
+            Time.timeScale = 0;
+            _tutorialEventBus.OnFinalizationGoodHit -= FinalizationGoodHit;
+            _tutorialEventBus.OnFinalizationBadHit -= FinalizationBadHit;
+            _playerMetaData.TutorialInfo.IsFinalizationBadHit = true;
+            _playerMetaData.TutorialInfo.IsFinalizationGoodHit = true;
+            _tutorialView.FinalizationBadHitTutorialPanel.SetActive(true);
+            _tutorialView.FinalizationContinueButton3.Button.onClick.AddListener(FinalizationContinue2);
         }
         
 

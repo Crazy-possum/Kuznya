@@ -185,10 +185,12 @@ public class FinalizationActions : IAction, IInitialisation, ICleanUp, IFixedExe
         _audioEventBus.OnPlaySound2?.Invoke(AudioResourceID.Sound_FinalizationHit2);
         if (_currentMemoryPointsNames[_activeMemoryPointsCount] == buttonName)
         {
+            _tutorialEventBus.OnFinalizationGoodHit?.Invoke();
             _uiView.HighlightGreen(buttonName);
         }
         else
         {
+            _tutorialEventBus.OnFinalizationBadHit?.Invoke();
             _uiView.HighlightRed(buttonName);
             _isMemoryStagePassed = false;
             _activeMemoryPointsCount = _memoryPointsCount;
@@ -373,7 +375,7 @@ public class FinalizationActions : IAction, IInitialisation, ICleanUp, IFixedExe
     {
         if (_playerMetaData.Unlocks.IsFinalizationUnlocked)
         {
-            _tutorialEventBus.OnHardeningStarted?.Invoke();
+            _tutorialEventBus.OnFinalizationStarted?.Invoke();
             if (_isRunning) return;
             _isRunning = true;
             _currentScore = score;

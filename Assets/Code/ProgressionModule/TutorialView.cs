@@ -63,6 +63,12 @@ namespace Progression
         [SerializeField] private GameObject _sharpeningBadHitTutorialPanel;
         [SerializeField] private ButtonView _sharpeningContinue2Button;
         [SerializeField] private ButtonView _sharpeningContinue3Button;
+        [SerializeField] private GameObject _finalizationStartTutorialPanel;
+        [SerializeField] private ButtonView _finalizationContinueButton1;
+        [SerializeField] private GameObject _finalizationGoodHitTutorialPanel;
+        [SerializeField] private GameObject _finalizationBadHitTutorialPanel;
+        [SerializeField] private ButtonView _finalizationContinueButton2;
+        [SerializeField] private ButtonView _finalizationContinueButton3;
         
         
         
@@ -125,5 +131,11 @@ namespace Progression
         public GameObject SharpeningBadHitTutorialPanel => _sharpeningBadHitTutorialPanel;
         public ButtonView SharpeningContinue2Button => _sharpeningContinue2Button;
         public ButtonView SharpeningContinue3Button => _sharpeningContinue3Button;
+        public GameObject FinalizationStartTutorialPanel => _finalizationStartTutorialPanel;
+        public ButtonView FinalizationContinueButton1 => _finalizationContinueButton1;
+        public GameObject FinalizationGoodHitTutorialPanel => _finalizationGoodHitTutorialPanel;
+        public GameObject FinalizationBadHitTutorialPanel => _finalizationBadHitTutorialPanel;
+        public ButtonView FinalizationContinueButton2 => _finalizationContinueButton2;
+        public ButtonView FinalizationContinueButton3 => _finalizationContinueButton3;
     }
 }
