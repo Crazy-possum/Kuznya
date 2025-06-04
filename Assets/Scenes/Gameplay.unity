@@ -2910,6 +2910,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4536783393562254788, guid: c5d80da76558dee43ad73c1c14b829b9, type: 3}
+      propertyPath: m_PixelPerfect
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5249751046146773653, guid: c5d80da76558dee43ad73c1c14b829b9, type: 3}
       propertyPath: m_Name
       value: Canvas_Tutorial
