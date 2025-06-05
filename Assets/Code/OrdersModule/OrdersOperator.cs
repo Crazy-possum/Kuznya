@@ -32,6 +32,7 @@ namespace Orders
 
         private OrdersMetaData _ordersMetaData;
         private PlayerMetaData _playerMetaData;
+        private List<OrderPanelView> _orderPanels;
         private List<OrderPanelView> _emptyOrderPanels;
         private Dictionary<OrderPanelView, ActiveOrder> _activeOrders;
         private Dictionary<OrderPanelView, Timer> _ordersToRemove;
@@ -106,6 +107,7 @@ namespace Orders
             if (upgradeName == UpgradeName.MultiTask)
             {
                 SetOrdersCount();
+                _ordersEventBus.OnOrdersBoardSpaceChanged?.Invoke(true);
             }
         }
 
@@ -122,6 +124,7 @@ namespace Orders
             }
             _wholesalePanel = _emptyOrderPanels[_emptyOrderPanels.Count - 1];
             _emptyOrderPanels.Remove(_wholesalePanel);
+            _orderPanels.Remove(_wholesalePanel);
             SetupWholesaleTimer();
             if (_wholesaleTimer != null)
             {
@@ -307,13 +310,13 @@ namespace Orders
             int startIndex = _activeOrdersCount;
             for (int i = startIndex; i < _maxOrdersCount; i++)
             {
-                if (_emptyOrderPanels.Count >= i+1)
+                if (_orderPanels.Count >= i+1)
                 {
-                    _emptyOrderPanels[i].SetLockedState(false);
+                    _orderPanels[i].SetLockedState(false);
                 }
                 else
                 {
-                    _emptyOrderPanels[i].SetLockedState(true);
+                    _orderPanels[i].SetLockedState(true);
                 }
             }
         }
@@ -406,6 +409,7 @@ namespace Orders
         private void InitializeOrderPanels()
         {
             _emptyOrderPanels = new List<OrderPanelView>();
+            _orderPanels = new List<OrderPanelView>();
             InitializeOrderPanel(_ordersView.Order1PanelView);
             InitializeOrderPanel(_ordersView.Order2PanelView);
             InitializeOrderPanel(_ordersView.Order3PanelView);
@@ -421,6 +425,7 @@ namespace Orders
             orderPanelView.OrderButton.onClick.AddListener(
                 () => ConfirmOrSubmitOrder(orderPanelView));
             _emptyOrderPanels.Add(orderPanelView);
+            _orderPanels.Add(orderPanelView);
             orderPanelView.SetOrderPanelState(false);
         }
 

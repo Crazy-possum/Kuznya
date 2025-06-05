@@ -95,7 +95,7 @@ namespace Progression
             _data.OrdersMeta.SaveData(_saveLoadEventBus);
             _data.UpgradesMeta.SaveData(_saveLoadEventBus);
             _saveLoadEventBus.OnSaveData?.Invoke();
-            Debug.Log("Saved data");
+            //Debug.Log("Saved data");
         }
         
         private void ClearProgressData()

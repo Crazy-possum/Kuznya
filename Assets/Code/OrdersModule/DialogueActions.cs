@@ -29,6 +29,7 @@ namespace Orders
         private ClientsSpritesContainer _clientsSpritesContainer;
         private UIEventBus _uiEventBus;
         private TutorialEventBus _tutorialEventBus;
+        private EconomyEventBus _economyEventBus;
 
         private OrdersMetaData _ordersMetaData;
         private PlayerMetaData _playerMetaData;
@@ -42,12 +43,13 @@ namespace Orders
         private Timer _dialogueEndTimer;
         private UpgradesMetaData _upgradesMetaData;
         private Timer _warningTimer;
+        private int _maxOrdersCount;
 
         [Inject]
         public void Construct(DialogueView dialogueView, ProgressionData progressionData,
             OrdersEventBus ordersEvents, GameEventBus gameEventBus, GUIView guiView,
             GameConfig gameConfig, ClientsSpritesContainer clientsSpritesContainer,
-            UIEventBus uiEventBus, TutorialEventBus tutorialEventBus)
+            UIEventBus uiEventBus, TutorialEventBus tutorialEventBus, EconomyEventBus economyEventBus)
         {
             _dialogueView = dialogueView;
             _progressionData = progressionData;
@@ -58,6 +60,7 @@ namespace Orders
             _clientsSpritesContainer = clientsSpritesContainer;
             _uiEventBus = uiEventBus;
             _tutorialEventBus = tutorialEventBus;
+            _economyEventBus = economyEventBus;
         }
         
         public void PreInitialisation()
@@ -73,10 +76,12 @@ namespace Orders
             _dialogueView.NextButton.onClick.AddListener(() => ShowDescriptionText());
             _dialogueView.PrevButton.onClick.AddListener(() => ShowDefaultText());
             
+            
             _random = new System.Random();
             _clientIconObjects = new List<GameObject>();
             _generationLength = 20;
             _generationDelay = 1f;
+            _maxOrdersCount = 1;
         }
 
         public void Initialisation()
@@ -84,8 +89,10 @@ namespace Orders
             _ordersMetaData = _progressionData.OrdersMeta;
             _playerMetaData = _progressionData.PlayerMetaData;
             _upgradesMetaData = _progressionData.UpgradesMeta;
+            _economyEventBus.OnUpgradeApplied += CheckIsUpgradesChanged;
             _timer = new Timer(_generationDelay);
             LoadDialogue();
+            SetupOrdersCount();
         }
 
         public void Cleanup()
@@ -128,6 +135,24 @@ namespace Orders
             }
         }
         
+        private void CheckIsUpgradesChanged(UpgradeName upgradeName)
+        {
+            if (upgradeName == UpgradeName.MultiTask)
+            {
+                SetupOrdersCount();
+            }
+        }
+
+        private void SetupOrdersCount()
+        {
+            _maxOrdersCount = 1;
+            if (_upgradesMetaData.Upgrades.IsContainsKey(UpgradeName.MultiTask))
+            {
+                _maxOrdersCount +=
+                    (int)_upgradesMetaData.Upgrades[UpgradeName.MultiTask].GetUpgradeData();
+            }
+        }
+
         private void ChangeApplyButtonState(bool isInteractable)
         {
             //_dialogueView.AcceptButton.interactable = isInteractable;
@@ -206,7 +231,6 @@ namespace Orders
         
         private void DialogueStartActions(ClientConfig client)
         {
-
             _dialogueView.ClientImage.gameObject.SetActive(true);
             _dialogueView.DialogueIcon.gameObject.SetActive(true);
             _dialogueView.ClientImage.sprite = client.ClientSprite;
@@ -218,7 +242,7 @@ namespace Orders
 
         private void CheckOrdersCount()
         {
-            if (_ordersMetaData.ActiveOrders.Count >= _gameConfig.MaxOrders)
+            if (_ordersMetaData.ActiveOrders.Count >= _maxOrdersCount)
             {
                 _dialogueView.AcceptButton.interactable = false;
                 _dialogueView.AcceptButtonText.text = NOT_ENOUTH_TEXT;
@@ -315,6 +339,7 @@ namespace Orders
 
         private void StartDialogue()
         {
+            CheckOrdersCount();
             _dialogueView.DialoguePanel.SetActive(true);
             _dialogueView.DialogueIcon.gameObject.SetActive(false);
             _guiView.NavigationPanel.SetActive(false);

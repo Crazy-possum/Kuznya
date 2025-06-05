@@ -43,7 +43,6 @@ namespace Audio
 
         private void CheckSecretUpgradeApplied(UpgradeName upgradeName)
         {
-            Debug.Log("Checking secret upgrade");
             if (upgradeName == UpgradeName.SecretUpgrade)
             {
                 _audioEventBus.OnPlayMusic?.Invoke(AudioResourceID.Music_Secret);
