@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e577a03c648cca54d90abb3015000bfb, type: 3}
+  m_Name: Fransuaza_PoolConfig
+  m_EditorClassIdentifier: 
+  _orders:
+  - {fileID: 11400000, guid: 8e2be3f9f4642dd45b1d4682ad0808d5, type: 2}
+  - {fileID: 11400000, guid: 8781f306aabe9b140a20b86b56d2ff06, type: 2}
+  - {fileID: 11400000, guid: 70a92a6dc81f8d342962763e40b993fa, type: 2}
+  - {fileID: 11400000, guid: 416d67d98ca09c2468b5a254c36163b3, type: 2}
+  - {fileID: 11400000, guid: 7d03b377d72d205419952e319a2d4307, type: 2}
+  - {fileID: 11400000, guid: b0326e21b0c765543a1ff9732bc9f4c6, type: 2}
+  - {fileID: 11400000, guid: d424130ff7ddea64bb729fc3ec715b20, type: 2}
+  - {fileID: 11400000, guid: 33421e3dfada5e349b40d8ff9e32d5bc, type: 2}
+  - {fileID: 11400000, guid: 959e0986ea8cad04aa9c49aa3c819c40, type: 2}
+  - {fileID: 11400000, guid: 105c82e633fbcf34ead74b9b99d77233, type: 2}

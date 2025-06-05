@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e577a03c648cca54d90abb3015000bfb, type: 3}
+  m_Name: Gretta_PoolConfig
+  m_EditorClassIdentifier: 
+  _orders:
+  - {fileID: 11400000, guid: fe33adaa846a9344e886a423cd056293, type: 2}
+  - {fileID: 11400000, guid: 835269eb357f01141bdbe8a64dfc2f1b, type: 2}
+  - {fileID: 11400000, guid: f90f490779268e3458668bfcb194278f, type: 2}
+  - {fileID: 11400000, guid: 2922065ac3d3172479fc0c2cf439a1bb, type: 2}
+  - {fileID: 11400000, guid: 18cc5a15c6eb43940b0fde1b75a041a8, type: 2}
+  - {fileID: 11400000, guid: 7b766a26bbe16a743848c17dc743f0e5, type: 2}
+  - {fileID: 11400000, guid: 3d0ae9ef8541da34a9f31f96fceac2f6, type: 2}
+  - {fileID: 11400000, guid: 68573dd1f7795774298ee8bfc86ce382, type: 2}
+  - {fileID: 11400000, guid: 0ddc5a8387696104cb6f5ef40b9b8fe7, type: 2}
+  - {fileID: 11400000, guid: e4e8dd1bceac0c848ba1c55ad084b253, type: 2}
+  - {fileID: 11400000, guid: 29a6ee7fa3754204fb3fbb8ac9e6843f, type: 2}
+  - {fileID: 11400000, guid: 92c9918f9e9df594483d8ae0198116a4, type: 2}
+  - {fileID: 11400000, guid: 5a575892b785e1e439b0778e9e931976, type: 2}
+  - {fileID: 11400000, guid: ca8e46f48a368194cbe1183e47f24a7c, type: 2}
