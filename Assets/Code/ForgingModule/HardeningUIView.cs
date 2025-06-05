@@ -15,6 +15,7 @@ public class HardeningUIView : MonoBehaviour
     [SerializeField] private GameObject _barrel1Image2;
     [SerializeField] private GameObject _barrel2Image1;
     [SerializeField] private GameObject _barrel2Image2;
+    [SerializeField] private Animator _hardeningAnimator;
 
     public Slider HardeningSlider => _hardeningSlider;
     public RectTransform SliderCheckZone1 => _sliderCheckZone1;
@@ -27,6 +28,7 @@ public class HardeningUIView : MonoBehaviour
     public GameObject Barrel1Image2 => _barrel1Image2;
     public GameObject Barrel2Image1 => _barrel2Image1;
     public GameObject Barrel2Image2 => _barrel2Image2;
+    public Animator HardeningAnimator => _hardeningAnimator;
 
     public void UpdateScore(int currentScore)
     {

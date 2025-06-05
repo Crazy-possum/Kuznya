@@ -1501,6 +1501,7 @@ MonoBehaviour:
   _barrel1Image2: {fileID: 5261885534699741082}
   _barrel2Image1: {fileID: 8844430625236371785}
   _barrel2Image2: {fileID: 5391820264943568469}
+  _hardeningAnimator: {fileID: 7474305388607487426}
 --- !u!1 &5747916909053814319
 GameObject:
   m_ObjectHideFlags: 0
@@ -2430,7 +2431,6 @@ GameObject:
   - component: {fileID: 3688695082869168148}
   - component: {fileID: 4608546528923817450}
   - component: {fileID: 1719465569749965572}
-  - component: {fileID: 8495420756510488441}
   m_Layer: 5
   m_Name: P-Main
   m_TagString: Untagged
@@ -2497,27 +2497,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &8495420756510488441
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8594408607365175117}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 659a3f6c3a506484e939344b1b13cff5, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8687321038531816507
 GameObject:
   m_ObjectHideFlags: 0

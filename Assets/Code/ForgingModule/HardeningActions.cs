@@ -16,6 +16,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
     private const float STATE3_ZONE_START = 0.84f;
     private const float ZONE_HALF_SIZE = 0.20f;
     private const float SCORE_TEXT_LIFETIME = 3f;
+    private const string ANIM_TRIGGER_NAME = "IsBoiling";
     
     private HardeningUIView _hardeningUIView;
     private ForgingEventBus _forgingEventBus;
@@ -101,12 +102,14 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
                         }
                         if(!CheckCurrentCondition())
                         {
+                            _hardeningUIView.HardeningAnimator.SetBool(ANIM_TRIGGER_NAME, false);
                             _audioEventBus.OnStopSound?.Invoke();
                             _isInCorrectZone = false;
                         }
                     }
                     else if(CheckCurrentCondition())
                     {
+                        _hardeningUIView.HardeningAnimator.SetBool(ANIM_TRIGGER_NAME, true);
                         _audioEventBus.OnPlaySoundLoop?.Invoke(AudioResourceID.Sound_Hardening);
                         SpawnScoreTextView();
                         _addingScore = 0;

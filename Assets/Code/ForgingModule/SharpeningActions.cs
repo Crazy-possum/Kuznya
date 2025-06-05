@@ -77,6 +77,15 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
             MoveSlider();
             UpdateUI();
         }
+        
+        if (_endTimer != null)
+        {
+            if (_endTimer.Wait())
+            {
+                EndProcess();
+                _endTimer = null;
+            }
+        }
     }
 
     public void Cleanup()
@@ -189,17 +198,6 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
                 return;
             }
         }
-
-        if (_endTimer != null)
-        {
-            if (_endTimer.Wait())
-            {
-                EndProcess();
-                _endTimer = null;
-            }
-        }
-        
-        
     }
 
     private void SpawnAddingScoreObject(int addingScore)
