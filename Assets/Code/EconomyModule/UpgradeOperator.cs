@@ -569,6 +569,9 @@ namespace Economy
                 case 5 :
                     value = 5f;
                     break;
+                case 6 :
+                    value = 6f;
+                    break;
                 default:
                     Debug.Log($"Unexpected level {upgradeView.CurrentLevel}");
                     break;
