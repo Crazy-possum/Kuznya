@@ -33,5 +33,6 @@ public enum UpgradeName
     StepSmelting = 30,
     StepHardening = 31,
     StepSharpening = 32,
-    StepFinalization = 33
+    StepFinalization = 33,
+    SecretUpgrade = 34
 }

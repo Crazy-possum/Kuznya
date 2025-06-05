@@ -172,6 +172,9 @@ namespace Economy
                     SetAdditionalStepsUpgrade(upgradeView, 5f);
                     _tutorialEventBus.OnAdditionalStagesBought?.Invoke();
                     break;
+                case UpgradeName.SecretUpgrade:
+                    SetSecretUpgrade(upgradeView);
+                    break;
                 default:
                     Debug.Log("Upgrade in development");
                     break;
@@ -840,6 +843,12 @@ namespace Economy
                     break;
             }
             SetUpgradeValue(upgradeView, value);
+        }
+        
+        
+        private void SetSecretUpgrade(UpgradeView upgradeView)
+        {
+            SetUpgradeValue(upgradeView, 1);
         }
 
     }

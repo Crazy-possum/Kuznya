@@ -38,6 +38,7 @@ namespace Economy
             _ordersEventBus.OnOrderFinished += StartTrade;
             _economyEventBus.OnAddMoney += AddMoney;
             _economyEventBus.OnUpgradeBought += RemoveMoney;
+            _economyEventBus.OnRemoveMoney += RemoveMoney;
             _economyEventBus.OnMoneyUpdated += UpdateButtonsState;
             _economyEventBus.OnMoneyUpdated?.Invoke(_playerMetaData.CurrentMoney);
         }
@@ -84,6 +85,12 @@ namespace Economy
             {
                 _tutorialEventBus.OnMoneyAccumulated?.Invoke();
             }
+        }
+        
+        private void RemoveMoney(int money)
+        {
+            _economyEventBus.OnMoneyRemoved?.Invoke(money);
+            _playerMetaData.CurrentMoney -= money;
         }
         
         private void RemoveMoney(UpgradeName upgradeName, UpgradeView upgradeView, int money)

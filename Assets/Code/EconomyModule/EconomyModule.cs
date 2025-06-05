@@ -12,6 +12,7 @@ namespace Economy
             InitializeTradeController();
             InitializeMaterialsOperator();
             InitializeUpgradeOperator();
+            InitializeSecretUpgrade();
         }
 
         private void InitializeFields()
@@ -52,6 +53,13 @@ namespace Economy
             UpgradeOperator upgradeOperator =
                 _di.Resolve<UpgradeOperator>();
             _actions.Add(upgradeOperator);
+        }
+        
+        private void InitializeSecretUpgrade()
+        {
+            SecretUpgradeController secretUpgradeController =
+                _di.Resolve<SecretUpgradeController>();
+            _actions.Add(secretUpgradeController);
         }
     }
 }
