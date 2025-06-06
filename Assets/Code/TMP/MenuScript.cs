@@ -1,5 +1,6 @@
 using GameCoreModule;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -8,11 +9,13 @@ public class MenuScript : MonoBehaviour
     [SerializeField] private Slider _soundSlider;
     [SerializeField] private Slider _musicSlider;
     private AudioEventBus _audioEventBus;
+    private SaveLoadEventBus _saveLoadEventBus;
 
     [Inject]
-    private void Construct(AudioEventBus audioEventBus)
+    private void Construct(AudioEventBus audioEventBus, SaveLoadEventBus saveLoadEventBus)
     {
         _audioEventBus = audioEventBus;
+        _saveLoadEventBus = saveLoadEventBus;
     }
     
     private void Start()
@@ -40,5 +43,11 @@ public class MenuScript : MonoBehaviour
     private void OnMusicVolumeChanged(float musicVolume)
     {
         _audioEventBus.OnSetMusicVolume(musicVolume);
+    }
+	
+	public void ClearProgress()
+	{
+        _saveLoadEventBus.OnClearData?.Invoke();
+        SceneManager.LoadScene(0);
     }
 }
