@@ -275,7 +275,7 @@ namespace Orders
             List<OrderConfig> wholesaleOrders = new List<OrderConfig>();
             foreach (OrderConfig order in _wholesaleConfig.GetOrders())
             {
-                if (order.Materials[0].Config.MaterialName <= _playerMetaData.CurrentMaximumMaterial)
+                if (order.Materials[0].Config.MaterialName == _playerMetaData.CurrentMaximumMaterial)
                 {
                     wholesaleOrders.Add(order);
                 }
