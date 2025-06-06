@@ -1271,11 +1271,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1725441983616708345, guid: 8d8558ef131bb704f825f9311e93eef3, type: 3}
       propertyPath: m_ChildScaleWidth
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1725441983616708345, guid: 8d8558ef131bb704f825f9311e93eef3, type: 3}
       propertyPath: m_ChildScaleHeight
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1725441983616708345, guid: 8d8558ef131bb704f825f9311e93eef3, type: 3}
       propertyPath: m_ChildControlWidth
@@ -1287,7 +1287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1725441983616708345, guid: 8d8558ef131bb704f825f9311e93eef3, type: 3}
       propertyPath: m_ChildForceExpandWidth
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1725441983616708345, guid: 8d8558ef131bb704f825f9311e93eef3, type: 3}
       propertyPath: m_ChildForceExpandHeight
@@ -3518,7 +3518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3987223929467030706, guid: c5d80da76558dee43ad73c1c14b829b9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -19.174072
+      value: -19.174316
       objectReference: {fileID: 0}
     - target: {fileID: 4536783393562254788, guid: c5d80da76558dee43ad73c1c14b829b9, type: 3}
       propertyPath: m_Camera
