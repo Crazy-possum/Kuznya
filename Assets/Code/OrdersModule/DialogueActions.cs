@@ -221,6 +221,7 @@ namespace Orders
             clientButton.onClick.AddListener(ShowDialogueScreen);
             clientImage.sprite = _clientsSpritesContainer.ClientSprites[_currentClientConfig.ClientType];
             _currentClientConfig = null;
+            clientIconObject.transform.localScale = Vector3.one;
             _clientIconObjects.Add(clientIconObject);
         }
 

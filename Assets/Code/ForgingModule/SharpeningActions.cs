@@ -224,6 +224,7 @@ public class SharpeningActions : IAction, IInitialisation, ICleanUp, IFixedExecu
         textView.TextRectTransform.anchoredPosition = _uiView.ScoreRoot.rect.center;
         textView.InitializeView(SCORE_TEXT_LIFETIME);
         _currentAddingScoreTextView = textView;
+        textObject.transform.localScale = Vector3.one;
 
     }
 

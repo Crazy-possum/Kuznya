@@ -275,6 +275,7 @@ public class SmeltingActions : IAction, IInitialisation, IFixedExecute, IExecute
         RectTransform signalRect = signalObject.GetComponent<RectTransform>();
         signalRect.anchoredPosition = Vector2.zero;
         _activeSignalRects.Add(signalRect);
+        signalRect.transform.localScale = Vector3.one;
     }
 
     private void StartSmelting()

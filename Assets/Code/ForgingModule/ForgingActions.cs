@@ -351,7 +351,7 @@ public class  ForgingActions : IAction, IInitialisation, IFixedExecute, ICleanUp
         }
         _currentView = null;
         _currentAddingScore = 0;
-
+        textObject.transform.localScale = Vector3.one;
     }
 
     private void UpdateUI()

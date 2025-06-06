@@ -215,6 +215,7 @@ namespace Economy
             string materialAddingText = $"+{1} {_currentlyCollectabeMaterial.Name}";
             textView.Text.text = materialAddingText;
             _materialsUIView.AddTextToList(textView);
+            textObject.transform.localScale = Vector3.one;
         }
         
         private void ClickMaterialAction()

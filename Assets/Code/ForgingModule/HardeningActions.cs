@@ -153,7 +153,7 @@ public class HardeningActions : IAction, IInitialisation, ICleanUp, IFixedExecut
         textView.InitializeView(SCORE_TEXT_LIFETIME);
         textView.Text.text = "+ 0";
         _currentAddingScoreTextView = textView;
-
+        textObject.transform.localScale = Vector3.one;
     }
 
     private void MoveToTargetPoint()

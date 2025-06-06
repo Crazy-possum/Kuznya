@@ -114,6 +114,7 @@ namespace Orders
             _currentlySpawnedRemovingMaterial = removingMaterialView;
             _targetPosition = new Vector2(startAnchoredPos.x, startAnchoredPos.y + 200);
             _removingMaterialLifetime = new Timer(REMOVING_MATERIAL_LIFETIME);
+            removingMaterialView.transform.localScale = Vector3.one;
         }
         
         private void CheckRemovingMaterialActions()

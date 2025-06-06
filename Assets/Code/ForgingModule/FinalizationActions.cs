@@ -252,7 +252,7 @@ public class FinalizationActions : IAction, IInitialisation, ICleanUp, IFixedExe
         textView.TextRectTransform.anchoredPosition = _uiView.ScoreRoot.rect.center;
         textView.InitializeView(SCORE_TEXT_LIFETIME);
         _currentAddingScoreTextView = textView;
-
+        textObject.transform.localScale = Vector3.one;
     }
 
     private void CheckEndCondition()
