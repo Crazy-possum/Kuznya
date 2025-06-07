@@ -33,4 +33,4 @@ MonoBehaviour:
   _orderTime: 120
   _basicCost: 20
   _orderType: 3
-  _orderCount: 21
+  _orderCount: 0

@@ -76,7 +76,10 @@ namespace Orders
             _orderTime = orderConfig.OrderTime;
             _basicCost = orderConfig.BasicCost;
             _orderType = orderConfig.OrderType;
-            _orderCount = orderConfig.OrderCount;
+            if (orderConfig.OrderCount == 5)
+            {
+                _orderCount = orderConfig.OrderCount;
+            }
             _currentOrderCount = 0;
             _orderTimer = new Timer(orderConfig.OrderTime);
             _isCompleted = false;
